@@ -1,20 +1,31 @@
 #include "score.h"
 
-void printScores(int pos1, int pos2, int height)
+Score::Score(const string& _name) :name(_name) {}
+
+void Score::printPlayer(int pos, int height)
 {
-	gotoxy(pos1 + 2, height + 2);
-	cout << "player 1";
-	gotoxy(pos2 + 3, height + 2);
-	cout << "player 2";
-	printScores();
+	gotoxy(pos + 2, height + 2);
+	cout << name;
+	printScore(pos, height);
 }
 
-void printScores()
+void Score::printScore(int pos, int height)
 {
-	gotoxy(80, 4);
-	cout << "player 1: " << 0;
-	gotoxy(80, 5);
-	cout << "player 2: " << 0;
-	gotoxy(80, 2);
-	cout << "scores:";
+	gotoxy(pos + 2, height + 3);
+	cout << "score: " << score;
+}
+
+string Score::getName()
+{
+	return name;
+}
+
+void Score::setName(string _name)
+{
+	name = _name;
+}
+
+void Score::increaseScore()
+{
+	score++;
 }

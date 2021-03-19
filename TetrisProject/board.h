@@ -1,5 +1,6 @@
 #pragma once
 #include "utils.h"
+#include "score.h"
 using namespace std;
 
 class Board
@@ -20,7 +21,7 @@ public:
 	int getWidth();
 	int getPos();
 	bool isNotEmpty(int x, int y);
-	bool isFull(int pl);
+	bool isFull(Score pl, Score score1, Score score2);
 
 
 private:

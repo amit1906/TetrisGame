@@ -64,20 +64,26 @@ bool Board::isNotEmpty(int x, int y)
 	return arrBoard[x][y].set;
 }
 
-bool Board::isFull(int pl)
+bool Board::isFull(Score pl, Score score1, Score score2)
 {
-	pl == 1 ? pl = 2 : pl = 1;
+	string winner;
+	if (pl.getName() == score1.getName())
+		winner = score2.getName();
+	else
+		winner = score1.getName();
+
 	for (size_t i = 0; i < width; i++)
 	{
 		if (arrBoard[i][0].set == 1)
 		{
 			clearScreen();
-			gotoxy(width, height / 2);
+			gotoxy(width / 4, height / 6);
 			cout << "GAME OVER" << endl << endl;
-			gotoxy(width - 2, height / 2 + 1);
-			cout << "player " << pl << " won!" << endl << endl << endl;
+			gotoxy(width / 4 - 1, height / 6 + 1);
+			cout << winner << " won!" << endl << endl << endl;
 			cout << "press Escape to continue...";
-			printScores();
+			score1.printPlayer(1, 8);
+			score2.printPlayer(15, 8);
 			return true;
 		}
 	}

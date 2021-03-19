@@ -2,7 +2,7 @@
 #include <windows.h>
 #include <iostream>
 #include <conio.h>
-#include "score.h"
+#include <string>
 using namespace std;
 
 enum COLOR
