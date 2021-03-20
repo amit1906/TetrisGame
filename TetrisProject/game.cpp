@@ -38,7 +38,8 @@ void Game::drawGame()
 	shape2->draw();
 	board1.print();
 	board2.print();
-	printScores(board1.getPos(), board2.getPos(), board1.getHeight());
+	score1.printPlayer(board1.getPos(), board1.getHeight());
+	score2.printPlayer(board2.getPos(), board1.getHeight());
 	hideCursor();
 	Sleep(speed);
 }
@@ -133,7 +134,7 @@ void Game::checkKeys()
 
 void Game::checkEnd()
 {
-	if (board1.isFull(1) || board2.isFull(2))
+	if (board1.isFull(score1, score1, score2) || board2.isFull(score2, score1, score2))
 	{
 		while (!(_kbhit() && _getch() == ESC));
 		toEnd = true;
@@ -143,6 +144,7 @@ void Game::checkEnd()
 void Game::menu()
 {
 	menuInfo();
+	string name;
 	char c = getchar();
 	//char c = '1';				// remove
 
@@ -174,6 +176,16 @@ void Game::menu()
 			clearScreen();
 			menuInfo();
 			break;
+		case '5':
+			cout << "player1's name: ";
+			cin >> name;
+			score1.setName(name);
+			cout << "player2's name: ";
+			cin >> name;
+			score2.setName(name);
+			clearScreen();
+			menuInfo();
+			break;
 		case '8':
 			clearScreen();
 			instructionsInfo();
@@ -197,6 +209,7 @@ void Game::menuInfo()
 	cout << "(2) Continue a paused game" << endl;
 	cout << "(3) play with colors? " << (colors == 1 ? "YES" : "NO") << " \t(NEW FEATURE)" << endl;
 	cout << "(4) set speed in ms?  " << speed << " \t(NEW FEATURE)" << endl;
+	cout << "(5) set your names?  " << "\t\t(NEW FEATURE)" << endl;
 	cout << "(8) Present instructions and keys" << endl;
 	cout << "(9) EXIT" << endl;
 	cout << "choose option: ";

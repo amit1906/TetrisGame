@@ -16,6 +16,7 @@ class Game
 	Board board1 = Board(pos, height, width);
 	Board board2 = Board(pos + width, height, width);
 	Shape* shape1, * shape2;
+	Score score1 = Score("player1") , score2 = Score("player2");
 	int shapeX, shapeY = -1;
 	int maxX = 8;
 	bool toEnd = false;

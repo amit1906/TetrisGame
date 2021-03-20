@@ -1,5 +1,19 @@
 #pragma once
 #include "utils.h"
 
-void printScores(int pos1, int pos2, int height);
-void printScores();
+class Score
+{
+	string name;
+	int score;
+
+public:
+	Score(const string& _name);
+	void printPlayer(int pos, int height);
+	string getName();
+	void setName(string _name);
+	void increaseScore();
+
+private:
+	void printScore(int pos, int height);
+
+};
