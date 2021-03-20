@@ -116,7 +116,7 @@ void Game::checkKeys()
 			break;
 		case PL1::ROTATEL1:
 			break;
-		case PL1::DROP1:	shape1->move(0, 2);
+		case PL1::DROP1:	shape1->move(0, 3);
 			break;
 		case PL2::LEFT2:	shape2->move(-2);
 			break;
@@ -126,7 +126,7 @@ void Game::checkKeys()
 			break;
 		case PL2::ROTATEL2:
 			break;
-		case PL2::DROP2:	shape2->move(0, 2);
+		case PL2::DROP2:	shape2->move(0, 3);
 			break;
 		}
 	}
@@ -210,14 +210,14 @@ void Game::menuInfo()
 	cout << "(3) play with colors? " << (colors == 1 ? "YES" : "NO") << " \t(NEW FEATURE)" << endl;
 	cout << "(4) set speed in ms?  " << speed << " \t(NEW FEATURE)" << endl;
 	cout << "(5) set your names?  " << "\t\t(NEW FEATURE)" << endl;
-	cout << "(8) Present instructions and keys" << endl;
+	cout << "(8) Present instructions" << endl;
 	cout << "(9) EXIT" << endl;
 	cout << "choose option: ";
 }
 void Game::instructionsInfo()
 {
 	cout << "Instructions for playing" << endl;
-	cout << "use th following keys to play:\n" << endl;
+	cout << "use the following keys to play:\n" << endl;
 	cout << "\t\t\tLeft Player\tRight Player" << endl;
 	cout << "LEFT:\t\t\t a or A\t\tj or J" << endl;
 	cout << "RIGHT:\t\t\t d or D\t\tl (small L) or L" << endl;

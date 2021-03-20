@@ -48,11 +48,13 @@ void Shape::move(int _x, int _y)
 	}
 	if (validMove)
 		x += _x;
-
-	if (!checkFall(_y, false))
-		y += _y;
-	else if (!checkFall(1, false))
-		y++;
+	if (_x == 0)
+	{
+		if (!checkFall(_y, false))
+			y += _y;
+		else if (!checkFall(1, false))
+			y++;
+	}
 }
 
 bool Shape::checkFall(int _y, bool toSet)
