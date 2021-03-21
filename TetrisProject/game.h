@@ -30,7 +30,9 @@ public:
 private:
 	void gameLoop();
 	void checkKeys();
+	void drawBoard();
 	void drawGame();
+	void checkRows();
 	void checkEnd();
 	void checkShapes();
 	void menuInfo();

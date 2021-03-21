@@ -5,6 +5,13 @@ Board::Board(const int _pos, const int _height, const int _width) :pos(_pos), he
 	arrBoard = new point * [width];
 	for (size_t i = 0; i < width; i++)
 		arrBoard[i] = new point[height]{};
+
+/*	for (size_t j = 0; j < 2; j++)					// remove
+		for (size_t i = 1; i < width - 2; i++)
+		{
+			arrBoard[i][height - 1 - j].set = 1;
+			arrBoard[i][height - 1 - j].color = BLUE;
+		}*/
 }
 
 void Board::setShape(int x, int y, COLOR color)
@@ -14,7 +21,7 @@ void Board::setShape(int x, int y, COLOR color)
 	arrBoard[x][y].color = color;
 }
 
-void Board::print()
+void Board::printFrame()
 {
 	for (size_t i = 0; i < height; i++)
 	{
@@ -28,7 +35,11 @@ void Board::print()
 		gotoxy(pos + i, height);
 		cout << (char)178;
 	}
-	for (size_t i = 0; i < width; i++)
+}
+
+void Board::printContent()
+{
+	for (size_t i = 1; i < width; i++)
 	{
 		for (size_t j = 0; j < height; j++)
 		{
@@ -37,6 +48,11 @@ void Board::print()
 				setTextColor(arrBoard[i][j].color);
 				gotoxy(pos + i, j);
 				cout << (char)219;
+			}
+			else
+			{
+				gotoxy(pos + i, j);
+				cout << ' ';
 			}
 		}
 	}
@@ -62,6 +78,44 @@ bool Board::isNotEmpty(int x, int y)
 {
 	x %= width;
 	return arrBoard[x][y].set;
+}
+
+void Board::checkRows(Score& score)
+{
+	for (size_t i = 0; i < height; i++)
+	{
+		for (size_t j = 1; j < width; j++)
+		{
+			if (arrBoard[j][i].set == 0)
+				break;
+			else if (j == width - 1)
+			{
+				score.increaseScore();
+				deleteRow(i);
+				printContent();
+				if (i < height - 1)
+					i += 2;
+			}
+		}
+	}
+}
+
+void Board::deleteRow(int row)
+{
+	setTextColor(RED);
+	for (size_t i = 1; i < width; i++)
+	{
+		gotoxy(pos + i, row);
+		cout << (char)219;
+	}
+	Sleep(500);
+	for (size_t i = row; i > 0; i--)
+	{
+		for (size_t j = 1; j < width; j++)
+		{
+			arrBoard[j][i] = arrBoard[j][i - 1];
+		}
+	}
 }
 
 bool Board::isFull(Score pl, Score score1, Score score2)

@@ -14,6 +14,7 @@ Game::Game()
 void Game::startGame()
 {
 	clearScreen();
+	drawBoard();
 	gameLoop();
 	clearScreen();
 }
@@ -25,19 +26,24 @@ void Game::gameLoop()
 		checkShapes();
 		checkKeys();
 		drawGame();
+		checkRows();
 		checkEnd();
 	}
 	toEnd = false;
 }
 
+void Game::drawBoard()
+{
+	board1.printFrame();
+	board2.printFrame();
+	board1.printContent();
+	board2.printContent();
+}
+
 void Game::drawGame()
 {
 	shape1->move();
-	shape1->draw();
 	shape2->move();
-	shape2->draw();
-	board1.print();
-	board2.print();
 	score1.printPlayer(board1.getPos(), board1.getHeight());
 	score2.printPlayer(board2.getPos(), board1.getHeight());
 	hideCursor();
@@ -141,12 +147,18 @@ void Game::checkEnd()
 	}
 }
 
+void Game::checkRows()
+{
+	board1.checkRows(score1);
+	board2.checkRows(score2);
+}
+
 void Game::menu()
 {
 	menuInfo();
 	string name;
 	char c = getchar();
-	//char c = '1';				// remove
+//	char c = '1';				// remove
 
 	while (true)
 	{
