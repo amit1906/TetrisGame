@@ -1,7 +1,7 @@
-#include "game.h"
+#include "menu.h"
 
 int main()
 {
-	Game game;
-	game.menu();
+	Menu menu;
+	menu.Start();
 }

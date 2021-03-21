@@ -1,8 +1,8 @@
 #include "game.h"
 
-Game::Game()
+Game::Game(int _speed, bool _colors, string name1, string name2) :
+	speed(_speed), colors(_colors), score1(name1), score2(name2)
 {
-	colors = true;
 	shapeX = rand() % (width - maxX) + pos;
 	shapeX -= shapeX % 2 - 1;
 	shape1 = new Shape(shapeX, shapeY, board1, colors);
@@ -11,7 +11,15 @@ Game::Game()
 	shape2 = new Shape(shapeX, shapeY, board2, colors);
 }
 
-void Game::startGame()
+void Game::changeSettings(int _speed, bool _colors, string name1, string name2)
+{
+	speed = _speed;
+	colors = _colors;
+	score1.setName(name1);
+	score2.setName(name2);
+}
+
+void Game::start()
 {
 	clearScreen();
 	drawBoard();
@@ -152,89 +160,4 @@ void Game::checkRows()
 {
 	board1.checkRows(score1);
 	board2.checkRows(score2);
-}
-
-void Game::menu()
-{
-	menuInfo();
-	string name;
-	char c = getchar();
-	//	char c = '1';				// remove
-
-	while (true)
-	{
-		switch (c)
-		{
-		case '1':
-			startGame();
-			menuInfo();
-			break;
-		case '2':
-			break;
-		case '3':
-			if (colors)
-				colors = false;
-			else
-				colors = true;
-			clearScreen();
-			menuInfo();
-			break;
-		case '4':
-			cout << "choose your new speed (1-1000): ";
-			cin >> speed;
-			if (speed < 1)
-				speed = 1;
-			if (speed > 1000)
-				speed = 1000;
-			clearScreen();
-			menuInfo();
-			break;
-		case '5':
-			cout << "player1's name: ";
-			cin >> name;
-			score1.setName(name);
-			cout << "player2's name: ";
-			cin >> name;
-			score2.setName(name);
-			clearScreen();
-			menuInfo();
-			break;
-		case '8':
-			clearScreen();
-			instructionsInfo();
-			menuInfo();
-			break;
-		case '9':
-			exit(0);
-			break;
-		default:
-			clearScreen();
-			menuInfo();
-			break;
-		}
-		cin >> c;
-	}
-}
-
-void Game::menuInfo()
-{
-	cout << "(1) Start a new game" << endl;
-	cout << "(2) Continue a paused game" << endl;
-	cout << "(3) play with colors? " << (colors == 1 ? "YES" : "NO") << " \t(NEW FEATURE)" << endl;
-	cout << "(4) set speed in ms?  " << speed << " \t(NEW FEATURE)" << endl;
-	cout << "(5) set your names?  " << "\t\t(NEW FEATURE)" << endl;
-	cout << "(8) Present instructions" << endl;
-	cout << "(9) EXIT" << endl;
-	cout << "choose option: ";
-}
-void Game::instructionsInfo()
-{
-	cout << "Instructions for playing" << endl;
-	cout << "use the following keys to play:\n" << endl;
-	cout << "\t\t\tLeft Player\tRight Player" << endl;
-	cout << "LEFT:\t\t\t a or A\t\tj or J" << endl;
-	cout << "RIGHT:\t\t\t d or D\t\tl (small L) or L" << endl;
-	cout << "ROTATE clockwise:\t s or S\t\tk or K" << endl;
-	cout << "ROTATE counterclockwise: w or W\t\ti or I (uppercase i)" << endl;
-	cout << "DROP:\t\t\t x or X\t\tm or M" << endl << endl;
 }
