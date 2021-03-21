@@ -5,13 +5,6 @@ Board::Board(const int _pos, const int _height, const int _width) :pos(_pos), he
 	arrBoard = new point * [width];
 	for (size_t i = 0; i < width; i++)
 		arrBoard[i] = new point[height]{};
-
-/*	for (size_t j = 0; j < 2; j++)					// remove
-		for (size_t i = 1; i < width - 2; i++)
-		{
-			arrBoard[i][height - 1 - j].set = 1;
-			arrBoard[i][height - 1 - j].color = BLUE;
-		}*/
 }
 
 void Board::setShape(int x, int y, COLOR color)
@@ -37,7 +30,7 @@ void Board::printFrame()
 	}
 }
 
-void Board::printContent()
+void Board::printContent(bool clean)
 {
 	for (size_t i = 1; i < width; i++)
 	{
@@ -49,7 +42,7 @@ void Board::printContent()
 				gotoxy(pos + i, j);
 				cout << (char)219;
 			}
-			else
+			else if (clean)
 			{
 				gotoxy(pos + i, j);
 				cout << ' ';
@@ -92,7 +85,7 @@ void Board::checkRows(Score& score)
 			{
 				score.increaseScore();
 				deleteRow(i);
-				printContent();
+				printContent(true);
 				if (i < height - 1)
 					i += 2;
 			}

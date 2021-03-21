@@ -44,6 +44,7 @@ void Game::drawGame()
 {
 	shape1->move();
 	shape2->move();
+	drawBoard();
 	score1.printPlayer(board1.getPos(), board1.getHeight());
 	score2.printPlayer(board2.getPos(), board1.getHeight());
 	hideCursor();
@@ -158,7 +159,7 @@ void Game::menu()
 	menuInfo();
 	string name;
 	char c = getchar();
-//	char c = '1';				// remove
+	//	char c = '1';				// remove
 
 	while (true)
 	{

@@ -17,7 +17,7 @@ public:
 	Board(const int _pos, const int _height, const int _width);
 	void setShape(int x, int y, COLOR color);
 	void printFrame();
-	void printContent();
+	void printContent(bool clean = false);
 	int getHeight();
 	int getWidth();
 	int getPos();
