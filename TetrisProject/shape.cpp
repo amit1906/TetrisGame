@@ -29,9 +29,8 @@ Shape::Shape(int _x, int _y, const Board& _board, bool colors) :x(_x), y(_y), bo
 
 void Shape::move(int _x, int _y)
 {
-	bool validMove = false;
 	cleanDraw();
-
+	bool validMove = false;
 	if (x + _x >= board.getPos() - 1 && x + _x < board.getPos() + board.getWidth() - shapeL)
 	{
 		validMove = true;
@@ -48,11 +47,14 @@ void Shape::move(int _x, int _y)
 	}
 	if (validMove)
 		x += _x;
-
-	if (!checkFall(_y, false))
-		y += _y;
-	else if (!checkFall(1, false))
-		y++;
+	if (_x == 0)
+	{
+		if (!checkFall(_y, false))
+			y += _y;
+		else if (!checkFall(1, false))
+			y++;
+	}
+	draw();
 }
 
 bool Shape::checkFall(int _y, bool toSet)

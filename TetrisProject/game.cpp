@@ -14,6 +14,7 @@ Game::Game()
 void Game::startGame()
 {
 	clearScreen();
+	drawBoard();
 	gameLoop();
 	clearScreen();
 }
@@ -25,19 +26,25 @@ void Game::gameLoop()
 		checkShapes();
 		checkKeys();
 		drawGame();
+		checkRows();
 		checkEnd();
 	}
 	toEnd = false;
 }
 
+void Game::drawBoard()
+{
+	board1.printFrame();
+	board2.printFrame();
+	board1.printContent();
+	board2.printContent();
+}
+
 void Game::drawGame()
 {
 	shape1->move();
-	shape1->draw();
 	shape2->move();
-	shape2->draw();
-	board1.print();
-	board2.print();
+	drawBoard();
 	score1.printPlayer(board1.getPos(), board1.getHeight());
 	score2.printPlayer(board2.getPos(), board1.getHeight());
 	hideCursor();
@@ -116,7 +123,7 @@ void Game::checkKeys()
 			break;
 		case PL1::ROTATEL1:
 			break;
-		case PL1::DROP1:	shape1->move(0, 2);
+		case PL1::DROP1:	shape1->move(0, 3);
 			break;
 		case PL2::LEFT2:	shape2->move(-2);
 			break;
@@ -126,7 +133,7 @@ void Game::checkKeys()
 			break;
 		case PL2::ROTATEL2:
 			break;
-		case PL2::DROP2:	shape2->move(0, 2);
+		case PL2::DROP2:	shape2->move(0, 3);
 			break;
 		}
 	}
@@ -141,12 +148,18 @@ void Game::checkEnd()
 	}
 }
 
+void Game::checkRows()
+{
+	board1.checkRows(score1);
+	board2.checkRows(score2);
+}
+
 void Game::menu()
 {
 	menuInfo();
 	string name;
 	char c = getchar();
-	//char c = '1';				// remove
+	//	char c = '1';				// remove
 
 	while (true)
 	{
@@ -210,14 +223,14 @@ void Game::menuInfo()
 	cout << "(3) play with colors? " << (colors == 1 ? "YES" : "NO") << " \t(NEW FEATURE)" << endl;
 	cout << "(4) set speed in ms?  " << speed << " \t(NEW FEATURE)" << endl;
 	cout << "(5) set your names?  " << "\t\t(NEW FEATURE)" << endl;
-	cout << "(8) Present instructions and keys" << endl;
+	cout << "(8) Present instructions" << endl;
 	cout << "(9) EXIT" << endl;
 	cout << "choose option: ";
 }
 void Game::instructionsInfo()
 {
 	cout << "Instructions for playing" << endl;
-	cout << "use th following keys to play:\n" << endl;
+	cout << "use the following keys to play:\n" << endl;
 	cout << "\t\t\tLeft Player\tRight Player" << endl;
 	cout << "LEFT:\t\t\t a or A\t\tj or J" << endl;
 	cout << "RIGHT:\t\t\t d or D\t\tl (small L) or L" << endl;
