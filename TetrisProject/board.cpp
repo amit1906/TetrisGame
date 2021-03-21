@@ -83,8 +83,9 @@ void Board::checkRows(Score& score)
 				break;
 			else if (j == width - 1)
 			{
-				score.increaseScore();
 				deleteRow(i);
+				cout << "\a";
+				score.increaseScore();
 				printContent(true);
 				if (i < height - 1)
 					i += 2;
