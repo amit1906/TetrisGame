@@ -7,25 +7,26 @@ using namespace std;
 
 const int constexpr ESC = 27;
 const enum  PL1 { LEFT1 = 'a', RIGHT1 = 'd', ROTATER1 = 's', ROTATEL1 = 'w', DROP1 = 'x' };
-const enum  PL2 { LEFT2='j', RIGHT2='l', ROTATER2 = 'k', ROTATEL2 = 'i', DROP2 = 'm'};
+const enum  PL2 { LEFT2 = 'j', RIGHT2 = 'l', ROTATER2 = 'k', ROTATEL2 = 'i', DROP2 = 'm' };
 
 class Game
 {
-	int speed = 300;
+	int speed;
+	bool colors;
+	Score score1, score2;
+
 	const int pos = 2, height = 20, width = 37;
 	Board board1 = Board(pos, height, width);
 	Board board2 = Board(pos + width, height, width);
 	Shape* shape1, * shape2;
-	Score score1 = Score("player1") , score2 = Score("player2");
 	int shapeX, shapeY = -1;
 	int maxX = 8;
 	bool toEnd = false;
-	bool colors;
 
 public:
-	Game();
-	void menu();
-	void startGame();
+	Game(int _speed, bool _colors, string name1, string name2);
+	void changeSettings(int _speed, bool _colors, string name1, string name2);
+	void start();
 
 private:
 	void gameLoop();
@@ -35,7 +36,5 @@ private:
 	void checkRows();
 	void checkEnd();
 	void checkShapes();
-	void menuInfo();
-	void instructionsInfo();
 
 };
