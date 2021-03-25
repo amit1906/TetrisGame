@@ -7,8 +7,11 @@ static int colori = 1;
 
 class Shape
 {
-	Board board;
 	enum SHAPE { I, J, L, O, S, T, Z };
+	enum SHAPE_T { T1, T2, T3, T4 };
+	Board board;
+	SHAPE shape;
+	SHAPE_T shape_t;
 	COLOR color;
 	const int maxX = 8, maxY = 8;
 	int shapeL, shapeH;
@@ -19,20 +22,26 @@ public:
 	Shape(int _x, int _y, const Board& _board, bool colors);
 	void move(int _x = 0, int _y = 1);
 	void draw();
-	void turn();
+	void turn(int dir);
 	bool checkFall(int _y = 1, bool toSet = true);
 	int getShapeL();
 
 private:
 	void setShape();
 	void initShape(int*** arrShape);
-	void makeShapeO(int*** arrShape);
-	void makeShapeL(int*** arr);
-	void makeShapeS(int*** arr);
-	void makeShapeI(int*** arr);
-	void makeShapeT(int*** arr);
-	void makeShapeJ(int*** arr);
-	void makeShapeZ(int*** arr);
+	void clearShape(int*** arrShape);
+	bool validTurn();
 	void cleanDraw();
+	void makeShapeO(int*** arrShape);	// shape O
+	void makeShapeI1(int*** arr);		// shape I
+	void makeShapeI2(int*** arr);
+	void makeShapeL1(int*** arr);		// shape L
+	void makeShapeL2(int*** arr);
+	void makeShapeL3(int*** arr);
+	void makeShapeL4(int*** arr);
+	void makeShapeS(int*** arr);		// shape S
+	void makeShapeT(int*** arr);		// shape T
+	void makeShapeJ(int*** arr);		// shape J
+	void makeShapeZ(int*** arr);		// shape Z
 
 };

@@ -4,10 +4,10 @@ Game::Game(int _speed, bool _colors, string name1, string name2) :
 	speed(_speed), colors(_colors), score1(name1), score2(name2)
 {
 	shapeX = rand() % (width - maxX) + pos;
-	shapeX -= shapeX % 2 - 1;
+	shapeX -= shapeX % 2 - 3;
 	shape1 = new Shape(shapeX, shapeY, board1, colors);
 	shapeX = rand() % (width - maxX) + width + pos;
-	shapeX -= shapeX % 2;
+	shapeX -= shapeX % 2 - 2;
 	shape2 = new Shape(shapeX, shapeY, board2, colors);
 }
 
@@ -95,9 +95,9 @@ void Game::checkKeys()
 				break;
 			case PL1::RIGHT1:	c1 = PL1::RIGHT1;
 				break;
-			case PL1::ROTATER1:
+			case PL1::ROTATER1:	c1 = PL1::ROTATER1;
 				break;
-			case PL1::ROTATEL1:
+			case PL1::ROTATEL1:	c1 = PL1::ROTATEL1;
 				break;
 			case PL1::DROP1:	c1 = PL1::DROP1;
 				break;
@@ -105,9 +105,9 @@ void Game::checkKeys()
 				break;
 			case PL2::RIGHT2:	c2 = PL2::RIGHT2;
 				break;
-			case PL2::ROTATER2:
+			case PL2::ROTATER2:	c2 = PL2::ROTATER2;
 				break;
-			case PL2::ROTATEL2:
+			case PL2::ROTATEL2:	c2 = PL2::ROTATEL2;
 				break;
 			case PL2::DROP2:	c2 = PL2::DROP2;
 				break;
@@ -127,9 +127,9 @@ void Game::checkKeys()
 			break;
 		case PL1::RIGHT1:	shape1->move(2);
 			break;
-		case PL1::ROTATER1:
+		case PL1::ROTATER1:	shape1->turn(1);
 			break;
-		case PL1::ROTATEL1:
+		case PL1::ROTATEL1:	shape1->turn(-1);
 			break;
 		case PL1::DROP1:	shape1->move(0, 3);
 			break;
@@ -137,9 +137,9 @@ void Game::checkKeys()
 			break;
 		case PL2::RIGHT2:	shape2->move(2);
 			break;
-		case PL2::ROTATER2:
+		case PL2::ROTATER2:	shape2->turn(1);
 			break;
-		case PL2::ROTATEL2:
+		case PL2::ROTATEL2:	shape2->turn(-1);
 			break;
 		case PL2::DROP2:	shape2->move(0, 3);
 			break;
