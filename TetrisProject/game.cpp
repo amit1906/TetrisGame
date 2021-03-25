@@ -4,10 +4,10 @@ Game::Game(int _speed, bool _colors, string name1, string name2) :
 	speed(_speed), colors(_colors), score1(name1), score2(name2)
 {
 	shapeX = rand() % (width - maxX) + pos;
-	shapeX -= shapeX % 2 - 3;
+	shapeX -= shapeX % 2 - 1;
 	shape1 = new Shape(shapeX, shapeY, board1, colors);
 	shapeX = rand() % (width - maxX) + width + pos;
-	shapeX -= shapeX % 2 - 2;
+	shapeX -= shapeX % 2;
 	shape2 = new Shape(shapeX, shapeY, board2, colors);
 }
 

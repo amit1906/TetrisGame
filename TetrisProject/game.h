@@ -20,7 +20,7 @@ class Game
 	Board board2 = Board(pos + width, height, width);
 	Shape* shape1, * shape2;
 	int shapeX, shapeY = -1;
-	int maxX = 8;
+	int maxX = 10;
 	bool toEnd = false;
 
 public:

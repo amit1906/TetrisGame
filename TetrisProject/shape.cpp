@@ -2,7 +2,7 @@
 
 Shape::Shape(int _x, int _y, const Board& _board, bool colors) :x(_x), y(_y), board(_board)
 {
-	shape = (SHAPE)(rand() % 7);
+	shape = (SHAPE)L;		//(rand() % 7);
 	shape_t = T1;
 	if (colors)
 		color = (COLOR)(colori++ % 14 + 1);
@@ -11,7 +11,7 @@ Shape::Shape(int _x, int _y, const Board& _board, bool colors) :x(_x), y(_y), bo
 	initShape(&arrShape);
 	switch (shape)
 	{
-	case Shape::I:makeShapeI2(&arrShape);
+	case Shape::I:makeShapeI1(&arrShape);
 		break;
 	case Shape::J:makeShapeJ(&arrShape);
 		break;
@@ -124,12 +124,12 @@ void Shape::turn(int dir)
 	case Shape::I:
 		if (shape_t == T1)
 		{
-			makeShapeI1(&arrShape);
+			makeShapeI2(&arrShape);
 			shape_t = T2;
 		}
 		else
 		{
-			makeShapeI2(&arrShape);
+			makeShapeI1(&arrShape);
 			shape_t = T1;
 		}
 		break;
@@ -166,7 +166,7 @@ bool Shape::validTurn()
 		if (board.isNotEmpty(x + i, y) || board.isNotEmpty(x, y + i))
 			return false;
 	}
-	if (x + max(shapeH, shapeL / 2) >= board.getPos() + board.getWidth())
+	if (x + max(shapeH * 2, shapeL / 2) >= board.getPos() + board.getWidth())
 		return false;
 	return true;
 }
@@ -216,23 +216,23 @@ void Shape::makeShapeO(int*** arr)
 
 void Shape::makeShapeI1(int*** arr)
 {
-	for (size_t i = 0; i < 4; i++)
-	{
-		(*arr)[0][i] = 1;
-		(*arr)[1][i] = 1;
-	}
-	shapeL = 1;
-	shapeH = 4;
-}
-
-void Shape::makeShapeI2(int*** arr)
-{
 	for (size_t i = 0; i < 8; i++)
 	{
 		(*arr)[i][0] = 1;
 	}
 	shapeL = 8;
 	shapeH = 1;
+}
+
+void Shape::makeShapeI2(int*** arr)
+{
+	for (size_t i = 0; i < 4; i++)
+	{
+		(*arr)[0][i] = 1;
+		(*arr)[1][i] = 1;
+	}
+	shapeL = 2;
+	shapeH = 4;
 }
 
 void Shape::makeShapeJ(int*** arr)
