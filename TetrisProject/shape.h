@@ -4,6 +4,7 @@
 using namespace std;
 
 static int colori = 1;
+constexpr int maxBlock = 8;
 
 class Shape
 {
@@ -13,10 +14,9 @@ class Shape
 	SHAPE shape;
 	SHAPE_T shape_t;
 	COLOR color;
-	const int maxX = 8, maxY = 8;
 	int shapeL, shapeH;
 	int x, y;
-	int** arrShape;
+	int arrShape[maxBlock][maxBlock]{};
 
 public:
 	Shape(int _x, int _y, const Board& _board, bool colors);
@@ -28,20 +28,21 @@ public:
 
 private:
 	void setShape();
-	void initShape(int*** arrShape);
-	void clearShape(int*** arrShape);
-	bool validTurn();
+	void initShape();
+	void clearShape();
+	bool isValidTurn();
 	void cleanDraw();
-	void makeShapeO(int*** arrShape);	// shape O
-	void makeShapeI1(int*** arr);		// shape I
-	void makeShapeI2(int*** arr);
-	void makeShapeL1(int*** arr);		// shape L
-	void makeShapeL2(int*** arr);
-	void makeShapeL3(int*** arr);
-	void makeShapeL4(int*** arr);
-	void makeShapeS(int*** arr);		// shape S
-	void makeShapeT(int*** arr);		// shape T
-	void makeShapeJ(int*** arr);		// shape J
-	void makeShapeZ(int*** arr);		// shape Z
+	void makeShapeO();		// shape O
+	void makeShapeI1();		// shape I
+	void makeShapeI2();
+	void makeShapeL1();		// shape L
+	void makeShapeL2();
+	void makeShapeL3();
+	void makeShapeL4();
+	void makeShapeS();		// shape S
+	void makeShapeT();		// shape T
+	void makeShapeJ();		// shape J
+	void makeShapeZ();		// shape Z
+	void turnDigree();
 
 };
