@@ -2,7 +2,7 @@
 #include "utils.h"
 #include "board.h"
 #include "shape.h"
-#include "score.h"
+#include "Player.h"
 
 const int constexpr ESC = 27;
 const enum  PL1 { LEFT1 = 'a', RIGHT1 = 'd', ROTATEL1 = 's', ROTATER1 = 'w', DROP1 = 'x' };
@@ -12,7 +12,7 @@ class Game
 {
 	int speed;
 	bool colors;
-	Score score1, score2;
+	Player player1, player2;
 
 	const int pos = 2, height = 18, width = 23;
 	Board board1 = Board(pos, height, width);
@@ -35,5 +35,6 @@ private:
 	void checkRows();
 	void checkEnd();
 	void checkShapes();
+	void printWinner(Player winner, Player loser);
 
 };

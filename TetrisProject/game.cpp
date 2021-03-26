@@ -1,7 +1,7 @@
 #include "game.h"
 
 Game::Game(int _speed, bool _colors, string name1, string name2) :
-	speed(_speed), colors(_colors), score1(name1), score2(name2)
+	speed(_speed), colors(_colors), player1(name1), player2(name2)
 {
 	shapeX = rand() % (width - maxX) + pos;
 	shapeX -= shapeX % 2 - 1;
@@ -15,8 +15,8 @@ void Game::changeSettings(int _speed, bool _colors, string name1, string name2)
 {
 	speed = _speed;
 	colors = _colors;
-	score1.setName(name1);
-	score2.setName(name2);
+	player1.setName(name1);
+	player2.setName(name2);
 }
 
 void Game::start()
@@ -53,8 +53,8 @@ void Game::drawGame()
 	shape1->move();
 	shape2->move();
 	drawBoard();
-	score1.printPlayer(board1.getPos(), board1.getHeight());
-	score2.printPlayer(board2.getPos(), board1.getHeight());
+	player1.printPlayerStats(board1.getPos(), board1.getHeight());
+	player2.printPlayerStats(board2.getPos(), board1.getHeight());
 	hideCursor();
 	Sleep(speed);
 }
@@ -147,17 +147,48 @@ void Game::checkKeys()
 	}
 }
 
-void Game::checkEnd()
-{
-	if (board1.isFull(score1, score1, score2) || board2.isFull(score2, score1, score2))
-	{
-		while (!(_kbhit() && _getch() == ESC));
-		toEnd = true;
-	}
-}
-
 void Game::checkRows()
 {
-	board1.checkRows(score1);
-	board2.checkRows(score2);
+	board1.checkRows(player1);
+	board2.checkRows(player2);
+}
+
+void Game::checkEnd()
+{
+	bool pl1Won = board1.isFull(player1);
+	bool pl2Won = board2.isFull(player2);
+
+	if (pl1Won && pl2Won)
+	{
+		if (player1.getScore() >= player2.getScore())
+			printWinner(player1, player2);
+		else
+			printWinner(player2, player1);
+		toEnd = true;
+	}
+	else if (pl1Won)
+	{
+		printWinner(player2, player1);
+		toEnd = true;
+	}
+	else if (pl2Won)
+	{
+		printWinner(player1, player2);
+		toEnd = true;
+	}
+	if (pl1Won || pl2Won)
+		while (!(_kbhit() && _getch() == ESC));
+}
+
+void Game::printWinner(Player winner, Player loser)
+{
+	string winnerName = winner.getName();
+	clearScreen();
+	gotoxy(width / 4, height / 6);
+	cout << "GAME OVER" << endl << endl;
+	gotoxy(width / 4 - 1, height / 6 + 1);
+	cout << winnerName << " won!" << endl << endl << endl;
+	cout << "press Escape to continue...";
+	winner.printPlayerStats(1, 8);
+	loser.printPlayerStats(15, 8);
 }

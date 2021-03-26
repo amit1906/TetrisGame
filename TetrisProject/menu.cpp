@@ -3,8 +3,7 @@
 void Menu::Start()
 {
 	menuInfo();
-	//char c = getchar();
-		char c = '1';	// remove
+	char c = getchar();
 
 	while (true)
 	{

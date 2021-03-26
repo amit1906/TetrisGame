@@ -2,8 +2,8 @@
 
 Shape::Shape(int _x, int _y, const Board& _board, bool colors) :x(_x), y(_y), board(_board)
 {
-	shape = (SHAPE)Z;		//(rand() % 7);
-	shape_t = T1;
+	shape = (SHAPE)(rand() % 7);
+	shape_t = (SHAPE_T)(rand() % 4);
 	if (colors)
 		color = (COLOR)(colori++ % 14 + 1);
 	else

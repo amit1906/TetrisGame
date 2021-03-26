@@ -1,6 +1,6 @@
 #pragma once
 #include "utils.h"
-#include "score.h"
+#include "Player.h"
 
 class Board
 {
@@ -21,8 +21,8 @@ public:
 	int getWidth();
 	int getPos();
 	bool isNotEmpty(int x, int y);
-	void checkRows(Score& score);
-	bool isFull(Score pl, Score score1, Score score2);
+	void checkRows(Player& player);
+	bool isFull(Player player);
 
 private:
 	void deleteRow(int row);
