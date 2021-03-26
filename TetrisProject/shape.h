@@ -1,22 +1,21 @@
 #pragma once
 #include "utils.h"
 #include "board.h"
-using namespace std;
 
 static int colori = 1;
+constexpr int maxBlock = 8;
 
 class Shape
 {
-	enum SHAPE { I, J, L, O, S, T, Z };
+	enum SHAPE { O, I, L, J, T, S, Z };
 	enum SHAPE_T { T1, T2, T3, T4 };
 	Board board;
 	SHAPE shape;
 	SHAPE_T shape_t;
 	COLOR color;
-	const int maxX = 8, maxY = 8;
-	int shapeL, shapeH;
 	int x, y;
-	int** arrShape;
+	int shapeL, shapeH;
+	int arrShape[maxBlock][maxBlock]{};
 
 public:
 	Shape(int _x, int _y, const Board& _board, bool colors);
@@ -28,20 +27,33 @@ public:
 
 private:
 	void setShape();
-	void initShape(int*** arrShape);
-	void clearShape(int*** arrShape);
-	bool validTurn();
+	void clearShape();
+	bool isValidTurn();
 	void cleanDraw();
-	void makeShapeO(int*** arrShape);	// shape O
-	void makeShapeI1(int*** arr);		// shape I
-	void makeShapeI2(int*** arr);
-	void makeShapeL1(int*** arr);		// shape L
-	void makeShapeL2(int*** arr);
-	void makeShapeL3(int*** arr);
-	void makeShapeL4(int*** arr);
-	void makeShapeS(int*** arr);		// shape S
-	void makeShapeT(int*** arr);		// shape T
-	void makeShapeJ(int*** arr);		// shape J
-	void makeShapeZ(int*** arr);		// shape Z
+	void turnDigree();
+
+	void makeShapeO();		// shape O
+	void makeShapeI1();		// shape I
+	void makeShapeI2();
+	void makeShapeL1();		// shape L
+	void makeShapeL2();
+	void makeShapeL3();
+	void makeShapeL4();
+	void makeShapeJ1();		// shape J
+	void makeShapeJ2();
+	void makeShapeJ3();
+	void makeShapeJ4();
+	void makeShapeT1();		// shape T
+	void makeShapeT2();
+	void makeShapeT3();
+	void makeShapeT4();
+	void makeShapeS1();		// shape S
+	void makeShapeS2();
+	void makeShapeS3();
+	void makeShapeS4();
+	void makeShapeZ1();		// shape Z
+	void makeShapeZ2();
+	void makeShapeZ3();
+	void makeShapeZ4();
 
 };

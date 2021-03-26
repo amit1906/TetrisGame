@@ -3,27 +3,26 @@
 Shape::Shape(int _x, int _y, const Board& _board, bool colors) :x(_x), y(_y), board(_board)
 {
 	shape = (SHAPE)(rand() % 7);
-	shape_t = T1;
+	shape_t = (SHAPE_T)T1;	//(rand() % 4);
 	if (colors)
 		color = (COLOR)(colori++ % 14 + 1);
 	else
 		color = LIGHTGREY;
-	initShape(&arrShape);
 	switch (shape)
 	{
-	case Shape::I:makeShapeI2(&arrShape);
+	case Shape::O:makeShapeO();
 		break;
-	case Shape::J:makeShapeJ(&arrShape);
+	case Shape::I:makeShapeI1();
 		break;
-	case Shape::L:makeShapeL1(&arrShape);
+	case Shape::L:makeShapeL1();
 		break;
-	case Shape::O:makeShapeO(&arrShape);
+	case Shape::J:makeShapeJ1();
 		break;
-	case Shape::S:makeShapeS(&arrShape);
+	case Shape::T:makeShapeT1();
 		break;
-	case Shape::T:makeShapeT(&arrShape);
+	case Shape::S:makeShapeS1();
 		break;
-	case Shape::Z:makeShapeZ(&arrShape);
+	case Shape::Z:makeShapeZ1();
 		break;
 	}
 }
@@ -35,9 +34,9 @@ void Shape::move(int _x, int _y)
 	if (x + _x >= board.getPos() - 1 && x + _x < board.getPos() + board.getWidth() - shapeL)
 	{
 		validMove = true;
-		for (size_t i = 0; i < maxX; i++)
+		for (size_t i = 0; i < maxBlock; i++)
 		{
-			for (size_t j = 0; j < maxY; j++)
+			for (size_t j = 0; j < maxBlock; j++)
 			{
 				if (arrShape[i][j] == 1 && board.isNotEmpty(x + _x + i, y + _y + j) == 1)
 				{
@@ -66,9 +65,9 @@ bool Shape::checkFall(int _y, bool toSet)
 			setShape();
 		return true;
 	}
-	for (size_t i = 0; i < maxX; i++)
+	for (size_t i = 0; i < maxBlock; i++)
 	{
-		for (size_t j = 0; j < maxY; j++)
+		for (size_t j = 0; j < maxBlock; j++)
 		{
 			if (arrShape[i][j] == 1 && board.isNotEmpty(x + i, y + _y + j) == 1)
 			{
@@ -84,9 +83,9 @@ bool Shape::checkFall(int _y, bool toSet)
 void Shape::draw()
 {
 	setTextColor(color);
-	for (size_t i = 0; i < maxX; i++)
+	for (size_t i = 0; i < maxBlock; i++)
 	{
-		for (size_t j = 0; j < maxY; j++)
+		for (size_t j = 0; j < maxBlock; j++)
 		{
 			if (arrShape[i][j] == 1)
 			{
@@ -100,9 +99,9 @@ void Shape::draw()
 
 void Shape::cleanDraw()
 {
-	for (size_t i = 0; i < maxX; i++)
+	for (size_t i = 0; i < maxBlock; i++)
 	{
-		for (size_t j = 0; j < maxY; j++)
+		for (size_t j = 0; j < maxBlock; j++)
 		{
 			if (arrShape[i][j] == 1)
 			{
@@ -115,47 +114,105 @@ void Shape::cleanDraw()
 
 void Shape::turn(int dir)
 {
-	if (!validTurn())
+	if (!isValidTurn())
 		return;
 	cleanDraw();
-	clearShape(&arrShape);
+	clearShape();
 	switch (shape)
 	{
 	case Shape::I:
-		if (shape_t == T1)
+		if (shape_t % 2 == T1)
 		{
-			makeShapeI1(&arrShape);
+			makeShapeI2();
 			shape_t = T2;
 		}
 		else
 		{
-			makeShapeI2(&arrShape);
+			makeShapeI1();
 			shape_t = T1;
 		}
 		break;
-	case Shape::J:makeShapeJ(&arrShape);
+	case Shape::J:
+		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
+		if (shape_t == T1)
+			makeShapeJ1();
+		if (shape_t == T2)
+			makeShapeJ2();
+		if (shape_t == T3)
+			makeShapeJ3();
+		if (shape_t == T4)
+			makeShapeJ4();
 		break;
 	case Shape::L:
 		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
 		if (shape_t == T1)
-			makeShapeL1(&arrShape);
+			makeShapeL1();
 		if (shape_t == T2)
-			makeShapeL2(&arrShape);
+			makeShapeL2();
 		if (shape_t == T3)
-			makeShapeL3(&arrShape);
+			makeShapeL3();
 		if (shape_t == T4)
-			makeShapeL4(&arrShape);
+			makeShapeL4();
 		break;
-	case Shape::S:makeShapeS(&arrShape);
+	case Shape::T:
+		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
+		if (shape_t == T1)
+			makeShapeT1();
+		if (shape_t == T2)
+			makeShapeT2();
+		if (shape_t == T3)
+			makeShapeT3();
+		if (shape_t == T4)
+			makeShapeT4();
 		break;
-	case Shape::T:makeShapeT(&arrShape);
+	case Shape::S:
+		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
+		if (shape_t == T1)
+			makeShapeS1();
+		if (shape_t == T2)
+			makeShapeS2();
+		if (shape_t == T3)
+			makeShapeS3();
+		if (shape_t == T4)
+			makeShapeS4();
 		break;
-	case Shape::Z:makeShapeZ(&arrShape);
+	case Shape::Z:
+		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
+		if (shape_t == T1)
+			makeShapeZ1();
+		if (shape_t == T2)
+			makeShapeZ2();
+		if (shape_t == T3)
+			makeShapeZ3();
+		if (shape_t == T4)
+			makeShapeZ4();
 		break;
 	}
+	draw();
 }
 
-bool Shape::validTurn()
+void Shape::turnDigree()
+{
+	int res[maxBlock][maxBlock];
+
+	for (int i = 0; i < maxBlock; ++i)
+	{
+		for (int j = 0; j < maxBlock; ++j)
+		{
+			res[i][j] = arrShape[maxBlock - j - 1][i];
+		}
+	}
+	for (size_t i = 0; i < maxBlock; i++)
+	{
+		for (size_t j = 0; j < maxBlock; j++)
+		{
+			arrShape[i][j] = res[i][j];
+		}
+	}
+
+}
+
+bool Shape::isValidTurn()
 {
 	if (shape == O)
 		return false;
@@ -166,7 +223,7 @@ bool Shape::validTurn()
 		if (board.isNotEmpty(x + i, y) || board.isNotEmpty(x, y + i))
 			return false;
 	}
-	if (x + max(shapeH, shapeL / 2) >= board.getPos() + board.getWidth())
+	if (x + max(shapeH * 2, shapeL / 2) >= board.getPos() + board.getWidth())
 		return false;
 	return true;
 }
@@ -178,9 +235,9 @@ int Shape::getShapeL()
 
 void Shape::setShape()
 {
-	for (size_t i = 0; i < maxX; i++)
+	for (size_t i = 0; i < maxBlock; i++)
 	{
-		for (size_t j = 0; j < maxY; j++)
+		for (size_t j = 0; j < maxBlock; j++)
 		{
 			if (arrShape[i][j] == 1)
 				board.setShape(x + i, y + j, color);
@@ -188,149 +245,9 @@ void Shape::setShape()
 	}
 }
 
-void Shape::initShape(int*** arrShape)
+void Shape::clearShape()
 {
-	int** arr;
-	arr = new int* [maxX];
-	for (size_t i = 0; i < maxX; i++)
-		arr[i] = new int[maxY] {};
-
-	*arrShape = arr;
-}
-
-void Shape::clearShape(int*** arrShape)
-{
-	for (size_t i = 0; i < maxX; i++)
-		for (size_t j = 0; j < maxY; j++)
-			(*arrShape)[j][i] = 0;
-}
-
-void Shape::makeShapeO(int*** arr)
-{
-	for (size_t i = 0; i < 4; i++)
-		for (size_t j = 0; j < 2; j++)
-			(*arr)[i][j] = 1;
-	shapeL = 4;
-	shapeH = 2;
-}
-
-void Shape::makeShapeI1(int*** arr)
-{
-	for (size_t i = 0; i < 4; i++)
-	{
-		(*arr)[0][i] = 1;
-		(*arr)[1][i] = 1;
-	}
-	shapeL = 1;
-	shapeH = 4;
-}
-
-void Shape::makeShapeI2(int*** arr)
-{
-	for (size_t i = 0; i < 8; i++)
-	{
-		(*arr)[i][0] = 1;
-	}
-	shapeL = 8;
-	shapeH = 1;
-}
-
-void Shape::makeShapeJ(int*** arr)
-{
-	for (size_t i = 0; i < 2; i++)
-	{
-		(*arr)[4][i] = 1;
-		(*arr)[5][i] = 1;
-	}
-	for (size_t i = 0; i < 4; i++)
-		(*arr)[i][1] = 1;
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeL1(int*** arr)
-{
-	for (size_t i = 0; i < 2; i++)
-	{
-		(*arr)[0][i] = 1;
-		(*arr)[1][i] = 1;
-	}
-	for (size_t i = 2; i < 6; i++)
-		(*arr)[i][1] = 1;
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeL2(int*** arr)
-{
-	for (size_t i = 2; i < 4; i++)
-	{
-		(*arr)[i][0] = 1;
-	}
-	for (size_t i = 0; i < 3; i++)
-	{
-		(*arr)[0][i] = 1;
-		(*arr)[1][i] = 1;
-	}
-	shapeL = 4;
-	shapeH = 3;
-}
-
-void Shape::makeShapeL3(int*** arr)
-{
-	for (size_t i = 0; i < 6; i++)
-		(*arr)[i][0] = 1;
-	for (size_t i = 4; i < 6; i++)
-	{
-		(*arr)[i][1] = 1;
-		(*arr)[i][1] = 1;
-	}
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeL4(int*** arr)
-{
-	for (size_t i = 0; i < 3; i++)
-	{
-		(*arr)[2][i] = 1;
-		(*arr)[3][i] = 1;
-	}
-	for (size_t i = 0; i < 2; i++)
-	{
-		(*arr)[i][2] = 1;
-	}
-	shapeL = 4;
-	shapeH = 3;
-}
-
-void Shape::makeShapeS(int*** arr)
-{
-	for (size_t i = 2; i < 6; i++)
-		(*arr)[i][0] = 1;
-	for (size_t i = 0; i < 4; i++)
-		(*arr)[i][1] = 1;
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeT(int*** arr)
-{
-	for (size_t i = 0; i < 6; i++)
-		(*arr)[i][1] = 1;
-	(*arr)[2][0] = 1;
-	(*arr)[3][0] = 1;
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeZ(int*** arr)
-{
-	for (size_t i = 0; i < 4; i++)
-		(*arr)[i][0] = 1;
-	for (size_t i = 2; i < 6; i++)
-		(*arr)[i][1] = 1;
-
-	shapeL = 6;
-	shapeH = 2;
+	for (size_t i = 0; i < maxBlock; i++)
+		for (size_t j = 0; j < maxBlock; j++)
+			arrShape[j][i] = 0;
 }

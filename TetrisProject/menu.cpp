@@ -4,7 +4,6 @@ void Menu::Start()
 {
 	menuInfo();
 	char c = getchar();
-	//	char c = '1';	// remove
 
 	while (true)
 	{
