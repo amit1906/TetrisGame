@@ -1,7 +1,6 @@
 #pragma once
 #include "utils.h"
 #include "score.h"
-using namespace std;
 
 class Board
 {

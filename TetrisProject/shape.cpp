@@ -2,7 +2,7 @@
 
 Shape::Shape(int _x, int _y, const Board& _board, bool colors) :x(_x), y(_y), board(_board)
 {
-	shape = (SHAPE)I;		//(rand() % 7);
+	shape = (SHAPE)Z;		//(rand() % 7);
 	shape_t = T1;
 	if (colors)
 		color = (COLOR)(colori++ % 14 + 1);
@@ -10,19 +10,19 @@ Shape::Shape(int _x, int _y, const Board& _board, bool colors) :x(_x), y(_y), bo
 		color = LIGHTGREY;
 	switch (shape)
 	{
-	case Shape::I:makeShapeI1();
+	case Shape::O:makeShapeO();
 		break;
-	case Shape::J:makeShapeJ();
+	case Shape::I:makeShapeI1();
 		break;
 	case Shape::L:makeShapeL1();
 		break;
-	case Shape::O:makeShapeO();
+	case Shape::J:makeShapeJ1();
 		break;
-	case Shape::S:makeShapeS();
+	case Shape::T:makeShapeT1();
 		break;
-	case Shape::T:makeShapeT();
+	case Shape::S:makeShapeS1();
 		break;
-	case Shape::Z:makeShapeZ();
+	case Shape::Z:makeShapeZ1();
 		break;
 	}
 }
@@ -114,6 +114,10 @@ void Shape::cleanDraw()
 
 void Shape::turn(int dir)
 {
+	/*cleanDraw();
+	turnDigree();
+	return;*/
+
 	if (!isValidTurn())
 		return;
 	cleanDraw();
@@ -132,7 +136,16 @@ void Shape::turn(int dir)
 			shape_t = T1;
 		}
 		break;
-	case Shape::J:makeShapeJ();
+	case Shape::J:
+		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
+		if (shape_t == T1)
+			makeShapeJ1();
+		if (shape_t == T2)
+			makeShapeJ2();
+		if (shape_t == T3)
+			makeShapeJ3();
+		if (shape_t == T4)
+			makeShapeJ4();
 		break;
 	case Shape::L:
 		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
@@ -145,11 +158,38 @@ void Shape::turn(int dir)
 		if (shape_t == T4)
 			makeShapeL4();
 		break;
-	case Shape::S:makeShapeS();
+	case Shape::T:
+		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
+		if (shape_t == T1)
+			makeShapeT1();
+		if (shape_t == T2)
+			makeShapeT2();
+		if (shape_t == T3)
+			makeShapeT3();
+		if (shape_t == T4)
+			makeShapeT4();
 		break;
-	case Shape::T:makeShapeT();
+	case Shape::S:
+		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
+		if (shape_t == T1)
+			makeShapeS1();
+		if (shape_t == T2)
+			makeShapeS2();
+		if (shape_t == T3)
+			makeShapeS3();
+		if (shape_t == T4)
+			makeShapeS4();
 		break;
-	case Shape::Z:makeShapeZ();
+	case Shape::Z:
+		shape_t = (shape_t + dir == -1) ? (SHAPE_T)3 : SHAPE_T((shape_t + dir) % 4);
+		if (shape_t == T1)
+			makeShapeZ1();
+		if (shape_t == T2)
+			makeShapeZ2();
+		if (shape_t == T3)
+			makeShapeZ3();
+		if (shape_t == T4)
+			makeShapeZ4();
 		break;
 	}
 }
@@ -213,134 +253,4 @@ void Shape::clearShape()
 	for (size_t i = 0; i < maxBlock; i++)
 		for (size_t j = 0; j < maxBlock; j++)
 			arrShape[j][i] = 0;
-}
-
-void Shape::makeShapeO()
-{
-	for (size_t i = 0; i < 4; i++)
-		for (size_t j = 0; j < 2; j++)
-			arrShape[i][j] = 1;
-	shapeL = 4;
-	shapeH = 2;
-}
-
-void Shape::makeShapeI1()
-{
-	for (size_t i = 0; i < 8; i++)
-	{
-		arrShape[i][0] = 1;
-	}
-	shapeL = 8;
-	shapeH = 1;
-}
-
-void Shape::makeShapeI2()
-{
-	for (size_t i = 0; i < 4; i++)
-	{
-		arrShape[0][i] = 1;
-		arrShape[1][i] = 1;
-	}
-	shapeL = 2;
-	shapeH = 4;
-}
-
-void Shape::makeShapeJ()
-{
-	for (size_t i = 0; i < 2; i++)
-	{
-		arrShape[4][i] = 1;
-		arrShape[5][i] = 1;
-	}
-	for (size_t i = 0; i < 4; i++)
-		arrShape[i][1] = 1;
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeL1()
-{
-	for (size_t i = 0; i < 2; i++)
-	{
-		arrShape[0][i] = 1;
-		arrShape[1][i] = 1;
-	}
-	for (size_t i = 2; i < 6; i++)
-		arrShape[i][1] = 1;
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeL2()
-{
-	for (size_t i = 2; i < 4; i++)
-	{
-		arrShape[i][0] = 1;
-	}
-	for (size_t i = 0; i < 3; i++)
-	{
-		arrShape[0][i] = 1;
-		arrShape[1][i] = 1;
-	}
-	shapeL = 4;
-	shapeH = 3;
-}
-
-void Shape::makeShapeL3()
-{
-	for (size_t i = 0; i < 6; i++)
-		arrShape[i][0] = 1;
-	for (size_t i = 4; i < 6; i++)
-	{
-		arrShape[i][1] = 1;
-		arrShape[i][1] = 1;
-	}
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeL4()
-{
-	for (size_t i = 0; i < 3; i++)
-	{
-		arrShape[2][i] = 1;
-		arrShape[3][i] = 1;
-	}
-	for (size_t i = 0; i < 2; i++)
-	{
-		arrShape[i][2] = 1;
-	}
-	shapeL = 4;
-	shapeH = 3;
-}
-
-void Shape::makeShapeS()
-{
-	for (size_t i = 2; i < 6; i++)
-		arrShape[i][0] = 1;
-	for (size_t i = 0; i < 4; i++)
-		arrShape[i][1] = 1;
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeT()
-{
-	for (size_t i = 0; i < 6; i++)
-		arrShape[i][1] = 1;
-	arrShape[2][0] = 1;
-	arrShape[3][0] = 1;
-	shapeL = 6;
-	shapeH = 2;
-}
-
-void Shape::makeShapeZ()
-{
-	for (size_t i = 0; i < 4; i++)
-		arrShape[i][0] = 1;
-	for (size_t i = 2; i < 6; i++)
-		arrShape[i][1] = 1;
-
-	shapeL = 6;
-	shapeH = 2;
 }

@@ -3,7 +3,6 @@
 #include "board.h"
 #include "shape.h"
 #include "score.h"
-using namespace std;
 
 const int constexpr ESC = 27;
 const enum  PL1 { LEFT1 = 'a', RIGHT1 = 'd', ROTATEL1 = 's', ROTATER1 = 'w', DROP1 = 'x' };
