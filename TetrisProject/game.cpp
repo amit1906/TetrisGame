@@ -80,48 +80,46 @@ void Game::checkShapes()
 void Game::checkKeys()
 {
 	int keysItr = 20;
-	char c1 = ' ', c2 = ' ', c;
+	const int len = 5;
+	char c[len]{};
 
 	for (size_t i = 0; i < keysItr; i++)
 	{
 		if (_kbhit())
 		{
-			c = _getch();
-			if (c >= 'A' && c <= 'Z')
-				c += 'a' - 'A';
-			switch (c)
+			c[0] = _getch();
+			if (c[0] >= 'A' && c[0] <= 'Z')
+				c[0] += 'a' - 'A';
+			switch (c[0])
 			{
-			case PL1::LEFT1:	c1 = PL1::LEFT1;
+			case PL1::LEFT1:	c[1] = PL1::LEFT1;
 				break;
-			case PL1::RIGHT1:	c1 = PL1::RIGHT1;
+			case PL1::RIGHT1:	c[1] = PL1::RIGHT1;
 				break;
-			case PL1::ROTATER1:	c1 = PL1::ROTATER1;
+			case PL1::ROTATER1:	c[3] = PL1::ROTATER1;
 				break;
-			case PL1::ROTATEL1:	c1 = PL1::ROTATEL1;
+			case PL1::ROTATEL1:	c[3] = PL1::ROTATEL1;
 				break;
-			case PL1::DROP1:	c1 = PL1::DROP1;
+			case PL1::DROP1:	c[1] = PL1::DROP1;
 				break;
-			case PL2::LEFT2:	c2 = PL2::LEFT2;
+			case PL2::LEFT2:	c[2] = PL2::LEFT2;
 				break;
-			case PL2::RIGHT2:	c2 = PL2::RIGHT2;
+			case PL2::RIGHT2:	c[2] = PL2::RIGHT2;
 				break;
-			case PL2::ROTATER2:	c2 = PL2::ROTATER2;
+			case PL2::ROTATER2:	c[4] = PL2::ROTATER2;
 				break;
-			case PL2::ROTATEL2:	c2 = PL2::ROTATEL2;
+			case PL2::ROTATEL2:	c[4] = PL2::ROTATEL2;
 				break;
-			case PL2::DROP2:	c2 = PL2::DROP2;
+			case PL2::DROP2:	c[2] = PL2::DROP2;
 				break;
 			case ESC:			toEnd = true;
 				break;
 			}
 		}
 	}
-	c = c1;
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 1; i < len; i++)
 	{
-		if (i == 1)
-			c = c2;
-		switch (c)
+		switch (c[i])
 		{
 		case PL1::LEFT1:	shape1->move(-2);
 			break;

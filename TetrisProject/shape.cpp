@@ -3,7 +3,7 @@
 Shape::Shape(int _x, int _y, const Board& _board, bool colors) :x(_x), y(_y), board(_board)
 {
 	shape = (SHAPE)(rand() % 7);
-	shape_t = (SHAPE_T)(rand() % 4);
+	shape_t = (SHAPE_T)T1;	//(rand() % 4);
 	if (colors)
 		color = (COLOR)(colori++ % 14 + 1);
 	else
@@ -114,10 +114,6 @@ void Shape::cleanDraw()
 
 void Shape::turn(int dir)
 {
-	/*cleanDraw();
-	turnDigree();
-	return;*/
-
 	if (!isValidTurn())
 		return;
 	cleanDraw();
@@ -125,7 +121,7 @@ void Shape::turn(int dir)
 	switch (shape)
 	{
 	case Shape::I:
-		if (shape_t == T1)
+		if (shape_t % 2 == T1)
 		{
 			makeShapeI2();
 			shape_t = T2;
@@ -192,6 +188,7 @@ void Shape::turn(int dir)
 			makeShapeZ4();
 		break;
 	}
+	draw();
 }
 
 void Shape::turnDigree()
