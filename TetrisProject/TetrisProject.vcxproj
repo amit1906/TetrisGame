@@ -144,8 +144,9 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="ShapeForm.cpp" />
     <ClCompile Include="utils.cpp" />
-    <ClCompile Include="score.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="shape.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -154,7 +155,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="utils.h" />
-    <ClInclude Include="score.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="shape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

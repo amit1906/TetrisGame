@@ -1,15 +1,16 @@
 #pragma once
 #include "utils.h"
 
-class Score
+class Player
 {
 	string name;
 	int score;
 
 public:
-	Score(const string& _name);
-	void printPlayer(int pos, int height);
-	string getName();
+	Player(const string& _name);
+	void printPlayerStats(int pos, int height);
+	string getName()	const;
+	int getScore()	const;
 	void setName(string _name);
 	void increaseScore();
 
