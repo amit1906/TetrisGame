@@ -15,6 +15,7 @@ class Board
 public:
 	Board(const int _pos, const int _height, const int _width);
 	void setShape(int x, int y, COLOR color);
+	void unSetShape(int x, int y);
 	void printFrame();
 	void printContent(bool clean = false);
 	int getHeight();

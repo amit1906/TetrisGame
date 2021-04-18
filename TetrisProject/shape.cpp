@@ -57,7 +57,7 @@ void Shape::move(int _x, int _y)
 	draw();
 }
 
-bool Shape::checkFall(int _y, bool toSet)
+bool Shape::checkFall(int _y, bool toSet) 
 {
 	if (y + _y > board.getHeight())
 	{

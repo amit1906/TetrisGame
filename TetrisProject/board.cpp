@@ -14,6 +14,11 @@ void Board::setShape(int x, int y, COLOR color)
 	arrBoard[x][y].color = color;
 }
 
+void Board::unSetShape(int x, int y)
+{
+	arrBoard[x][y].set = 0;
+}
+
 void Board::printFrame()
 {
 	for (size_t i = 0; i < height; i++)
