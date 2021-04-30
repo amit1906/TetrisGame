@@ -14,6 +14,8 @@ class Board
 
 public:
 	Board(const int _pos, const int _height, const int _width);
+	//Board(const Board& copy);
+	//~Board();
 	void setShape(int x, int y, COLOR color);
 	void unSetShape(int x, int y);
 	void printFrame();

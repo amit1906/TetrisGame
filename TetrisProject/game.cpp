@@ -3,12 +3,19 @@
 Game::Game(int _speed, bool _colors, string name1, string name2) :
 	speed(_speed), colors(_colors), player1(name1), player2(name2)
 {
+	paused = finished = false;
 	shapeX = rand() % (width - maxX) + pos;
 	shapeX -= shapeX % 2 - 1;
 	shape1 = new Shape(shapeX, shapeY, board1, colors);
 	shapeX = rand() % (width - maxX) + width + pos;
 	shapeX -= shapeX % 2;
 	shape2 = new Shape(shapeX, shapeY, board2, colors);
+}
+
+Game::~Game()
+{
+	delete shape1;
+	delete shape2;
 }
 
 void Game::changeSettings(int _speed, bool _colors, string name1, string name2)
@@ -25,11 +32,12 @@ void Game::start()
 	drawBoard();
 	gameLoop();
 	clearScreen();
+	paused = false;
 }
 
 void Game::gameLoop()
 {
-	while (!toEnd)
+	while (!paused && !finished)
 	{
 		checkShapes();
 		checkKeys();
@@ -37,7 +45,6 @@ void Game::gameLoop()
 		checkRows();
 		checkEnd();
 	}
-	toEnd = false;
 }
 
 void Game::drawBoard()
@@ -61,7 +68,7 @@ void Game::drawGame()
 
 void Game::checkShapes()
 {
-	int bombAppear = 1;		// put 2 randoms
+	int bombAppear = 0;		// put 2 randoms
 	if (shape1->checkFall())
 	{
 		delete shape1;
@@ -119,7 +126,7 @@ void Game::checkKeys()
 				break;
 			case PL2::DROP2:	c[2] = PL2::DROP2;
 				break;
-			case ESC:			toEnd = true;
+			case ESC:			paused = true;
 				break;
 			}
 		}
@@ -169,17 +176,17 @@ void Game::checkEnd()
 			printWinner(player1, player2);
 		else
 			printWinner(player2, player1);
-		toEnd = true;
+		finished = true;
 	}
 	else if (pl1Won)
 	{
 		printWinner(player2, player1);
-		toEnd = true;
+		finished = true;
 	}
 	else if (pl2Won)
 	{
 		printWinner(player1, player2);
-		toEnd = true;
+		finished = true;
 	}
 	if (pl1Won || pl2Won)
 		while (!(_kbhit() && _getch() == ESC));
@@ -196,4 +203,9 @@ void Game::printWinner(Player winner, Player loser)
 	cout << "press Escape to continue...";
 	winner.printPlayerStats(1, 8);
 	loser.printPlayerStats(15, 8);
+}
+
+bool Game::HasFinished()
+{
+	return finished;
 }

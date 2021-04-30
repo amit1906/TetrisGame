@@ -12,7 +12,7 @@ const enum  PL2 { LEFT2 = 'j', RIGHT2 = 'l', ROTATEL2 = 'k', ROTATER2 = 'i', DRO
 class Game
 {
 	int speed;
-	bool colors;
+	bool colors, paused, finished;
 	Player player1, player2;
 
 	const int pos = 2, height = 18, width = 23;
@@ -21,12 +21,13 @@ class Game
 	Shape* shape1, * shape2;
 	int shapeX, shapeY = -1;
 	int maxX = 10;
-	bool toEnd = false;
 
 public:
 	Game(int _speed, bool _colors, string name1, string name2);
+	~Game();
 	void changeSettings(int _speed, bool _colors, string name1, string name2);
 	void start();
+	bool HasFinished();
 
 private:
 	void gameLoop();

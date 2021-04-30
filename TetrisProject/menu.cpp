@@ -1,5 +1,10 @@
 #include "menu.h"
 
+Menu::~Menu()
+{
+	delete game;
+}
+
 void Menu::Start()
 {
 	menuInfo();
@@ -43,18 +48,27 @@ void Menu::Start()
 
 void Menu::initGame()
 {
-	delete game;
 	game = new Game(speed, colors, name1, name2);
 	game->start();
+	if (game->HasFinished())
+	{
+		delete game;
+		game = nullptr;
+	}
 	menuInfo();
 }
 
 void Menu::continueGame()
 {
-	if (game != NULL)
+	if (game != nullptr)
 	{
 		game->changeSettings(speed, colors, name1, name2);
 		game->start();
+		if (game->HasFinished())
+		{
+			delete game;
+			game = nullptr;
+		}
 		menuInfo();
 	}
 	else

@@ -1,6 +1,7 @@
 #include "Player.h"
 
-Player::Player(const string& _name) :name(_name), score(0) {}
+Player::Player(const string& _name) 
+	:name(_name), score(0) {}
 
 void Player::printPlayerStats(int pos, int height)
 {

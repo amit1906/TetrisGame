@@ -1,11 +1,31 @@
 #include "board.h"
 
-Board::Board(const int _pos, const int _height, const int _width) :pos(_pos), height(_height), width(_width)
+Board::Board(const int _pos, const int _height, const int _width) 
+	:pos(_pos), height(_height), width(_width)
 {
 	arrBoard = new point * [width];
 	for (size_t i = 0; i < width; i++)
 		arrBoard[i] = new point[height]{};
 }
+
+//Board::Board(const Board& board) 
+//	:pos(board.pos), height(board.height), width(board.width)
+//{
+//	arrBoard = new point * [width];
+//	for (size_t i = 0; i < width; i++)
+//		arrBoard[i] = new point[height]{};
+//
+//	for (size_t i = 0; i < width; i++)
+//		for (size_t j = 0; j < width; j++)
+//			arrBoard[i][j] = board.arrBoard[i][j];
+//}
+
+//Board::~Board()
+//{
+//	for (size_t i = 0; i < width; i++)
+//		delete arrBoard[i];
+//	delete[] arrBoard;
+//}
 
 void Board::setShape(int x, int y, COLOR color)
 {
