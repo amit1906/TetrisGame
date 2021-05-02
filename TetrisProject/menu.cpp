@@ -17,16 +17,16 @@ void Menu::Start()
 		case '1':
 			initGame();
 			break;
-		case '2':
+		case '4':
 			continueGame();
 			break;
-		case '3':
+		case '5':
 			changeColors();
 			break;
-		case '4':
+		case '6':
 			changeSpeed();
 			break;
-		case '5':
+		case '7':
 			changeNames();
 			break;
 		case '8':
@@ -35,6 +35,8 @@ void Menu::Start()
 			menuInfo();
 			break;
 		case '9':
+			clearScreen();
+			cout << "Good Bye" << endl;
 			exit(0);
 			break;
 		default:
@@ -117,10 +119,10 @@ void Menu::changeNames()
 void Menu::menuInfo()
 {
 	cout << "(1) Start a new game" << endl;
-	(game != NULL) ? (cout << "(2) Continue a paused game" << endl) : cout << "";
-	cout << "(3) play with colors? " << (colors == 1 ? "YES" : "NO") << " \t(NEW FEATURE)" << endl;
-	cout << "(4) set speed in ms?  " << speed << " \t(NEW FEATURE)" << endl;
-	cout << "(5) set your names?  " << "\t\t(NEW FEATURE)" << endl;
+	(game != NULL) ? (cout << "(4) Continue a paused game" << endl) : (cout << "");
+	cout << "(5) play with colors? " << (colors == 1 ? "YES" : "NO") << endl;
+	cout << "(6) set speed in ms?  " << speed << " \t(NEW FEATURE)" << endl;
+	cout << "(7) set your names?  " << "\t\t(NEW FEATURE)" << endl;
 	cout << "(8) Present instructions" << endl;
 	cout << "(9) EXIT" << endl;
 	cout << "choose option: ";

@@ -42,6 +42,12 @@
     <ClCompile Include="Bomp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PcPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shape.h">
@@ -63,6 +69,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PcPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
