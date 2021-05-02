@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "Menu.h"
 
 Menu::~Menu()
 {
@@ -15,6 +15,7 @@ void Menu::Start()
 		switch (c)
 		{
 		case '1':
+			game = new Game(HVH, speed, colors, name1, name2);
 			initGame();
 			break;
 		case '4':
@@ -50,7 +51,6 @@ void Menu::Start()
 
 void Menu::initGame()
 {
-	game = new Game(speed, colors, name1, name2);
 	game->start();
 	if (game->HasFinished())
 	{
@@ -121,8 +121,8 @@ void Menu::menuInfo()
 	cout << "(1) Start a new game" << endl;
 	(game != NULL) ? (cout << "(4) Continue a paused game" << endl) : (cout << "");
 	cout << "(5) play with colors? " << (colors == 1 ? "YES" : "NO") << endl;
-	cout << "(6) set speed in ms?  " << speed << " \t(NEW FEATURE)" << endl;
-	cout << "(7) set your names?  " << "\t\t(NEW FEATURE)" << endl;
+	cout << "(6) set speed in ms?  " << speed << endl;
+	cout << "(7) set your names?  " << endl;
 	cout << "(8) Present instructions" << endl;
 	cout << "(9) EXIT" << endl;
 	cout << "choose option: ";

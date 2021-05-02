@@ -139,28 +139,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="board.cpp" />
+    <ClCompile Include="Board.cpp" />
     <ClCompile Include="Bomp.cpp" />
     <ClCompile Include="HPlayer.cpp" />
     <ClCompile Include="PcPlayer.cpp" />
-    <ClCompile Include="game.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="ShapeForm.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="shape.cpp" />
+    <ClCompile Include="Shape.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="board.h" />
+    <ClInclude Include="Board.h" />
     <ClInclude Include="Bomb.h" />
-    <ClInclude Include="game.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="HPlayer.h" />
-    <ClInclude Include="menu.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="PcPlayer.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="shape.h" />
+    <ClInclude Include="Shape.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

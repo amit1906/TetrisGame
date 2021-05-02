@@ -1,4 +1,4 @@
-#include "board.h"
+#include "Board.h"
 
 Board::Board(const int _pos, const int _height, const int _width) 
 	:pos(_pos), height(_height), width(_width)
@@ -9,7 +9,7 @@ Board::Board(const int _pos, const int _height, const int _width)
 }
 
 //Board::Board(const Board& board) 
-//	:pos(board.pos), height(board.height), width(board.width)
+//	:pos(board.pos), height(Board.height), width(board.width)
 //{
 //	arrBoard = new point * [width];
 //	for (size_t i = 0; i < width; i++)

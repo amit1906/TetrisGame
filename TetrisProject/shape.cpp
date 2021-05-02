@@ -1,4 +1,4 @@
-#include "shape.h"
+#include "Shape.h"
 
 Shape::Shape(int _x, int _y, const Board& _board, bool colors) 
 	:x(_x), y(_y), board(_board)

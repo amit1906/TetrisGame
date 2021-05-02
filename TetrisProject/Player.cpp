@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(const string& _name) 
-	:name(_name), score(0) {}
+Player::Player(const string& _name, Shape* const _shape)
+	:name(_name), score(0), shape(_shape) {}
 
 void Player::printPlayerStats(int pos, int height)
 {

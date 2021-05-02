@@ -1,6 +1,6 @@
 #pragma once
-#include "board.h"
-#include "shape.h"
+#include "Board.h"
+#include "Shape.h"
 
 constexpr int explodeRad = 3;
 

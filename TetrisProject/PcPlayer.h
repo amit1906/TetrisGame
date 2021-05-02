@@ -1,17 +1,17 @@
 #pragma once
-#include "utils.h"
-#include "board.h"
-#include "shape.h"
-#include "bomb.h"
 #include "Player.h"
+#include "Board.h"
 
 class PcPlayer : public Player
 {
 
-	int getGoToX();
-	
 public:
+	PcPlayer(const string& _name, Shape* const _shape);
+	void makeMove(Board& board, const char keys[]) override;
 
+
+private:
+	int getGoToX();
 
 
 };

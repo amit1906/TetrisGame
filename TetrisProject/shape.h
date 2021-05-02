@@ -1,6 +1,6 @@
 #pragma once
-#include "utils.h"
-#include "board.h"
+#include "Utils.h"
+#include "Board.h"
 
 static int colori = 1;
 constexpr int maxBlock = 8;
