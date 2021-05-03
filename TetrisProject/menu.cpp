@@ -1,8 +1,14 @@
-#include "menu.h"
+#include "Menu.h"
+
+Menu::~Menu()
+{
+	delete game;
+}
 
 void Menu::Start()
 {
 	menuInfo();
+	srand(time(0));
 	char c = getchar();
 
 	while (true)
@@ -10,18 +16,27 @@ void Menu::Start()
 		switch (c)
 		{
 		case '1':
+			game = new Game(HVH, speed, colors, name1, name2);
 			initGame();
 			break;
 		case '2':
-			continueGame();
+			game = new Game(HVC, speed, colors, name1, name2);
+			initGame();
 			break;
 		case '3':
-			changeColors();
+			game = new Game(CVC, speed, colors, name1, name2);
+			initGame();
 			break;
 		case '4':
-			changeSpeed();
+			continueGame();
 			break;
 		case '5':
+			changeColors();
+			break;
+		case '6':
+			changeSpeed();
+			break;
+		case '7':
 			changeNames();
 			break;
 		case '8':
@@ -30,6 +45,8 @@ void Menu::Start()
 			menuInfo();
 			break;
 		case '9':
+			clearScreen();
+			cout << "Good Bye" << endl;
 			exit(0);
 			break;
 		default:
@@ -43,18 +60,26 @@ void Menu::Start()
 
 void Menu::initGame()
 {
-	delete game;
-	game = new Game(speed, colors, name1, name2);
 	game->start();
+	if (game->HasFinished())
+	{
+		delete game;
+		game = nullptr;
+	}
 	menuInfo();
 }
 
 void Menu::continueGame()
 {
-	if (game != NULL)
+	if (game != nullptr)
 	{
 		game->changeSettings(speed, colors, name1, name2);
 		game->start();
+		if (game->HasFinished())
+		{
+			delete game;
+			game = nullptr;
+		}
 		menuInfo();
 	}
 	else
@@ -102,11 +127,13 @@ void Menu::changeNames()
 
 void Menu::menuInfo()
 {
-	cout << "(1) Start a new game" << endl;
-	(game != NULL) ? (cout << "(2) Continue a paused game" << endl) : cout << "";
-	cout << "(3) play with colors? " << (colors == 1 ? "YES" : "NO") << " \t(NEW FEATURE)" << endl;
-	cout << "(4) set speed in ms?  " << speed << " \t(NEW FEATURE)" << endl;
-	cout << "(5) set your names?  " << "\t\t(NEW FEATURE)" << endl;
+	cout << "(1) Start a new game - Human vs Human" << endl;
+	cout << "(2) Start a new game - Human vs Computer" << endl;
+	cout << "(3) Start a new game - Computer vs Computer" << endl;
+	(game != NULL) ? (cout << "(4) Continue a paused game" << endl) : (cout << "");
+	cout << "(5) play with colors? " << (colors == 1 ? "YES" : "NO") << endl;
+	cout << "(6) set speed in ms?  " << speed << endl;
+	cout << "(7) set your names?  " << endl;
 	cout << "(8) Present instructions" << endl;
 	cout << "(9) EXIT" << endl;
 	cout << "choose option: ";

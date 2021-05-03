@@ -1,15 +1,17 @@
 #pragma once
-#include "game.h"
+#include "Game.h"
 
 class Menu
 {
-	Game* game = NULL;
+	Game* game = nullptr;
 	int speed = 300;
 	bool colors = true;
 	string name1 = "player1";
 	string name2 = "player2";
 
 public:
+	Menu() = default;
+	~Menu();
 	void Start();
 
 private:

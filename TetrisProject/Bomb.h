@@ -1,19 +1,20 @@
 #pragma once
-#include "board.h"
+#include "Board.h"
+#include "Shape.h"
 
+constexpr int explodeRad = 3;
 
-
-
-class Bomb
+class Bomb : public Shape
 {
-	int x, y=0;
-	Board board;
+
 public:
-	Bomb(Board& _board,int _x=0,int _y=0);
-	void move();
-	void checkFall();
+	Bomb(int _x, int _y, const Board& _board, bool colors);
+
 private:
+	bool checkFall(int _y = 1, bool toSet = false) override;
 	void explode();
+	void initShape();
+	void makeShapeBomb();
+
+
 };
-
-

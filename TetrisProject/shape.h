@@ -1,29 +1,33 @@
 #pragma once
-#include "utils.h"
-#include "board.h"
+#include "Utils.h"
+#include "Board.h"
 
 static int colori = 1;
 constexpr int maxBlock = 8;
 
 class Shape
 {
+private:
 	enum SHAPE { O, I, L, J, T, S, Z };
 	enum SHAPE_T { T1, T2, T3, T4 };
-	Board board;
-	SHAPE shape;
 	SHAPE_T shape_t;
 	COLOR color;
-	int x, y;
-	int shapeL, shapeH;
+
+protected:
+	Board board;
+	SHAPE shape;
 	int arrShape[maxBlock][maxBlock]{};
+	int shapeL, shapeH;
+	int x, y;
 
 public:
 	Shape(int _x, int _y, const Board& _board, bool colors);
 	void move(int _x = 0, int _y = 1);
 	void draw();
 	void turn(int dir);
-	bool checkFall(int _y = 1, bool toSet = true);
-	int getShapeL();
+	virtual bool checkFall(int _y = 1, bool toSet = true);
+	int getShapeL() const;
+	int getX() const;
 
 private:
 	void setShape();
