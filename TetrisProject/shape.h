@@ -26,7 +26,8 @@ public:
 	void draw();
 	void turn(int dir);
 	virtual bool checkFall(int _y = 1, bool toSet = true);
-	int getShapeL();
+	int getShapeL() const;
+	int getX() const;
 
 private:
 	void setShape();

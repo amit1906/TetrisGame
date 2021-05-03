@@ -39,6 +39,7 @@ public:
 private:
 	void chooseGameType(GAME_TYPE gameType, string name1, string name2);
 	void gameLoop();
+	void movePlayers();
 	void checkKeys();
 	void drawBoard();
 	void drawGame();

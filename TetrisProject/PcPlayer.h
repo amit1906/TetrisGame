@@ -11,7 +11,8 @@ public:
 
 
 private:
-	int getGoToX();
+	int getGoToX(const Board& board) const;
+	bool checkAbove(const Board& board, int x, int y) const;
 
 
 };

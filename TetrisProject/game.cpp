@@ -63,12 +63,17 @@ void Game::gameLoop()
 	{
 		checkShapes();
 		checkKeys();
-		player1->makeMove(board1, keys);
-		player2->makeMove(board2, keys);
+		movePlayers();
 		drawGame();
 		checkRows();
 		checkEnd();
 	}
+}
+
+void Game::movePlayers()
+{
+	player1->makeMove(board1, keys);
+	player2->makeMove(board2, keys);
 }
 
 void Game::drawBoard()
@@ -92,13 +97,14 @@ void Game::drawGame()
 
 void Game::checkShapes()
 {
-	int bombAppear = 0;		// put 2 randoms
+	int bombAppear1 = (rand() % 20 == 1) ? 1 : 0;
+	int bombAppear2 = (rand() % 20 == 1) ? 1 : 0;
 	if (shape1->checkFall())
 	{
 		delete shape1;
 		shapeX = rand() % (width - maxX) + pos;
 		shapeX -= shapeX % 2 - 1;
-		if (bombAppear == 1)
+		if (bombAppear1 == 1)
 			shape1 = new Bomb(shapeX, shapeY, board1, colors);
 		else
 			shape1 = new Shape(shapeX, shapeY, board1, colors);
@@ -110,7 +116,7 @@ void Game::checkShapes()
 		delete shape2;
 		shapeX = rand() % (width - maxX) + width + pos;
 		shapeX -= shapeX % 2;
-		if (bombAppear == 1)
+		if (bombAppear2 == 1)
 			shape2 = new Bomb(shapeX, shapeY, board2, colors);
 		else
 			shape2 = new Shape(shapeX, shapeY, board2, colors);

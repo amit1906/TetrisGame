@@ -39,7 +39,7 @@ void Board::unSetShape(int x, int y)
 	arrBoard[x][y].set = 0;
 }
 
-void Board::printFrame()
+void Board::printFrame() const
 {
 	for (size_t i = 0; i < height; i++)
 	{
@@ -55,7 +55,7 @@ void Board::printFrame()
 	}
 }
 
-void Board::printContent(bool clean)
+void Board::printContent(bool clean) const
 {
 	for (size_t i = 1; i < width; i++)
 	{
@@ -77,22 +77,22 @@ void Board::printContent(bool clean)
 	setTextColor(WHITE);
 }
 
-int Board::getPos()
+int Board::getPos() const
 {
 	return pos;
 }
 
-int Board::getWidth()
+int Board::getWidth() const
 {
 	return width - 1;
 }
 
-int Board::getHeight()
+int Board::getHeight() const
 {
 	return height - 1;
 }
 
-bool Board::isNotEmpty(int x, int y)
+bool Board::isNotEmpty(int x, int y) const
 {
 	x %= width;
 	return arrBoard[x][y].set;
@@ -137,7 +137,7 @@ void Board::deleteRow(int row)
 	}
 }
 
-bool Board::isFull(Player player)
+bool Board::isFull(Player player) const
 {
 	for (size_t i = 0; i < width; i++)
 	{

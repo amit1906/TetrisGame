@@ -8,6 +8,7 @@ Menu::~Menu()
 void Menu::Start()
 {
 	menuInfo();
+	srand(time(0));
 	char c = getchar();
 
 	while (true)
@@ -16,6 +17,14 @@ void Menu::Start()
 		{
 		case '1':
 			game = new Game(HVH, speed, colors, name1, name2);
+			initGame();
+			break;
+		case '2':
+			game = new Game(HVC, speed, colors, name1, name2);
+			initGame();
+			break;
+		case '3':
+			game = new Game(CVC, speed, colors, name1, name2);
 			initGame();
 			break;
 		case '4':
@@ -118,7 +127,9 @@ void Menu::changeNames()
 
 void Menu::menuInfo()
 {
-	cout << "(1) Start a new game" << endl;
+	cout << "(1) Start a new game - Human vs Human" << endl;
+	cout << "(2) Start a new game - Human vs Computer" << endl;
+	cout << "(3) Start a new game - Computer vs Computer" << endl;
 	(game != NULL) ? (cout << "(4) Continue a paused game" << endl) : (cout << "");
 	cout << "(5) play with colors? " << (colors == 1 ? "YES" : "NO") << endl;
 	cout << "(6) set speed in ms?  " << speed << endl;

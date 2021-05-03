@@ -18,14 +18,14 @@ public:
 	//~Board();
 	void setShape(int x, int y, COLOR color);
 	void unSetShape(int x, int y);
-	void printFrame();
-	void printContent(bool clean = false);
-	int getHeight();
-	int getWidth();
-	int getPos();
-	bool isNotEmpty(int x, int y);
+	void printFrame() const;
+	void printContent(bool clean = false) const;
+	int getHeight() const;
+	int getWidth() const;
+	int getPos() const;
+	bool isNotEmpty(int x, int y) const;
 	void checkRows(Player& player);
-	bool isFull(Player player);
+	bool isFull(Player player) const;
 
 private:
 	void deleteRow(int row);

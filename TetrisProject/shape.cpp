@@ -1,6 +1,6 @@
 #include "Shape.h"
 
-Shape::Shape(int _x, int _y, const Board& _board, bool colors) 
+Shape::Shape(int _x, int _y, const Board& _board, bool colors)
 	:x(_x), y(_y), board(_board)
 {
 	shape = (SHAPE)(rand() % 7);
@@ -58,7 +58,7 @@ void Shape::move(int _x, int _y)
 	draw();
 }
 
-bool Shape::checkFall(int _y, bool toSet) 
+bool Shape::checkFall(int _y, bool toSet)
 {
 	if (y + _y > board.getHeight())
 	{
@@ -88,7 +88,7 @@ void Shape::draw()
 	{
 		for (size_t j = 0; j < maxBlock; j++)
 		{
-			if (arrShape[i][j] == 1)
+			if (arrShape[i][j] == 1 && y >= 0)
 			{
 				gotoxy(x + i + 2, y + j);
 				cout << (char)219;
@@ -229,9 +229,14 @@ bool Shape::isValidTurn()
 	return true;
 }
 
-int Shape::getShapeL()
+int Shape::getShapeL() const
 {
 	return shapeL;
+}
+
+int Shape::getX() const
+{
+	return x;
 }
 
 void Shape::setShape()
