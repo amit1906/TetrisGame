@@ -22,5 +22,6 @@ private:
 	void changeSpeed();
 	void changeNames();
 	void instructionsInfo();
+	int levelInfo();
 
 };

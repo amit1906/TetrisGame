@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(GAME_TYPE gameType, int _speed, bool _colors, string name1, string name2) :
+Game::Game(GAME_TYPE gameType, int _speed, bool _colors, string name1, string name2, int level) :
 	speed(_speed), colors(_colors)
 {
 	paused = finished = false;
@@ -10,7 +10,7 @@ Game::Game(GAME_TYPE gameType, int _speed, bool _colors, string name1, string na
 	shapeX = rand() % (width - maxX) + width + pos;
 	shapeX -= shapeX % 2;
 	shape2 = new Shape(shapeX, shapeY, board2, colors);
-	chooseGameType(gameType, name1, name2);
+	chooseGameType(gameType, name1, name2, level);
 }
 
 Game::~Game()
@@ -29,7 +29,7 @@ void Game::changeSettings(int _speed, bool _colors, string name1, string name2)
 	player2->setName(name2);
 }
 
-void Game::chooseGameType(GAME_TYPE gameType, string name1, string name2)
+void Game::chooseGameType(GAME_TYPE gameType, string name1, string name2, int level)
 {
 	switch (gameType)
 	{
@@ -39,11 +39,11 @@ void Game::chooseGameType(GAME_TYPE gameType, string name1, string name2)
 		break;
 	case  HVC:
 		player1 = new HPlayer(name1, shape1, player1Keys);
-		player2 = new PcPlayer(name2, shape2);
+		player2 = new PcPlayer(name2, shape2, level);
 		break;
 	case  CVC:
-		player1 = new PcPlayer(name2, shape1);
-		player2 = new PcPlayer(name2, shape2);
+		player1 = new PcPlayer(name2, shape1, level);
+		player2 = new PcPlayer(name2, shape2, level);
 		break;
 	}
 }

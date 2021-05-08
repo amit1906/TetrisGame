@@ -6,7 +6,7 @@ class PcPlayer : public Player
 {
 
 public:
-	PcPlayer(const string& _name, Shape* const _shape);
+	PcPlayer(const string& _name, Shape* const _shape, int level);
 	void makeMove(Board& board, const char keys[]) override;
 
 

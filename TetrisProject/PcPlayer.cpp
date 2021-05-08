@@ -1,7 +1,7 @@
 #include "PcPlayer.h"
 #include "Shape.h"
 
-PcPlayer::PcPlayer(const string& _name, Shape* const _shape)
+PcPlayer::PcPlayer(const string& _name, Shape* const _shape, int level)
 	: Player(_name, _shape) {}
 
 void PcPlayer::makeMove(Board& board, const char keys[])
