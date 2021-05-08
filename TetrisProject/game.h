@@ -30,14 +30,14 @@ class Game
 	int maxX = 10;
 
 public:
-	Game(GAME_TYPE gameType, int _speed, bool _colors, string name1, string name2, int level);
+	Game(GAME_TYPE gameType, int _speed, bool _colors, string name1, string name2);
 	~Game();
 	void changeSettings(int _speed, bool _colors, string name1, string name2);
 	void start();
 	bool HasFinished();
 
 private:
-	void chooseGameType(GAME_TYPE gameType, string name1, string name2, int level);
+	void chooseGameType(GAME_TYPE gameType, string name1, string name2);
 	void gameLoop();
 	void movePlayers();
 	void checkKeys();
