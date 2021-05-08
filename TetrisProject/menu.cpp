@@ -10,7 +10,6 @@ void Menu::Start()
 	menuInfo();
 	srand(time(0));
 	char c = getchar();
-	int level;
 
 	while (true)
 	{
@@ -21,13 +20,11 @@ void Menu::Start()
 			initGame();
 			break;
 		case '2':
-			level = levelInfo();
-			game = new Game(HVC, speed, colors, name1, name2, level);
+			game = new Game(HVC, speed, colors, name1, name2);
 			initGame();
 			break;
 		case '3':
-			level = levelInfo();
-			game = new Game(CVC, speed, colors, name1, name2, level);
+			game = new Game(CVC, speed, colors, name1, name2);
 			initGame();
 			break;
 		case '4':
@@ -152,16 +149,4 @@ void Menu::instructionsInfo()
 	cout << "ROTATE clockwise:\t s or S\t\tk or K" << endl;
 	cout << "ROTATE counterclockwise: w or W\t\ti or I (uppercase i)" << endl;
 	cout << "DROP:\t\t\t x or X\t\tm or M" << endl << endl;
-}
-
-int Menu::levelInfo()
-{
-	int level;
-	do {
-		clearScreen();
-		cout << "level are: (1)BEST ,(2)GOOD, (3)NOVICE" << endl;
-		cout << "please select computer level: ";
-		cin >> level;
-	} while (level > 3 || level < 1);
-	return level;
 }
