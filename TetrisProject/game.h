@@ -15,6 +15,7 @@ const enum  PL2 { LEFT2 = 'j', RIGHT2 = 'l', ROTATEL2 = 'k', ROTATER2 = 'i', DRO
 
 class Game
 {
+	int level;
 	int speed;
 	bool colors, paused, finished;
 	Player* player1, * player2;
@@ -30,14 +31,14 @@ class Game
 	int maxX = 10;
 
 public:
-	Game(GAME_TYPE gameType, int _speed, bool _colors, string name1, string name2);
+	Game(GAME_TYPE gameType, int _speed, bool _colors, string name1, string name2, int level = 1);
 	~Game();
 	void changeSettings(int _speed, bool _colors, string name1, string name2);
 	void start();
 	bool HasFinished();
 
 private:
-	void chooseGameType(GAME_TYPE gameType, string name1, string name2);
+	void chooseGameType(GAME_TYPE gameType, string name1, string name2, int level);
 	void gameLoop();
 	void movePlayers();
 	void checkKeys();

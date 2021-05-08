@@ -1,5 +1,6 @@
 #pragma once
 #include "Game.h"
+#include <time.h>
 
 class Menu
 {
@@ -16,6 +17,7 @@ public:
 
 private:
 	void menuInfo();
+	int levelInfo();
 	void initGame();
 	void continueGame();
 	void changeColors();
