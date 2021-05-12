@@ -130,7 +130,7 @@ void Board::checkRows(Player& player)
 	}
 }
 
-int Board::checkRows() const		// new
+int Board::checkRows() const
 {
 	int delRows = 0;
 	for (size_t i = 0; i < height; i++)

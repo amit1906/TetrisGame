@@ -13,7 +13,7 @@ Shape::Shape(int _x, int _y, const Board _board, bool colors)
 }
 
 Shape::Shape(const Shape& _shape, const Board _board)
-	:x(_shape.getX()), y(_shape.getY()), board(_board)
+	:x(1), y(1), board(_board)
 {
 	if (&_shape != this)
 	{
@@ -21,6 +21,8 @@ Shape::Shape(const Shape& _shape, const Board _board)
 		shape_t = T1;
 		color = _shape.color;
 		initShape(_shape.shape_t);
+		x = _shape.getX();
+		y = _shape.getY();
 	}
 }
 
@@ -287,7 +289,7 @@ void Shape::setY(int _y)
 
 void Shape::setX(int _x)
 {
-	if (_x + shapeL <= board.getWidth())
+	if (_x + shapeL - 1 <= board.getWidth())
 		x = _x;
 }
 
