@@ -1,6 +1,6 @@
 #include "Shape.h"
 
-Shape::Shape(int _x, int _y, const Board& _board, bool colors)
+Shape::Shape(int _x, int _y, const Board _board, bool colors)
 	:x(_x), y(_y), board(_board)
 {
 	shape = (SHAPE)(rand() % 7);
@@ -9,6 +9,28 @@ Shape::Shape(int _x, int _y, const Board& _board, bool colors)
 		color = (COLOR)(colori++ % 14 + 1);
 	else
 		color = LIGHTGREY;
+	initShape();
+}
+
+Shape::Shape(const Shape& _shape, const Board _board)
+	:x(_shape.getX()), y(_shape.getY()), board(_board)
+{
+	if (&_shape != this)
+	{
+		shape = _shape.shape;
+		shape_t = T1;
+		color = _shape.color;
+		initShape(_shape.shape_t);
+	}
+}
+
+void Shape::SetBoard(const Board& b)
+{
+	board.SetBoard(b);
+}
+
+void Shape::initShape(SHAPE_T t)
+{
 	switch (shape)
 	{
 	case Shape::O:makeShapeO();
@@ -25,6 +47,10 @@ Shape::Shape(int _x, int _y, const Board& _board, bool colors)
 		break;
 	case Shape::Z:makeShapeZ1();
 		break;
+	}
+	for (size_t i = 1; i <= t; i++)
+	{
+		turn(1, false);
 	}
 }
 
@@ -81,6 +107,14 @@ bool Shape::checkFall(int _y, bool toSet)
 	return false;
 }
 
+int Shape::makeFall()
+{
+	int i = 1;
+	while (!checkFall(1, true))
+		setY(i++);
+	return i - 1 + shapeH - 1;
+}
+
 void Shape::draw()
 {
 	setTextColor(color);
@@ -113,11 +147,12 @@ void Shape::cleanDraw()
 	}
 }
 
-void Shape::turn(int dir)
+void Shape::turn(int dir,bool toDraw)
 {
 	if (!isValidTurn())
 		return;
-	cleanDraw();
+	if (toDraw)
+		cleanDraw();
 	clearShape();
 	switch (shape)
 	{
@@ -189,7 +224,8 @@ void Shape::turn(int dir)
 			makeShapeZ4();
 		break;
 	}
-	draw();
+	if (toDraw)
+		draw();
 }
 
 void Shape::turnDigree()
@@ -239,6 +275,22 @@ int Shape::getX() const
 	return x;
 }
 
+int Shape::getY() const
+{
+	return y;
+}
+
+void Shape::setY(int _y)
+{
+	y = _y;
+}
+
+void Shape::setX(int _x)
+{
+	if (_x + shapeL <= board.getWidth())
+		x = _x;
+}
+
 void Shape::setShape()
 {
 	for (size_t i = 0; i < maxBlock; i++)
@@ -246,7 +298,19 @@ void Shape::setShape()
 		for (size_t j = 0; j < maxBlock; j++)
 		{
 			if (arrShape[i][j] == 1)
-				board.setShape(x + i, y + j, color);
+				board.setShape(x + i, y + j, color,	1);
+		}
+	}
+}
+
+void Shape::unSetShape()
+{
+	for (size_t i = 0; i < maxBlock; i++)
+	{
+		for (size_t j = 0; j < maxBlock; j++)
+		{
+			if (arrShape[i][j] == 1)
+				board.setShape(x + i, y + j, color, 0);
 		}
 	}
 }

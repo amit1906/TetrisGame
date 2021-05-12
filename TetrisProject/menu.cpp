@@ -7,6 +7,9 @@ Menu::~Menu()
 
 void Menu::Start()
 {
+	game = new Game(CVC, speed, colors, name1, name2, 1);
+	initGame();
+
 	menuInfo();
 	srand(time(0));
 	char c = getchar();

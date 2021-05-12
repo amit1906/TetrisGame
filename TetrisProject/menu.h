@@ -5,7 +5,7 @@
 class Menu
 {
 	Game* game = nullptr;
-	int speed = 300;
+	int speed = 200;
 	bool colors = true;
 	string name1 = "player1";
 	string name2 = "player2";

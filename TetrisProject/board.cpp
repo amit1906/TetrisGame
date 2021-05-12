@@ -1,6 +1,6 @@
 #include "Board.h"
 
-Board::Board(const int _pos, const int _height, const int _width) 
+Board::Board(const int _pos, const int _height, const int _width)
 	:pos(_pos), height(_height), width(_width)
 {
 	arrBoard = new point * [width];
@@ -8,35 +8,45 @@ Board::Board(const int _pos, const int _height, const int _width)
 		arrBoard[i] = new point[height]{};
 }
 
-//Board::Board(const Board& board) 
-//	:pos(board.pos), height(Board.height), width(board.width)
-//{
-//	arrBoard = new point * [width];
-//	for (size_t i = 0; i < width; i++)
-//		arrBoard[i] = new point[height]{};
-//
-//	for (size_t i = 0; i < width; i++)
-//		for (size_t j = 0; j < width; j++)
-//			arrBoard[i][j] = board.arrBoard[i][j];
-//}
+Board::Board(const Board& board, bool toCopy)
+	:pos(board.pos), height(board.height), width(board.width)
+{
+	arrBoard = new point * [width];
+	for (size_t i = 0; i < width; i++)
+		arrBoard[i] = new point[height]{};
+
+	for (size_t i = 0; i < height; i++)
+		for (size_t j = 0; j < width; j++)
+			arrBoard[j][i] = board.arrBoard[j][i];
+}
 
 //Board::~Board()
 //{
 //	for (size_t i = 0; i < width; i++)
 //		delete arrBoard[i];
 //	delete[] arrBoard;
-//}
+// }
 
-void Board::setShape(int x, int y, COLOR color)
+void Board::setShape(int x, int y, COLOR color, int toSet)
 {
 	x %= width;
-	arrBoard[x][y].set = 1;
 	arrBoard[x][y].color = color;
+	if (toSet == 1)
+		arrBoard[x][y].set = 1;
+	else
+		arrBoard[x][y].set = 0;
 }
 
 void Board::unSetShape(int x, int y)
 {
 	arrBoard[x][y].set = 0;
+}
+
+void Board::SetBoard(const Board& b)
+{
+	for (size_t i = 0; i < height; i++)
+		for (size_t j = 0; j < width; j++)
+			arrBoard[j][i].set = b.arrBoard[j][i].set;
 }
 
 void Board::printFrame() const
@@ -100,6 +110,7 @@ bool Board::isNotEmpty(int x, int y) const
 
 void Board::checkRows(Player& player)
 {
+	int delRows = 0;
 	for (size_t i = 0; i < height; i++)
 	{
 		for (size_t j = 1; j < width; j++)
@@ -117,6 +128,26 @@ void Board::checkRows(Player& player)
 			}
 		}
 	}
+}
+
+int Board::checkRows() const		// new
+{
+	int delRows = 0;
+	for (size_t i = 0; i < height; i++)
+	{
+		for (size_t j = 1; j < width; j++)
+		{
+			if (arrBoard[j][i].set == 0)
+				break;
+			else if (j == width - 1)
+			{
+				delRows++;
+				if (i < height - 1)
+					i += 2;
+			}
+		}
+	}
+	return delRows;
 }
 
 void Board::deleteRow(int row)
