@@ -39,11 +39,11 @@ void Game::chooseGameType(GAME_TYPE gameType, string name1, string name2, int le
 		break;
 	case  HVC:
 		player1 = new HPlayer(name1, shape1, player1Keys);
-		player2 = new PcPlayer(name2, shape2, level);
+		player2 = new PcPlayer(name2, board2, shape2, level);
 		break;
 	case  CVC:
-		player1 = new PcPlayer(name2, shape1, level);
-		player2 = new PcPlayer(name2, shape2, level);
+		player1 = new PcPlayer(name2, board1, shape1, level);
+		player2 = new PcPlayer(name2, board2, shape2, level);
 		break;
 	}
 }

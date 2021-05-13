@@ -1,6 +1,6 @@
 #include "Bomb.h"
 
-Bomb::Bomb(int _x, int _y, const Board& _board, bool colors) 
+Bomb::Bomb(int _x, int _y, const Board& _board, bool colors)
 	:Shape(_x, _y, _board, colors)
 {
 	initShape();
@@ -18,22 +18,25 @@ bool Bomb::checkFall(int _y, bool toSet)
 void Bomb::explode()
 {
 	setTextColor(RED);
-	for (size_t i = max(1, x % board.getWidth() - explodeRad * 2 +1); i < min(board.getWidth(), x % board.getWidth() + (explodeRad + 1) * 2 ); i++)
-	{
-		for (size_t j = max(1, y - explodeRad); j <= min(board.getHeight(), y + explodeRad); j++)
-		{
-			gotoxy(i + board.getPos(), j);
-			cout << (char)219;
-		}
-	}
+	int from = max(1, x % board.getWidth() - explodeRad * 2 + 1);
+	int to = min(board.getWidth(), x % board.getWidth() + explodeRad * 2);
+	from = (from % 2 == 1) ? from : from + 1;
+	to = (to % 2 == 1) ? to : to - 1;
+	BurnBlocks(from, to, (char)219, false);
 	Sleep(500);
-	for (size_t i = max(1, x % board.getWidth() - explodeRad * 2 + 1); i < min(board.getWidth(), x % board.getWidth() + (explodeRad + 1) * 2); i++)
+	BurnBlocks(from, to, ' ', true);
+}
+
+void Bomb::BurnBlocks(int from, int to, char ch, bool toUnSet)
+{
+	for (size_t i = from; i < to; i++)
 	{
-		for (size_t j = max(1, y - explodeRad); j <= min(board.getHeight(), y + explodeRad); j++)
+		for (size_t j = max(1, y - explodeRad); j <= min(board.getHeight(), y + explodeRad - 1); j++)
 		{
 			gotoxy(i + board.getPos(), j);
-			cout << ' ';
-			board.unSetShape(i % board.getWidth(), j);
+			cout << ch;
+			if (toUnSet)
+				board.unSetShape(i % board.getWidth(), j);
 		}
 	}
 }

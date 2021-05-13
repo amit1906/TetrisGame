@@ -1,6 +1,6 @@
 #include "Shape.h"
 
-Shape::Shape(int _x, int _y, const Board& _board, bool colors)
+Shape::Shape(int _x, int _y, const Board _board, bool colors)
 	:x(_x), y(_y), board(_board)
 {
 	shape = (SHAPE)(rand() % 7);
@@ -9,6 +9,30 @@ Shape::Shape(int _x, int _y, const Board& _board, bool colors)
 		color = (COLOR)(colori++ % 14 + 1);
 	else
 		color = LIGHTGREY;
+	initShape();
+}
+
+Shape::Shape(const Shape& _shape, const Board _board)
+	:x(1), y(1), board(_board)
+{
+	if (&_shape != this)
+	{
+		shape = _shape.shape;
+		shape_t = T1;
+		color = _shape.color;
+		initShape(_shape.shape_t);
+		x = _shape.getX();
+		y = _shape.getY();
+	}
+}
+
+void Shape::SetBoard(const Board& b)
+{
+	board.SetBoard(b);
+}
+
+void Shape::initShape(SHAPE_T t)
+{
 	switch (shape)
 	{
 	case Shape::O:makeShapeO();
@@ -26,6 +50,10 @@ Shape::Shape(int _x, int _y, const Board& _board, bool colors)
 	case Shape::Z:makeShapeZ1();
 		break;
 	}
+	for (size_t i = 1; i <= t; i++)
+	{
+		turn(1, false);
+	}
 }
 
 void Shape::move(int _x, int _y)
@@ -39,7 +67,7 @@ void Shape::move(int _x, int _y)
 		{
 			for (size_t j = 0; j < maxBlock; j++)
 			{
-				if (arrShape[i][j] == 1 && board.isNotEmpty(x + _x + i, y + _y + j) == 1)
+				if (arrShape[i][j] == 1 && !board.isEmpty(x + _x + i, y + _y + j) == 1)
 				{
 					validMove = false;
 				}
@@ -70,7 +98,7 @@ bool Shape::checkFall(int _y, bool toSet)
 	{
 		for (size_t j = 0; j < maxBlock; j++)
 		{
-			if (arrShape[i][j] == 1 && board.isNotEmpty(x + i, y + _y + j) == 1)
+			if (arrShape[i][j] == 1 && !board.isEmpty(x + i, y + _y + j) == 1)
 			{
 				if (toSet)
 					setShape();
@@ -79,6 +107,14 @@ bool Shape::checkFall(int _y, bool toSet)
 		}
 	}
 	return false;
+}
+
+int Shape::makeFall()
+{
+	int i = 1;
+	while (!checkFall(1, true))
+		setY(i++);
+	return i - 1 + shapeH - 1;
 }
 
 void Shape::draw()
@@ -113,11 +149,12 @@ void Shape::cleanDraw()
 	}
 }
 
-void Shape::turn(int dir)
+void Shape::turn(int dir,bool toDraw)
 {
 	if (!isValidTurn())
 		return;
-	cleanDraw();
+	if (toDraw)
+		cleanDraw();
 	clearShape();
 	switch (shape)
 	{
@@ -189,7 +226,8 @@ void Shape::turn(int dir)
 			makeShapeZ4();
 		break;
 	}
-	draw();
+	if (toDraw)
+		draw();
 }
 
 void Shape::turnDigree()
@@ -221,7 +259,7 @@ bool Shape::isValidTurn()
 	{
 		if (y + i > board.getHeight())
 			return false;
-		if (board.isNotEmpty(x + i, y) || board.isNotEmpty(x, y + i))
+		if (!board.isEmpty(x + i, y) || !board.isEmpty(x, y + i))
 			return false;
 	}
 	if (x + max(shapeH * 2, shapeL / 2) >= board.getPos() + board.getWidth())
@@ -234,9 +272,30 @@ int Shape::getShapeL() const
 	return shapeL;
 }
 
+int Shape::getShapeH() const
+{
+	return shapeH;
+}
+
 int Shape::getX() const
 {
 	return x;
+}
+
+int Shape::getY() const
+{
+	return y;
+}
+
+void Shape::setY(int _y)
+{
+	y = _y;
+}
+
+void Shape::setX(int _x)
+{
+	if (_x + shapeL - 1 <= board.getWidth())
+		x = _x;
 }
 
 void Shape::setShape()
@@ -246,7 +305,19 @@ void Shape::setShape()
 		for (size_t j = 0; j < maxBlock; j++)
 		{
 			if (arrShape[i][j] == 1)
-				board.setShape(x + i, y + j, color);
+				board.setShape(x + i, y + j, color,	1);
+		}
+	}
+}
+
+void Shape::unSetShape()
+{
+	for (size_t i = 0; i < maxBlock; i++)
+	{
+		for (size_t j = 0; j < maxBlock; j++)
+		{
+			if (arrShape[i][j] == 1)
+				board.setShape(x + i, y + j, color, 0);
 		}
 	}
 }

@@ -21,15 +21,24 @@ protected:
 	int x, y;
 
 public:
-	Shape(int _x, int _y, const Board& _board, bool colors);
+	Shape(int _x, int _y, const Board _board, bool colors);
+	Shape(const Shape& _shape, const Board _board);
+	void SetBoard(const Board& b);
 	void move(int _x = 0, int _y = 1);
 	void draw();
-	void turn(int dir);
+	void turn(int dir, bool toDraw = true);
 	virtual bool checkFall(int _y = 1, bool toSet = true);
+	int makeFall();
+	int getShapeH() const;
 	int getShapeL() const;
 	int getX() const;
+	int getY() const;
+	void setY(int _y = 0);
+	void setX(int _x = 1);
+	void unSetShape();
 
 private:
+	void initShape(SHAPE_T t = T1);
 	void setShape();
 	void clearShape();
 	bool isValidTurn();

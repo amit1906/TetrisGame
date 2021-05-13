@@ -2,7 +2,7 @@
 #include "Board.h"
 #include "Shape.h"
 
-constexpr int explodeRad = 3;
+constexpr int explodeRad = 4;
 
 class Bomb : public Shape
 {
@@ -13,6 +13,7 @@ public:
 private:
 	bool checkFall(int _y = 1, bool toSet = false) override;
 	void explode();
+	void BurnBlocks(int from, int to, char ch, bool toUnSet);
 	void initShape();
 	void makeShapeBomb();
 
