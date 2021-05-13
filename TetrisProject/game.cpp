@@ -97,8 +97,8 @@ void Game::drawGame()
 
 void Game::checkShapes()
 {
-	int bombAppear1 = (rand() % 20 == 1) ? 1 : 0;
-	int bombAppear2 = (rand() % 20 == 1) ? 1 : 0;
+	int bombAppear1 = 1;//(rand() % 20 == 1) ? 1 : 0;
+	int bombAppear2 = 1;//(rand() % 20 == 1) ? 1 : 0;
 	if (shape1->checkFall())
 	{
 		delete shape1;

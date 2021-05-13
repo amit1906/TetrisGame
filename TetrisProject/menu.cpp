@@ -8,7 +8,7 @@ Menu::~Menu()
 void Menu::Start()
 {
 	srand(time(0));
-	game = new Game(CVC, speed, colors, name1, name2, 1);
+	game = new Game(HVH, speed, colors, name1, name2, 1);
 	initGame();
 
 	menuInfo();
