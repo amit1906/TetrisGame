@@ -2,11 +2,15 @@
 
 Menu::~Menu()
 {
-	delete game;
+	freeGame();
 }
 
 void Menu::Start()
 {
+	/*srand(time(0));
+	game = new Game(CVC, speed, colors, name1, name2, 1);
+	initGame();*/
+
 	menuInfo();
 	srand(time(0));
 	char c = getchar();
@@ -17,15 +21,18 @@ void Menu::Start()
 		switch (c)
 		{
 		case '1':
+			//freeGame();
 			game = new Game(HVH, speed, colors, name1, name2);
 			initGame();
 			break;
 		case '2':
+			//freeGame();
 			level = levelInfo();
 			game = new Game(HVC, speed, colors, name1, name2, level);
 			initGame();
 			break;
 		case '3':
+			//freeGame();
 			level = levelInfo();
 			game = new Game(CVC, speed, colors, name1, name2, level);
 			initGame();
@@ -65,11 +72,17 @@ void Menu::initGame()
 {
 	game->start();
 	if (game->HasFinished())
+		game = nullptr;
+	menuInfo();
+}
+
+void Menu::freeGame()
+{
+	if (game)
 	{
 		delete game;
 		game = nullptr;
 	}
-	menuInfo();
 }
 
 void Menu::continueGame()
@@ -79,10 +92,7 @@ void Menu::continueGame()
 		game->changeSettings(speed, colors, name1, name2);
 		game->start();
 		if (game->HasFinished())
-		{
-			delete game;
-			game = nullptr;
-		}
+			freeGame();
 		menuInfo();
 	}
 	else

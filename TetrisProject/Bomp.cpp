@@ -1,6 +1,6 @@
 #include "Bomb.h"
 
-Bomb::Bomb(int _x, int _y, const Board& _board, bool colors)
+Bomb::Bomb(int _x, int _y, Board& _board, bool colors)
 	:Shape(_x, _y, _board, colors)
 {
 	initShape();

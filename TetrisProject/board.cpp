@@ -8,7 +8,7 @@ Board::Board(const int _pos, const int _height, const int _width)
 		arrBoard[i] = new point[height]{};
 }
 
-Board::Board(const Board& board, bool toCopy)
+Board::Board(const Board& board)
 	:pos(board.pos), height(board.height), width(board.width)
 {
 	arrBoard = new point * [width];
@@ -20,12 +20,16 @@ Board::Board(const Board& board, bool toCopy)
 			arrBoard[j][i] = board.arrBoard[j][i];
 }
 
-//Board::~Board()
-//{
-//	for (size_t i = 0; i < width; i++)
-//		delete arrBoard[i];
-//	delete[] arrBoard;
-// }
+Board::~Board()
+{
+	if (arrBoard)
+	{
+		for (size_t i = 0; i < width && arrBoard[i][0].set; i++)
+			delete arrBoard[i];
+		delete[] arrBoard;
+	}	// arrBoard[i][0].set prevents exeptions...
+	arrBoard = nullptr;
+}
 
 void Board::setShape(int x, int y, COLOR color, int toSet)
 {

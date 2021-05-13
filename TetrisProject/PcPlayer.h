@@ -6,11 +6,10 @@ class PcPlayer : public Player
 {
 	enum LEVEL { BEST = 1, GOOD, NOVICE };
 	LEVEL level;
-	Board board;
-	Shape *shape;
+	Board& board;
 
 public:
-	PcPlayer(const string& _name, const Board& _board, Shape *_shape, int _level);
+	PcPlayer(const string& _name, Board& _board, Shape *_shape, int _level);
 	void makeMove(Board& board, const char keys[]) override;
 
 private:

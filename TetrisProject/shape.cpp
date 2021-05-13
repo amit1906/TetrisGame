@@ -1,6 +1,6 @@
 #include "Shape.h"
 
-Shape::Shape(int _x, int _y, const Board _board, bool colors)
+Shape::Shape(int _x, int _y, Board& _board, bool colors)
 	:x(_x), y(_y), board(_board)
 {
 	shape = (SHAPE)(rand() % 7);
@@ -12,7 +12,7 @@ Shape::Shape(int _x, int _y, const Board _board, bool colors)
 	initShape();
 }
 
-Shape::Shape(const Shape& _shape, const Board _board)
+Shape::Shape(const Shape& _shape, Board& _board)
 	:x(1), y(1), board(_board)
 {
 	if (&_shape != this)

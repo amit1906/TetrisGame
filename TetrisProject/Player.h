@@ -15,6 +15,7 @@ protected:
 
 public:
 	Player(const string& _name, Shape* const _shape);
+	//virtual ~Player();
 	void printPlayerStats(int pos, int height);
 	string getName()	const;
 	int getScore()	const;

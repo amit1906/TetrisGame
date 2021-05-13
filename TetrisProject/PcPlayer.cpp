@@ -2,8 +2,8 @@
 #include "Shape.h"
 #include "Bomb.h"
 
-PcPlayer::PcPlayer(const string& _name, const Board& _board, Shape* _shape, int _level)
-	: Player(_name, _shape), level((LEVEL)_level), board(_board), shape(_shape) {}
+PcPlayer::PcPlayer(const string& _name, Board& _board, Shape* _shape, int _level)
+	: Player(_name, _shape), level((LEVEL)_level), board(_board) {}
 
 void PcPlayer::makeMove(Board& board, const char keys[])
 {
@@ -25,6 +25,8 @@ void PcPlayer::makeMove(Board& board, const char keys[])
 		shape->move(2);
 	else if (currX > goToX)
 		shape->move(-2);
+
+	delete isBomb;
 }
 
 bool PcPlayer::isCalcMove() const
@@ -59,8 +61,8 @@ int PcPlayer::getGoToXAndT(int& turns) const
 
 		for (int j = 1; j < board.getWidth() && alyawsEmptyBelow; j++)
 		{
-			Board b = Board(board, true);
-			Shape s = Shape(*shape, b);
+			Board b(board);
+			Shape s(*shape, b);
 			SetMove(b, s, t, j, currY);
 
 			if (!checkEmptyBelow(b, s))
@@ -68,8 +70,8 @@ int PcPlayer::getGoToXAndT(int& turns) const
 		}
 		for (int j = 1; j < board.getWidth(); j++)
 		{
-			Board b = Board(board, true);
-			Shape s = Shape(*shape, b);
+			Board b(board);
+			Shape s(*shape, b);
 			SetMove(b, s, t, j, currY);
 
 			checkRowsDeleted(b, maxDels, j, t, currY, ind, turns);
@@ -115,13 +117,6 @@ void PcPlayer::checkLowestRow(const Board& b, int& maxDots, int j, int t, int cu
 
 bool PcPlayer::checkEmptyBelow(const Board& b, const Shape& s) const
 {
-	int a = s.getY() + 1;
-	int bb = b.getHeight();
-	int c = s.getY() + s.getShapeH();
-
-	int f = s.getX();
-	int t = s.getX() + s.getShapeL();
-
 	for (size_t i = s.getY() + 1; i <= b.getHeight() && i <= s.getY() + s.getShapeH(); i++)
 	{
 		for (int j = s.getX(); j < s.getX() + s.getShapeL(); j++)

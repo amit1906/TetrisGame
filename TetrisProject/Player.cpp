@@ -10,6 +10,11 @@ void Player::printPlayerStats(int pos, int height)
 	printScore(pos, height);
 }
 
+//Player::~Player()
+//{
+//	delete shape;
+//}
+
 void Player::printScore(int pos, int height)
 {
 	gotoxy(pos + 2, height + 3);

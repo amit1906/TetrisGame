@@ -19,6 +19,7 @@ private:
 	void menuInfo();
 	int levelInfo();
 	void initGame();
+	void freeGame();
 	void continueGame();
 	void changeColors();
 	void changeSpeed();

@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+
 #include "Utils.h"
 #include "Board.h"
 #include "Shape.h"
@@ -24,9 +26,9 @@ class Game
 	char keys[LEN];
 
 	const int pos = 2, height = 18, width = 23;
-	Board board1 = Board(pos, height, width);
-	Board board2 = Board(pos + width, height, width);
-	Shape* shape1, * shape2;
+	Board board1{ pos, height, width };
+	Board board2{ pos + width, height, width };
+	std::unique_ptr<Shape> shape1, shape2;
 	int shapeX, shapeY = -1;
 	int maxX = 10;
 
