@@ -103,7 +103,6 @@ void Game::checkShapes()
 	int bombAppear2 = (rand() % 20 == 1) ? 1 : 0;
 	if (shape1->checkFall())
 	{
-		//delete shape1;
 		shapeX = rand() % (width - maxX) + pos;
 		shapeX -= shapeX % 2 - 1;
 		if (bombAppear1 == 1)
@@ -115,7 +114,6 @@ void Game::checkShapes()
 	}
 	if (shape2->checkFall())
 	{
-		//delete shape2;
 		shapeX = rand() % (width - maxX) + width + pos;
 		shapeX -= shapeX % 2;
 		if (bombAppear2 == 1)

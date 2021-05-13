@@ -11,11 +11,11 @@ class Player
 	int score;
 
 protected:
-	Shape *shape;
+	Shape* shape;
 
 public:
 	Player(const string& _name, Shape* const _shape);
-	//virtual ~Player();
+	virtual ~Player();
 	void printPlayerStats(int pos, int height);
 	string getName()	const;
 	int getScore()	const;

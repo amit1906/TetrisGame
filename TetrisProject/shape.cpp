@@ -298,6 +298,11 @@ void Shape::setX(int _x)
 		x = _x;
 }
 
+int Shape::getShape()
+{
+	return (int)shape;
+}
+
 void Shape::setShape()
 {
 	for (size_t i = 0; i < maxBlock; i++)

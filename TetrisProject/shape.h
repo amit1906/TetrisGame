@@ -37,6 +37,7 @@ public:
 	void setY(int _y = 0);
 	void setX(int _x = 1);
 	void unSetShape();
+	int getShape();
 
 private:
 	void initShape(SHAPE_T t = T1);
