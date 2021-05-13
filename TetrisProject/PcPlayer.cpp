@@ -49,29 +49,37 @@ bool PcPlayer::isCalcMove() const
 
 int PcPlayer::getGoToXAndT(int& turns) const
 {
-	int ind = 1, currY;
+	int ind = 1, currY = 1;
 	int maxDots = 0, maxDels = 0;
+	bool alyawsEmptyBelow;
 
 	for (size_t t = 0; t < 4; t++)
 	{
+		alyawsEmptyBelow = true;
+
+		for (int j = 1; j < board.getWidth() && alyawsEmptyBelow; j++)
+		{
+			Board b = Board(board, true);
+			Shape s = Shape(*shape, b);
+			SetMove(b, s, t, j, currY);
+
+			if (!checkEmptyBelow(b, s))
+				alyawsEmptyBelow = false;
+		}
 		for (int j = 1; j < board.getWidth(); j++)
 		{
 			Board b = Board(board, true);
 			Shape s = Shape(*shape, b);
-
-			for (size_t k = 1; k <= t; k++)
-				s.turn(1, false);
-
-			s.setX(j);
-			currY = s.makeFall();
-			//printboard(b);
+			SetMove(b, s, t, j, currY);
 
 			checkRowsDeleted(b, maxDels, j, t, currY, ind, turns);
-			if (checkEmptyBelow(b, s))
-				continue;
 			if (maxDels == 0)
-				checkLowestRow(b, maxDots, j, t, currY, ind, turns);
-
+			{
+				if (alyawsEmptyBelow)
+					checkLowestRow(b, maxDots, j, t, currY, ind, turns);
+				else if (!checkEmptyBelow(b, s))
+					checkLowestRow(b, maxDots, j, t, currY, ind, turns);
+			}
 			s.unSetShape();
 		}
 	}
@@ -123,6 +131,15 @@ bool PcPlayer::checkEmptyBelow(const Board& b, const Shape& s) const
 		}
 	}
 	return false;
+}
+
+void PcPlayer::SetMove(Board& b, Shape& s, int t, int j, int& currY) const
+{
+	for (size_t k = 1; k <= t; k++)
+		s.turn(1, false);
+
+	s.setX(j);
+	currY = s.makeFall();
 }
 
 void PcPlayer::printboard(Board b) const
