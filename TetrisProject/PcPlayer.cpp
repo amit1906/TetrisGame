@@ -66,9 +66,9 @@ int PcPlayer::getGoToXAndT(int& turns) const
 			currY = s.makeFall();
 			//printboard(b);
 
-		//	if (checkEmptyBelow(b, s))
-		//		continue;
 			checkRowsDeleted(b, maxDels, j, t, currY, ind, turns);
+			if (checkEmptyBelow(b, s))
+				continue;
 			if (maxDels == 0)
 				checkLowestRow(b, maxDots, j, t, currY, ind, turns);
 
@@ -111,11 +111,14 @@ bool PcPlayer::checkEmptyBelow(const Board& b, const Shape& s) const
 	int bb = b.getHeight();
 	int c = s.getY() + s.getShapeH();
 
-	for (size_t i = s.getY() + 1; i <= b.getHeight() && i < s.getY() + s.getShapeH(); i++)
+	int f = s.getX();
+	int t = s.getX() + s.getShapeL();
+
+	for (size_t i = s.getY() + 1; i <= b.getHeight() && i <= s.getY() + s.getShapeH(); i++)
 	{
-		for (int j = s.getX(); j <= s.getShapeL(); j++)
+		for (int j = s.getX(); j < s.getX() + s.getShapeL(); j++)
 		{
-			if (board.isEmpty(j, i))
+			if (b.isEmpty(j, i))
 				return true;
 		}
 	}
