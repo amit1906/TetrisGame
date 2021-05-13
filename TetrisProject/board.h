@@ -24,7 +24,7 @@ public:
 	int getHeight() const;
 	int getWidth() const;
 	int getPos() const;
-	bool isNotEmpty(int x, int y) const;
+	bool isEmpty(int x, int y) const;
 	void checkRows(Player& player);
 	int checkRows() const;
 	bool isFull(Player player) const;

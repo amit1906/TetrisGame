@@ -67,7 +67,7 @@ void Shape::move(int _x, int _y)
 		{
 			for (size_t j = 0; j < maxBlock; j++)
 			{
-				if (arrShape[i][j] == 1 && board.isNotEmpty(x + _x + i, y + _y + j) == 1)
+				if (arrShape[i][j] == 1 && !board.isEmpty(x + _x + i, y + _y + j) == 1)
 				{
 					validMove = false;
 				}
@@ -98,7 +98,7 @@ bool Shape::checkFall(int _y, bool toSet)
 	{
 		for (size_t j = 0; j < maxBlock; j++)
 		{
-			if (arrShape[i][j] == 1 && board.isNotEmpty(x + i, y + _y + j) == 1)
+			if (arrShape[i][j] == 1 && !board.isEmpty(x + i, y + _y + j) == 1)
 			{
 				if (toSet)
 					setShape();
@@ -259,7 +259,7 @@ bool Shape::isValidTurn()
 	{
 		if (y + i > board.getHeight())
 			return false;
-		if (board.isNotEmpty(x + i, y) || board.isNotEmpty(x, y + i))
+		if (!board.isEmpty(x + i, y) || !board.isEmpty(x, y + i))
 			return false;
 	}
 	if (x + max(shapeH * 2, shapeL / 2) >= board.getPos() + board.getWidth())
@@ -270,6 +270,11 @@ bool Shape::isValidTurn()
 int Shape::getShapeL() const
 {
 	return shapeL;
+}
+
+int Shape::getShapeH() const
+{
+	return shapeH;
 }
 
 int Shape::getX() const

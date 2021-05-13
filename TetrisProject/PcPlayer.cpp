@@ -16,7 +16,7 @@ void PcPlayer::makeMove(Board& board, const char keys[])
 
 	int turns = 0;
 	int currX = shape->getX() % board.getWidth();
-	int goToX = getGoToX(&turns);
+	int goToX = getGoToXAndT(turns);
 	goToX = (currX % 2 == 1) ? goToX : goToX + goToX % 2;
 
 	if (turns > 0)
@@ -47,57 +47,17 @@ bool PcPlayer::isCalcMove() const
 	}
 }
 
-int PcPlayer::getGoToX(int* turns) const
-{
-	int toX;
-	//toX = checkRowsDeleted(turns);
-	//if (toX != -1) return toX;
-	toX = checkLowestRow(turns);
-	return toX;
-}
-
-int PcPlayer::checkRowsDeleted(int* turns) const
-{
-	int ind = -1, maxDelRows = 0, delRows = 0;
-	for (size_t t = 0; t < 3; t++)
-	{
-		Board b = board;
-		Shape s = Shape(shape->getX(), shape->getY(), b, false);
-
-		for (int j = 1; j < board.getWidth() - shape->getShapeL(); j += 2)
-		{
-			for (int i = 0; i < board.getHeight(); i++)
-			{
-				if (checkAbove(board, j, i) && shape->checkFall(i, 1))
-				{
-					delRows = board.checkRows();
-					if (delRows > maxDelRows)
-					{
-						ind = j;
-						*turns = t;
-					}
-					shape->unSetShape();
-				}
-			}
-		}
-		shape->turn(1);
-	}
-	return ind;
-}
-
-int PcPlayer::checkLowestRow(int* turns) const
+int PcPlayer::getGoToXAndT(int& turns) const
 {
 	int ind = 1, currY;
-	int rowDots, maxDots = 0;
-	int delRows, maxDels = 0;
+	int maxDots = 0, maxDels = 0;
+
 	for (size_t t = 0; t < 4; t++)
 	{
 		for (int j = 1; j < board.getWidth(); j++)
 		{
 			Board b = Board(board, true);
 			Shape s = Shape(*shape, b);
-			rowDots = 0;
-			delRows = 0;
 
 			for (size_t k = 1; k <= t; k++)
 				s.turn(1, false);
@@ -106,41 +66,60 @@ int PcPlayer::checkLowestRow(int* turns) const
 			currY = s.makeFall();
 			//printboard(b);
 
-			/*delRows = b.checkRows();
-			if (delRows > maxDels)
-			{
-				maxDels = delRows;
-				ind = j;
-				*turns = t;
-			}*/
+		//	if (checkEmptyBelow(b, s))
+		//		continue;
+			checkRowsDeleted(b, maxDels, j, t, currY, ind, turns);
 			if (maxDels == 0)
-			{
-				for (int r = 0; r < b.getWidth(); r++)
-				{
-					if (b.isNotEmpty(r, currY))
-						rowDots++;
-				}
-				if (rowDots > maxDots)
-				{
-					maxDots = rowDots;
-					ind = j;
-					*turns = t;
-				}
-			}
+				checkLowestRow(b, maxDots, j, t, currY, ind, turns);
+
 			s.unSetShape();
 		}
 	}
 	return ind;
 }
 
-bool PcPlayer::checkAbove(const Board& board, int x, int y) const
+void PcPlayer::checkRowsDeleted(const Board& b, int& maxDels, int j, int t, int currY, int& ind, int& turns) const
 {
-	for (int i = y; i >= 0; i--)
+	int delRows = b.checkRows();
+	if (delRows > maxDels)
 	{
-		if (board.isNotEmpty(x, i))
-			return false;
+		maxDels = delRows;
+		ind = j;
+		turns = t;
 	}
-	return true;
+}
+
+void PcPlayer::checkLowestRow(const Board& b, int& maxDots, int j, int t, int currY, int& ind, int& turns) const
+{
+	int rowDots = 0;
+	for (int r = 0; r < b.getWidth(); r++)
+	{
+		if (!b.isEmpty(r, currY))
+			rowDots++;
+	}
+	if (rowDots > maxDots)
+	{
+		maxDots = rowDots;
+		ind = j;
+		turns = t;
+	}
+}
+
+bool PcPlayer::checkEmptyBelow(const Board& b, const Shape& s) const
+{
+	int a = s.getY() + 1;
+	int bb = b.getHeight();
+	int c = s.getY() + s.getShapeH();
+
+	for (size_t i = s.getY() + 1; i <= b.getHeight() && i < s.getY() + s.getShapeH(); i++)
+	{
+		for (int j = s.getX(); j <= s.getShapeL(); j++)
+		{
+			if (board.isEmpty(j, i))
+				return true;
+		}
+	}
+	return false;
 }
 
 void PcPlayer::printboard(Board b) const
@@ -150,7 +129,7 @@ void PcPlayer::printboard(Board b) const
 	{
 		for (size_t j = 1; j < b.getHeight(); j++)
 		{
-			if (b.isNotEmpty(j, i))
+			if (!b.isEmpty(j, i))
 				printf("1");
 			else
 				printf("0");

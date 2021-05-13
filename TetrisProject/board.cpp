@@ -102,10 +102,10 @@ int Board::getHeight() const
 	return height - 1;
 }
 
-bool Board::isNotEmpty(int x, int y) const
+bool Board::isEmpty(int x, int y) const
 {
 	x %= width;
-	return arrBoard[x][y].set;
+	return (arrBoard[x][y].set == 0);
 }
 
 void Board::checkRows(Player& player)

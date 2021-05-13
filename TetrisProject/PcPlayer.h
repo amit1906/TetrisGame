@@ -14,10 +14,10 @@ public:
 	void makeMove(Board& board, const char keys[]) override;
 
 private:
-	int getGoToX(int* turns) const;
-	int checkRowsDeleted(int* turns) const;
-	int checkLowestRow(int* turns) const;
-	bool checkAbove(const Board& board, int x, int y) const;
+	int getGoToXAndT(int& turns) const;
+	void checkRowsDeleted(const Board& b, int& maxDots, int j, int t, int currY, int& ind, int& turns) const;
+	void checkLowestRow(const Board& b, int& maxDots, int j, int t, int currY, int& ind, int& turns) const;
+	bool checkEmptyBelow(const Board& b, const Shape& s) const;
 	bool isCalcMove() const;
 	void printboard(Board b) const;
 

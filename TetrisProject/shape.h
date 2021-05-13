@@ -29,6 +29,7 @@ public:
 	void turn(int dir, bool toDraw = true);
 	virtual bool checkFall(int _y = 1, bool toSet = true);
 	int makeFall();
+	int getShapeH() const;
 	int getShapeL() const;
 	int getX() const;
 	int getY() const;
