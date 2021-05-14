@@ -7,8 +7,7 @@ class Menu
 	Game* game = nullptr;
 	bool colors = true;
 	int speed = 300;
-	string name1 = "player1";
-	string name2 = "player2";
+	string names[NUM_PLAYERS]{ "player1" ,"player2" };
 
 public:
 	Menu() = default;

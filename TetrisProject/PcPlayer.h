@@ -20,6 +20,8 @@ private:
 	bool hasAlwaysEmptyBelow(int t, int& currY) const;
 	bool checkEmptyBelow(const Board& b, const Shape& s) const;
 	bool isCalcMove() const;
+	int getRandomMove(int& currY) const;
+	int getBombMove(int& currY) const;
 	void printboard(Board b) const;
 
 };

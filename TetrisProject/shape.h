@@ -7,6 +7,10 @@ constexpr int maxBlock = 8;
 
 class Shape
 {
+public:
+	enum MOVE_DIR { NONE, LEFT, RIGHT, ROTATEL, ROTATER, DROP };
+	enum TURN_DIR { TURN_LEFT = -1, TURN_RIGHT = 1 };
+
 private:
 	enum SHAPE { O, I, L, J, T, S, Z };
 	enum SHAPE_T { T1, T2, T3, T4 };
@@ -25,9 +29,8 @@ public:
 	Shape(const Shape& _shape, Board& _board);
 	virtual ~Shape() = default;
 	void SetBoard(const Board& b);
-	void move(int _x = 0, int _y = 1);
-	void draw();
-	void turn(int dir, bool toDraw = true);
+	void move(MOVE_DIR dir = NONE);
+	void turn(TURN_DIR dir, bool toDraw = true);
 	virtual bool checkFall(int _y = 1, bool toSet = true);
 	int makeFall();
 	int getShapeH() const;
@@ -38,6 +41,7 @@ public:
 	void setX(int _x = 1);
 	void unSetShape();
 	int getShape();
+	void draw();
 
 private:
 	void initShape(SHAPE_T t = T1);
@@ -46,6 +50,7 @@ private:
 	bool isValidTurn();
 	void cleanDraw();
 	void turnDigree();
+	void getDirection(MOVE_DIR dir, int& _x, int& _y);
 
 	void makeShapeO();		// shape O
 	void makeShapeI1();		// shape I

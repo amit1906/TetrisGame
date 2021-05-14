@@ -1,51 +1,51 @@
 #include "Game.h"
 
-Game::Game(GAME_TYPE gameType, int _speed, bool _colors, string name1, string name2, int level)
+Game::Game(GAME_TYPE gameType, int _speed, bool _colors, const string names[], int level)
 	:speed(_speed), colors(_colors)
 {
 	paused = finished = false;
-	shapeX = rand() % (width - maxX) + pos;
-	shapeX -= shapeX % 2 - 1;
-	shape1 = std::make_unique<Shape>(shapeX, shapeY, board1, colors);
-	shapeX = rand() % (width - maxX) + width + pos;
-	shapeX -= shapeX % 2;
-	shape2 = std::make_unique<Shape>(shapeX, shapeY, board2, colors);
-	chooseGameType(gameType, name1, name2, level);
+	for (size_t i = 0; i < NUM_PLAYERS; i++)
+	{
+		getRandomShapeX(i);
+		shapes[i] = std::make_unique<Shape>(shapeX, shapeY, boards[i], colors);
+	}
+	chooseGameType(gameType, names, level);
 }
 
-Game::~Game()
+Game::~Game()	// shapes are unique_ptr doesnt need to be freed...
 {
-	//delete shape1;		// because of use of unique_ptr
-	//delete shape2;
-	//shape1 = shape2 = nullptr;
-	delete player1;
-	delete player2;
-	player1 = player2 = nullptr;
+	for (Player* player : players)
+	{
+		delete player;
+		player = nullptr;
+	}
 }
 
-void Game::changeSettings(int _speed, bool _colors, string name1, string name2)
+void Game::changeSettings(int _speed, bool _colors, const string names[])
 {
 	speed = _speed;
 	colors = _colors;
-	player1->setName(name1);
-	player2->setName(name2);
+	for (size_t i = 0; i < NUM_PLAYERS; i++)
+	{
+		players[i]->setName(names[i]);
+	}
 }
 
-void Game::chooseGameType(GAME_TYPE gameType, string name1, string name2, int level)
+void Game::chooseGameType(GAME_TYPE gameType, const string names[], int level)
 {
 	switch (gameType)
 	{
 	case  HVH:
-		player1 = new HPlayer(name1, shape1.get(), player1Keys);
-		player2 = new HPlayer(name2, shape2.get(), player2Keys);
+		players[0] = new HPlayer(names[0], shapes[0].get(), player1Keys);
+		players[1] = new HPlayer(names[1], shapes[1].get(), player2Keys);
 		break;
 	case  HVC:
-		player1 = new HPlayer(name1, shape1.get(), player1Keys);
-		player2 = new PcPlayer(name2, board2, shape2.get(), level);
+		players[0] = new HPlayer(names[0], shapes[0].get(), player1Keys);
+		players[1] = new PcPlayer(names[1], boards[1], shapes[1].get(), level);
 		break;
 	case  CVC:
-		player1 = new PcPlayer(name1, board1, shape1.get(), level);
-		player2 = new PcPlayer(name2, board2, shape2.get(), level);
+		players[0] = new PcPlayer(names[0], boards[0], shapes[0].get(), level);
+		players[1] = new PcPlayer(names[1], boards[1], shapes[1].get(), level);
 		break;
 	}
 }
@@ -53,7 +53,7 @@ void Game::chooseGameType(GAME_TYPE gameType, string name1, string name2, int le
 void Game::start()
 {
 	clearScreen();
-	drawBoard();
+	drawBoards();
 	gameLoop();
 	clearScreen();
 	paused = false;
@@ -74,56 +74,49 @@ void Game::gameLoop()
 
 void Game::movePlayers()
 {
-	player1->makeMove(board1, keys);
-	player2->makeMove(board2, keys);
+	for (size_t i = 0; i < NUM_PLAYERS; i++)
+	{
+		players[i]->makeMove(boards[i], keys);
+	}
 }
 
-void Game::drawBoard()
+void Game::drawBoards()
 {
-	board1.printFrame();
-	board2.printFrame();
-	board1.printContent();
-	board2.printContent();
+	for (Board board : boards)
+	{
+		board.printFrame();
+		board.printContent();
+	}
 }
 
 void Game::drawGame()
 {
-	shape1->move();
-	shape2->move();
-	drawBoard();
-	player1->printPlayerStats(board1.getPos(), board1.getHeight());
-	player2->printPlayerStats(board2.getPos(), board1.getHeight());
+	for (size_t i = 0; i < NUM_PLAYERS; i++)
+	{
+		shapes[i]->move();
+		players[i]->printPlayerStats(boards[i].getPos(), boards[i].getHeight());
+	}
+	drawBoards();
 	hideCursor();
 	Sleep(speed);
 }
 
 void Game::checkShapes()
 {
-	int bombAppear1 = (rand() % 20 == 1) ? 1 : 0;
-	int bombAppear2 = (rand() % 20 == 1) ? 1 : 0;
-	if (shape1->checkFall())
+	int bombAppears[NUM_PLAYERS] = { (rand() % 20 == 1) ? 1 : 0, (rand() % 20 == 1) ? 1 : 0 };
+	for (size_t i = 0; i < NUM_PLAYERS; i++)
 	{
-		shapeX = rand() % (width - maxX) + pos;
-		shapeX -= shapeX % 2 - 1;
-		if (bombAppear1 == 1)
-			shape1 = std::make_unique<Bomb>(shapeX, shapeY, board1, colors);
-		else
-			shape1 = std::make_unique<Shape>(shapeX, shapeY, board1, colors);
+		if (shapes[i]->checkFall())
+		{
+			getRandomShapeX(i);
+			if (bombAppears[i] == 1)
+				shapes[i] = std::make_unique<Bomb>(shapeX, shapeY, boards[i], colors);
+			else
+				shapes[i] = std::make_unique<Shape>(shapeX, shapeY, boards[i], colors);
 
-		player1->setShape(shape1.get());
-		player1->increaseScore(1);
-	}
-	if (shape2->checkFall())
-	{
-		shapeX = rand() % (width - maxX) + width + pos;
-		shapeX -= shapeX % 2;
-		if (bombAppear2 == 1)
-			shape2 = std::make_unique<Bomb>(shapeX, shapeY, board2, colors);
-		else
-			shape2 = std::make_unique<Shape>(shapeX, shapeY, board2, colors);
-
-		player2->setShape(shape2.get());
-		player2->increaseScore(1);
+			players[i]->setShape(shapes[i].get());
+			players[i]->increaseScore(1);
+		}
 	}
 }
 
@@ -169,33 +162,43 @@ void Game::checkKeys()
 	}
 }
 
+void Game::getRandomShapeX(int i)
+{
+	shapeX = i * width + 1;
+	shapeX += rand() % (width - maxX);
+	shapeX -= (shapeX % 2);
+	shapeX += (shapeX % 2) == 0 ? (1 - i) : i;
+}
+
 void Game::checkRows()
 {
-	board1.checkRows(*player1);
-	board2.checkRows(*player2);
+	for (size_t i = 0; i < NUM_PLAYERS; i++)
+	{
+		boards[i].checkRows(*players[i]);
+	}
 }
 
 void Game::checkEnd()
 {
-	bool pl1Won = board2.isFull(*player1);
-	bool pl2Won = board1.isFull(*player2);
+	bool pl1Won = boards[1].isFull(*players[0]);
+	bool pl2Won = boards[0].isFull(*players[1]);
 
 	if (pl1Won && pl2Won)
 	{
-		if (player1->getScore() >= player2->getScore())
-			printWinner(*player1, *player2, 1);
+		if (players[0]->getScore() >= players[1]->getScore())
+			printWinner(*players[0], *players[1], 1);
 		else
-			printWinner(*player1, *player2, 2);
+			printWinner(*players[0], *players[1], 2);
 		finished = true;
 	}
 	else if (pl1Won)
 	{
-		printWinner(*player1, *player2, 1);
+		printWinner(*players[0], *players[1], 1);
 		finished = true;
 	}
 	else if (pl2Won)
 	{
-		printWinner(*player1, *player2, 2);
+		printWinner(*players[0], *players[1], 2);
 		finished = true;
 	}
 	if (pl1Won || pl2Won)
