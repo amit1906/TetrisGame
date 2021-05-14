@@ -4,12 +4,12 @@ Shape::Shape(int _x, int _y, Board& _board, bool colors)
 	:x(_x), y(_y), board(_board)
 {
 	shape = (SHAPE)(rand() % 7);
-	shape_t = (SHAPE_T)T1;	//(rand() % 4);
+	shape_t = (SHAPE_T)(rand() % 4);
 	if (colors)
 		color = (COLOR)(colori++ % 14 + 1);
 	else
 		color = LIGHTGREY;
-	initShape();
+	initShape(shape_t);
 }
 
 Shape::Shape(const Shape& _shape, Board& _board)
@@ -50,14 +50,16 @@ void Shape::initShape(SHAPE_T t)
 	case Shape::Z:makeShapeZ1();
 		break;
 	}
-	for (size_t i = 1; i <= t; i++)
+	for (size_t i = 1; i <= (int)t; i++)
 	{
-		turn(1, false);
+		turn(Shape::TURN_RIGHT, false);
 	}
 }
 
-void Shape::move(int _x, int _y)
+void Shape::move(MOVE_DIR dir)
 {
+	int _x, _y;
+	getDirection(dir, _x, _y);
 	cleanDraw();
 	bool validMove = false;
 	if (x + _x >= board.getPos() - 1 && x + _x < board.getPos() + board.getWidth() - shapeL)
@@ -84,6 +86,37 @@ void Shape::move(int _x, int _y)
 			y++;
 	}
 	draw();
+}
+
+void Shape::getDirection(MOVE_DIR dir, int& _x, int& _y)
+{
+	switch (dir)
+	{
+	case Shape::NONE:
+		_x = 0;
+		_y = 1;
+		break;
+	case Shape::LEFT:
+		_x = -2;
+		_y = 1;
+		break;
+	case Shape::RIGHT:
+		_x = 2;
+		_y = 1;
+		break;
+	case Shape::ROTATEL:
+		_x = 0;
+		_y = 1;
+		break;
+	case Shape::ROTATER:
+		_x = 0;
+		_y = 1;
+		break;
+	case Shape::DROP:
+		_x = 0;
+		_y = 3;
+		break;
+	}
 }
 
 bool Shape::checkFall(int _y, bool toSet)
@@ -149,7 +182,7 @@ void Shape::cleanDraw()
 	}
 }
 
-void Shape::turn(int dir,bool toDraw)
+void Shape::turn(TURN_DIR dir, bool toDraw)
 {
 	if (!isValidTurn())
 		return;
@@ -257,7 +290,7 @@ bool Shape::isValidTurn()
 		return false;
 	for (size_t i = 0; i < max(shapeH * 2, shapeL / 2); i++)
 	{
-		if (y + i > board.getHeight())
+		if ((int)(y + i) > board.getHeight())
 			return false;
 		if (!board.isEmpty(x + i, y) || !board.isEmpty(x, y + i))
 			return false;
@@ -310,7 +343,7 @@ void Shape::setShape()
 		for (size_t j = 0; j < maxBlock; j++)
 		{
 			if (arrShape[i][j] == 1)
-				board.setShape(x + i, y + j, color,	1);
+				board.setShape(x + i, y + j, color, 1);
 		}
 	}
 }

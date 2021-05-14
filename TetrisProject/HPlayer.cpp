@@ -15,14 +15,14 @@ void HPlayer::makeMove(Board& board, const char keys[])
 	for (size_t i = 1; i < NUM_KEYS; i++)
 	{
 		if (playerKeys[0] == keys[i])	// LEFT
-			shape->move(-2);
+			shape->move(Shape::LEFT);
 		if (playerKeys[1] == keys[i])	// RIGHT
-			shape->move(2);
-		if (playerKeys[2] == keys[i])	// ROTATEL
-			shape->turn(-1);
-		if (playerKeys[3] == keys[i])	// ROTATER
-			shape->turn(1);
+			shape->move(Shape::RIGHT);
+		if (playerKeys[2] == keys[i])	// ROTATE LEFT
+			shape->turn(Shape::TURN_LEFT);
+		if (playerKeys[3] == keys[i])	// ROTATE RIGHT
+			shape->turn(Shape::TURN_RIGHT);
 		if (playerKeys[4] == keys[i])	// DROP
-			shape->move(0, 3);
+			shape->move(Shape::DROP);
 	}
 }

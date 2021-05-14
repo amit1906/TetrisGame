@@ -20,13 +20,13 @@ void PcPlayer::makeMove(Board& board, const char keys[])
 	goToX = (currX % 2 == 1) ? goToX : goToX + goToX % 2;
 
 	if (turns > 0)
-		shape->turn(1);
+		shape->turn(Shape::TURN_RIGHT);
 	else if (currX == goToX)
-		shape->move(0, 3);
+		shape->move(Shape::DROP);
 	if (currX < goToX)
-		shape->move(2);
+		shape->move(Shape::RIGHT);
 	else if (currX > goToX)
-		shape->move(-2);
+		shape->move(Shape::LEFT);
 
 	delete isBomb;
 }
@@ -60,7 +60,7 @@ int PcPlayer::getGoToXAndT(int& turns) const
 	for (size_t t = 0; t < 4; t++)
 	{
 		alyawsEmptyBelow = hasAlwaysEmptyBelow(t, currY);
-		
+
 		for (int j = 1; j < board.getWidth(); j++)
 		{
 			Board b(board);
@@ -73,7 +73,7 @@ int PcPlayer::getGoToXAndT(int& turns) const
 				if (alyawsEmptyBelow)
 					checkLowestRow(b, maxDots, j, t, currY, ind, turns);	// 2'nd priority
 				else if (!checkEmptyBelow(b, s))							// 3'rd priority
-					checkLowestRow(b, maxDots, j, t, currY, ind, turns);	
+					checkLowestRow(b, maxDots, j, t, currY, ind, turns);
 			}
 			s.unSetShape();
 		}
@@ -138,7 +138,7 @@ bool PcPlayer::checkEmptyBelow(const Board& b, const Shape& s) const
 void PcPlayer::SetMove(Board& b, Shape& s, int t, int j, int& currY) const
 {
 	for (size_t k = 1; k <= t; k++)
-		s.turn(1, false);
+		s.turn(Shape::TURN_RIGHT, false);
 
 	s.setX(j);
 	currY = s.makeFall();

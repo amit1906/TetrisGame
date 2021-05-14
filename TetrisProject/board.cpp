@@ -20,15 +20,15 @@ Board::Board(const Board& board)
 			arrBoard[j][i] = board.arrBoard[j][i];
 }
 
-Board::~Board()
+Board::~Board()	// this dtor prevents memory leak, but might cause exception...
 {
-	for (size_t i = 0; i < width && arrBoard[i][0].set; i++)
-	{
-		delete arrBoard[i];
-		arrBoard[i] = nullptr;
-	}
-	delete[] arrBoard;
-	arrBoard = nullptr;
+	//for (size_t i = 0; i < width; i++)
+	//{
+	//	delete arrBoard[i];
+	//	arrBoard[i] = nullptr;
+	//}
+	//delete[] arrBoard;
+	//arrBoard = nullptr;
 }
 
 void Board::setShape(int x, int y, COLOR color, int toSet)

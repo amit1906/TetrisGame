@@ -29,7 +29,7 @@ class Game
 	Board board1{ pos, height, width };
 	Board board2{ pos + width, height, width };
 	std::unique_ptr<Shape> shape1, shape2;
-	int shapeX, shapeY = -1;
+	int shapeX = 1, shapeY = 0;
 	int maxX = 10;
 
 public:
