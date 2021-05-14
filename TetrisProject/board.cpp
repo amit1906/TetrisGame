@@ -22,12 +22,12 @@ Board::Board(const Board& board)
 
 Board::~Board()
 {
-	if (arrBoard)
+	for (size_t i = 0; i < width && arrBoard[i][0].set; i++)
 	{
-		for (size_t i = 0; i < width && arrBoard[i][0].set; i++)
-			delete arrBoard[i];
-		delete[] arrBoard;
-	}	// arrBoard[i][0].set prevents exeptions...
+		delete arrBoard[i];
+		arrBoard[i] = nullptr;
+	}
+	delete[] arrBoard;
 	arrBoard = nullptr;
 }
 
@@ -125,7 +125,7 @@ void Board::checkRows(Player& player)
 			{
 				deleteRow(i);
 				cout << "\a";
-				player.increaseScore();
+				player.increaseScore(10);
 				printContent(true);
 				if (i < height - 1)
 					i += 2;

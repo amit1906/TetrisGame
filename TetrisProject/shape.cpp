@@ -78,9 +78,9 @@ void Shape::move(int _x, int _y)
 		x += _x;
 	if (_x == 0)
 	{
-		if (!checkFall(_y, false))
+		if (!Shape::checkFall(_y, false))
 			y += _y;
-		else if (!checkFall(1, false))
+		else if (!Shape::checkFall(1, false))
 			y++;
 	}
 	draw();

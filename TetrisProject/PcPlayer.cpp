@@ -21,7 +21,9 @@ void PcPlayer::makeMove(Board& board, const char keys[])
 
 	if (turns > 0)
 		shape->turn(1);
-	else if (currX < goToX)
+	else if (currX == goToX)
+		shape->move(0, 3);
+	if (currX < goToX)
 		shape->move(2);
 	else if (currX > goToX)
 		shape->move(-2);

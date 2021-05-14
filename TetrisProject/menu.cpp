@@ -12,7 +12,7 @@ void Menu::Start()
 	initGame();*/
 
 	menuInfo();
-	srand(time(0));
+	srand(time(0));	// improves random
 	char c = getchar();
 	int level;
 
@@ -21,20 +21,20 @@ void Menu::Start()
 		switch (c)
 		{
 		case '1':
-			//freeGame();
+			freeGame();
 			game = new Game(HVH, speed, colors, name1, name2);
 			initGame();
 			break;
 		case '2':
-			//freeGame();
+			freeGame();
 			level = levelInfo();
-			game = new Game(HVC, speed, colors, name1, name2, level);
+			game = new Game(HVC, speed, colors, name1, "computer", level);
 			initGame();
 			break;
 		case '3':
-			//freeGame();
+			freeGame();
 			level = levelInfo();
-			game = new Game(CVC, speed, colors, name1, name2, level);
+			game = new Game(CVC, speed, colors, "computer1", "computer2", level);
 			initGame();
 			break;
 		case '4':

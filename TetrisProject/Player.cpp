@@ -36,7 +36,7 @@ void Player::setName(string _name)
 	name = _name;
 }
 
-void Player::increaseScore()
+void Player::increaseScore(int inc)
 {
-	score++;
+	score += inc;
 }

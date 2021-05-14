@@ -44,7 +44,7 @@ void Game::chooseGameType(GAME_TYPE gameType, string name1, string name2, int le
 		player2 = new PcPlayer(name2, board2, shape2.get(), level);
 		break;
 	case  CVC:
-		player1 = new PcPlayer(name2, board1, shape1.get(), level);
+		player1 = new PcPlayer(name1, board1, shape1.get(), level);
 		player2 = new PcPlayer(name2, board2, shape2.get(), level);
 		break;
 	}
@@ -111,6 +111,7 @@ void Game::checkShapes()
 			shape1 = std::make_unique<Shape>(shapeX, shapeY, board1, colors);
 
 		player1->setShape(shape1.get());
+		player1->increaseScore(1);
 	}
 	if (shape2->checkFall())
 	{
@@ -122,6 +123,7 @@ void Game::checkShapes()
 			shape2 = std::make_unique<Shape>(shapeX, shapeY, board2, colors);
 
 		player2->setShape(shape2.get());
+		player2->increaseScore(1);
 	}
 }
 
@@ -209,8 +211,8 @@ void Game::printWinner(Player winner, Player loser)
 	gotoxy(width / 4 - 1, height / 6 + 1);
 	cout << winnerName << " won!" << endl << endl << endl;
 	cout << "press Escape to continue...";
-	winner.printPlayerStats(1, 8);
-	loser.printPlayerStats(15, 8);
+	loser.printPlayerStats(1, 8);
+	winner.printPlayerStats(15, 8);
 }
 
 bool Game::HasFinished()
