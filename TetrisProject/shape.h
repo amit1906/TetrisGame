@@ -14,15 +14,16 @@ private:
 	COLOR color;
 
 protected:
-	Board board;
+	Board& board;
 	SHAPE shape;
 	int arrShape[maxBlock][maxBlock]{};
 	int shapeL, shapeH;
 	int x, y;
 
 public:
-	Shape(int _x, int _y, const Board _board, bool colors);
-	Shape(const Shape& _shape, const Board _board);
+	Shape(int _x, int _y, Board& _board, bool colors);
+	Shape(const Shape& _shape, Board& _board);
+	virtual ~Shape() = default;
 	void SetBoard(const Board& b);
 	void move(int _x = 0, int _y = 1);
 	void draw();
@@ -36,6 +37,7 @@ public:
 	void setY(int _y = 0);
 	void setX(int _x = 1);
 	void unSetShape();
+	int getShape();
 
 private:
 	void initShape(SHAPE_T t = T1);

@@ -10,6 +10,11 @@ void Player::printPlayerStats(int pos, int height)
 	printScore(pos, height);
 }
 
+Player::~Player()
+{
+	//delete shape;	// handled by unique ptr...
+}
+
 void Player::printScore(int pos, int height)
 {
 	gotoxy(pos + 2, height + 3);
@@ -31,7 +36,7 @@ void Player::setName(string _name)
 	name = _name;
 }
 
-void Player::increaseScore()
+void Player::increaseScore(int inc)
 {
-	score++;
+	score += inc;
 }

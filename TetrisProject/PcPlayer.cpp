@@ -2,8 +2,8 @@
 #include "Shape.h"
 #include "Bomb.h"
 
-PcPlayer::PcPlayer(const string& _name, const Board& _board, Shape* _shape, int _level)
-	: Player(_name, _shape), level((LEVEL)_level), board(_board), shape(_shape) {}
+PcPlayer::PcPlayer(const string& _name, Board& _board, Shape* _shape, int _level)
+	: Player(_name, _shape), level((LEVEL)_level), board(_board) {}
 
 void PcPlayer::makeMove(Board& board, const char keys[])
 {
@@ -21,10 +21,14 @@ void PcPlayer::makeMove(Board& board, const char keys[])
 
 	if (turns > 0)
 		shape->turn(1);
-	else if (currX < goToX)
+	else if (currX == goToX)
+		shape->move(0, 3);
+	if (currX < goToX)
 		shape->move(2);
 	else if (currX > goToX)
 		shape->move(-2);
+
+	delete isBomb;
 }
 
 bool PcPlayer::isCalcMove() const
@@ -55,30 +59,21 @@ int PcPlayer::getGoToXAndT(int& turns) const
 
 	for (size_t t = 0; t < 4; t++)
 	{
-		alyawsEmptyBelow = true;
-
-		for (int j = 1; j < board.getWidth() && alyawsEmptyBelow; j++)
-		{
-			Board b = Board(board, true);
-			Shape s = Shape(*shape, b);
-			SetMove(b, s, t, j, currY);
-
-			if (!checkEmptyBelow(b, s))
-				alyawsEmptyBelow = false;
-		}
+		alyawsEmptyBelow = hasAlwaysEmptyBelow(t, currY);
+		
 		for (int j = 1; j < board.getWidth(); j++)
 		{
-			Board b = Board(board, true);
-			Shape s = Shape(*shape, b);
+			Board b(board);
+			Shape s(*shape, b);
 			SetMove(b, s, t, j, currY);
 
-			checkRowsDeleted(b, maxDels, j, t, currY, ind, turns);
+			checkRowsDeleted(b, maxDels, j, t, currY, ind, turns);			// 1'st priority
 			if (maxDels == 0)
 			{
 				if (alyawsEmptyBelow)
-					checkLowestRow(b, maxDots, j, t, currY, ind, turns);
-				else if (!checkEmptyBelow(b, s))
-					checkLowestRow(b, maxDots, j, t, currY, ind, turns);
+					checkLowestRow(b, maxDots, j, t, currY, ind, turns);	// 2'nd priority
+				else if (!checkEmptyBelow(b, s))							// 3'rd priority
+					checkLowestRow(b, maxDots, j, t, currY, ind, turns);	
 			}
 			s.unSetShape();
 		}
@@ -113,15 +108,22 @@ void PcPlayer::checkLowestRow(const Board& b, int& maxDots, int j, int t, int cu
 	}
 }
 
+bool PcPlayer::hasAlwaysEmptyBelow(int t, int& currY) const
+{
+	for (int j = 1; j < board.getWidth(); j++)
+	{
+		Board b(board);
+		Shape s(*shape, b);
+		SetMove(b, s, t, j, currY);
+
+		if (!checkEmptyBelow(b, s))
+			return false;
+	}
+	return true;
+}
+
 bool PcPlayer::checkEmptyBelow(const Board& b, const Shape& s) const
 {
-	int a = s.getY() + 1;
-	int bb = b.getHeight();
-	int c = s.getY() + s.getShapeH();
-
-	int f = s.getX();
-	int t = s.getX() + s.getShapeL();
-
 	for (size_t i = s.getY() + 1; i <= b.getHeight() && i <= s.getY() + s.getShapeH(); i++)
 	{
 		for (int j = s.getX(); j < s.getX() + s.getShapeL(); j++)

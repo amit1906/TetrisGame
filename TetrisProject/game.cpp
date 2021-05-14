@@ -6,19 +6,21 @@ Game::Game(GAME_TYPE gameType, int _speed, bool _colors, string name1, string na
 	paused = finished = false;
 	shapeX = rand() % (width - maxX) + pos;
 	shapeX -= shapeX % 2 - 1;
-	shape1 = new Shape(shapeX, shapeY, board1, colors);
+	shape1 = std::make_unique<Shape>(shapeX, shapeY, board1, colors);
 	shapeX = rand() % (width - maxX) + width + pos;
 	shapeX -= shapeX % 2;
-	shape2 = new Shape(shapeX, shapeY, board2, colors);
+	shape2 = std::make_unique<Shape>(shapeX, shapeY, board2, colors);
 	chooseGameType(gameType, name1, name2, level);
 }
 
 Game::~Game()
 {
-	delete shape1;
-	delete shape2;
+	//delete shape1;		// because of use of unique_ptr
+	//delete shape2;
+	//shape1 = shape2 = nullptr;
 	delete player1;
 	delete player2;
+	player1 = player2 = nullptr;
 }
 
 void Game::changeSettings(int _speed, bool _colors, string name1, string name2)
@@ -34,16 +36,16 @@ void Game::chooseGameType(GAME_TYPE gameType, string name1, string name2, int le
 	switch (gameType)
 	{
 	case  HVH:
-		player1 = new HPlayer(name1, shape1, player1Keys);
-		player2 = new HPlayer(name2, shape2, player2Keys);
+		player1 = new HPlayer(name1, shape1.get(), player1Keys);
+		player2 = new HPlayer(name2, shape2.get(), player2Keys);
 		break;
 	case  HVC:
-		player1 = new HPlayer(name1, shape1, player1Keys);
-		player2 = new PcPlayer(name2, board2, shape2, level);
+		player1 = new HPlayer(name1, shape1.get(), player1Keys);
+		player2 = new PcPlayer(name2, board2, shape2.get(), level);
 		break;
 	case  CVC:
-		player1 = new PcPlayer(name2, board1, shape1, level);
-		player2 = new PcPlayer(name2, board2, shape2, level);
+		player1 = new PcPlayer(name1, board1, shape1.get(), level);
+		player2 = new PcPlayer(name2, board2, shape2.get(), level);
 		break;
 	}
 }
@@ -101,27 +103,27 @@ void Game::checkShapes()
 	int bombAppear2 = (rand() % 20 == 1) ? 1 : 0;
 	if (shape1->checkFall())
 	{
-		delete shape1;
 		shapeX = rand() % (width - maxX) + pos;
 		shapeX -= shapeX % 2 - 1;
 		if (bombAppear1 == 1)
-			shape1 = new Bomb(shapeX, shapeY, board1, colors);
+			shape1 = std::make_unique<Bomb>(shapeX, shapeY, board1, colors);
 		else
-			shape1 = new Shape(shapeX, shapeY, board1, colors);
+			shape1 = std::make_unique<Shape>(shapeX, shapeY, board1, colors);
 
-		player1->setShape(shape1);
+		player1->setShape(shape1.get());
+		player1->increaseScore(1);
 	}
 	if (shape2->checkFall())
 	{
-		delete shape2;
 		shapeX = rand() % (width - maxX) + width + pos;
 		shapeX -= shapeX % 2;
 		if (bombAppear2 == 1)
-			shape2 = new Bomb(shapeX, shapeY, board2, colors);
+			shape2 = std::make_unique<Bomb>(shapeX, shapeY, board2, colors);
 		else
-			shape2 = new Shape(shapeX, shapeY, board2, colors);
+			shape2 = std::make_unique<Shape>(shapeX, shapeY, board2, colors);
 
-		player2->setShape(shape2);
+		player2->setShape(shape2.get());
+		player2->increaseScore(1);
 	}
 }
 
@@ -175,42 +177,43 @@ void Game::checkRows()
 
 void Game::checkEnd()
 {
-	bool pl1Won = board1.isFull(*player1);
-	bool pl2Won = board2.isFull(*player2);
+	bool pl1Won = board2.isFull(*player1);
+	bool pl2Won = board1.isFull(*player2);
 
 	if (pl1Won && pl2Won)
 	{
 		if (player1->getScore() >= player2->getScore())
-			printWinner(*player1, *player2);
+			printWinner(*player1, *player2, 1);
 		else
-			printWinner(*player2, *player1);
+			printWinner(*player1, *player2, 2);
 		finished = true;
 	}
 	else if (pl1Won)
 	{
-		printWinner(*player2, *player1);
+		printWinner(*player1, *player2, 1);
 		finished = true;
 	}
 	else if (pl2Won)
 	{
-		printWinner(*player1, *player2);
+		printWinner(*player1, *player2, 2);
 		finished = true;
 	}
 	if (pl1Won || pl2Won)
 		while (!(_kbhit() && _getch() == ESC));
 }
 
-void Game::printWinner(Player winner, Player loser)
+void Game::printWinner(Player player1, Player player2, int winner)
 {
-	string winnerName = winner.getName();
+	string winnerName;
+	winnerName = (winner == 1) ? player1.getName() : player2.getName();
 	clearScreen();
 	gotoxy(width / 4, height / 6);
 	cout << "GAME OVER" << endl << endl;
 	gotoxy(width / 4 - 1, height / 6 + 1);
 	cout << winnerName << " won!" << endl << endl << endl;
 	cout << "press Escape to continue...";
-	winner.printPlayerStats(1, 8);
-	loser.printPlayerStats(15, 8);
+	player1.printPlayerStats(1, 8);
+	player2.printPlayerStats(15, 8);
 }
 
 bool Game::HasFinished()

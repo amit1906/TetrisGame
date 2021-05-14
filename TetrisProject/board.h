@@ -9,13 +9,14 @@ class Board
 		int set = 0;
 		COLOR color = COLOR(15);
 	};
-	const int pos, height, width;
+	int pos, height, width;
 	point** arrBoard;
 
 public:
 	Board(const int _pos, const int _height, const int _width);
-	Board(const Board& copy, bool toCopy);
-	//~Board();
+	Board& operator=(const Board& board) = delete;
+	Board(const Board& copy);
+	~Board();
 	void setShape(int x, int y, COLOR color, int toSet = 1);
 	void unSetShape(int x, int y);
 	void SetBoard(const Board& b);

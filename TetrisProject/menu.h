@@ -5,8 +5,8 @@
 class Menu
 {
 	Game* game = nullptr;
-	int speed = 300;
 	bool colors = true;
+	int speed = 300;
 	string name1 = "player1";
 	string name2 = "player2";
 
@@ -19,6 +19,7 @@ private:
 	void menuInfo();
 	int levelInfo();
 	void initGame();
+	void freeGame();
 	void continueGame();
 	void changeColors();
 	void changeSpeed();
