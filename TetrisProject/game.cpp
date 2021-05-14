@@ -177,42 +177,43 @@ void Game::checkRows()
 
 void Game::checkEnd()
 {
-	bool pl1Won = board1.isFull(*player1);
-	bool pl2Won = board2.isFull(*player2);
+	bool pl1Won = board2.isFull(*player1);
+	bool pl2Won = board1.isFull(*player2);
 
 	if (pl1Won && pl2Won)
 	{
 		if (player1->getScore() >= player2->getScore())
-			printWinner(*player1, *player2);
+			printWinner(*player1, *player2, 1);
 		else
-			printWinner(*player2, *player1);
+			printWinner(*player1, *player2, 2);
 		finished = true;
 	}
 	else if (pl1Won)
 	{
-		printWinner(*player2, *player1);
+		printWinner(*player1, *player2, 1);
 		finished = true;
 	}
 	else if (pl2Won)
 	{
-		printWinner(*player1, *player2);
+		printWinner(*player1, *player2, 2);
 		finished = true;
 	}
 	if (pl1Won || pl2Won)
 		while (!(_kbhit() && _getch() == ESC));
 }
 
-void Game::printWinner(Player winner, Player loser)
+void Game::printWinner(Player player1, Player player2, int winner)
 {
-	string winnerName = winner.getName();
+	string winnerName;
+	winnerName = (winner == 1) ? player1.getName() : player2.getName();
 	clearScreen();
 	gotoxy(width / 4, height / 6);
 	cout << "GAME OVER" << endl << endl;
 	gotoxy(width / 4 - 1, height / 6 + 1);
 	cout << winnerName << " won!" << endl << endl << endl;
 	cout << "press Escape to continue...";
-	loser.printPlayerStats(1, 8);
-	winner.printPlayerStats(15, 8);
+	player1.printPlayerStats(1, 8);
+	player2.printPlayerStats(15, 8);
 }
 
 bool Game::HasFinished()

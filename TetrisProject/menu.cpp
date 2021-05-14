@@ -28,13 +28,16 @@ void Menu::Start()
 		case '2':
 			freeGame();
 			level = levelInfo();
-			game = new Game(HVC, speed, colors, name1, "computer", level);
+			name2 = "computer";
+			game = new Game(HVC, speed, colors, name1, name2, level);
 			initGame();
 			break;
 		case '3':
 			freeGame();
 			level = levelInfo();
-			game = new Game(CVC, speed, colors, "computer1", "computer2", level);
+			name1 = "computer1";
+			name2 = "computer2";
+			game = new Game(CVC, speed, colors, name1, name2, level);
 			initGame();
 			break;
 		case '4':

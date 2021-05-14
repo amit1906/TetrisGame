@@ -49,6 +49,6 @@ private:
 	void checkRows();
 	void checkEnd();
 	void checkShapes();
-	void printWinner(Player winner, Player loser);
+	void printWinner(Player player1, Player player2, int winner);
 
 };
