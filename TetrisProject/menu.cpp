@@ -9,7 +9,7 @@ void Menu::Start()
 {
 	/*srand(time(0));
 	game = new Game(CVC, speed, colors, names[0], names[1], 1);
-	initGame();*/
+	initGame();*/		// remove
 
 	menuInfo();
 	srand(time(0));	// improves random
@@ -60,6 +60,7 @@ void Menu::Start()
 		case '9':
 			clearScreen();
 			cout << "Good Bye" << endl;
+			_getch();
 			exit(0);
 			break;
 		default:
