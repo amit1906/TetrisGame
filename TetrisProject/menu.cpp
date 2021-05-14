@@ -8,7 +8,7 @@ Menu::~Menu()
 void Menu::Start()
 {
 	/*srand(time(0));
-	game = new Game(CVC, speed, colors, name1, name2, 1);
+	game = new Game(CVC, speed, colors, names[0], names[1], 1);
 	initGame();*/
 
 	menuInfo();
@@ -22,22 +22,22 @@ void Menu::Start()
 		{
 		case '1':
 			freeGame();
-			game = new Game(HVH, speed, colors, name1, name2);
+			game = new Game(HVH, speed, colors, names);
 			initGame();
 			break;
 		case '2':
 			freeGame();
 			level = levelInfo();
-			name2 = "computer";
-			game = new Game(HVC, speed, colors, name1, name2, level);
+			names[1] = "computer";
+			game = new Game(HVC, speed, colors, names, level);
 			initGame();
 			break;
 		case '3':
 			freeGame();
 			level = levelInfo();
-			name1 = "computer1";
-			name2 = "computer2";
-			game = new Game(CVC, speed, colors, name1, name2, level);
+			names[0] = "computer1";
+			names[1] = "computer2";
+			game = new Game(CVC, speed, colors, names, level);
 			initGame();
 			break;
 		case '4':
@@ -92,7 +92,7 @@ void Menu::continueGame()
 {
 	if (game != nullptr)
 	{
-		game->changeSettings(speed, colors, name1, name2);
+		game->changeSettings(speed, colors, names);
 		game->start();
 		if (game->HasFinished())
 			freeGame();
@@ -129,13 +129,11 @@ void Menu::changeSpeed()
 
 void Menu::changeNames()
 {
-	string name;
-	cout << "player1's name: ";
-	cin >> name;
-	name1 = name;
-	cout << "player2's name: ";
-	cin >> name;
-	name2 = name;
+	for (size_t i = 0; i < NUM_PLAYERS; i++)
+	{
+		cout << "player" << i + 1 << "'s name: ";
+		cin >> names[i];
+	}
 	clearScreen();
 	cout << "names changed." << endl;
 	menuInfo();
