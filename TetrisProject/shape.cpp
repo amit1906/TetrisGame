@@ -104,14 +104,6 @@ void Shape::getDirection(MOVE_DIR dir, int& _x, int& _y)
 		_x = 2;
 		_y = 1;
 		break;
-	case Shape::ROTATEL:
-		_x = 0;
-		_y = 1;
-		break;
-	case Shape::ROTATER:
-		_x = 0;
-		_y = 1;
-		break;
 	case Shape::DROP:
 		_x = 0;
 		_y = 3;

@@ -6,9 +6,7 @@ Game::Game(GAME_TYPE gameType, int _speed, bool _colors, const string names[], i
 	paused = finished = false;
 	for (size_t i = 0; i < NUM_PLAYERS; i++)
 	{
-		shapeX = rand() % (width - maxX) + pos;
-		shapeX += i * width;
-		shapeX -= shapeX % 2 - 1;
+		getRandomShapeX(i);
 		shapes[i] = std::make_unique<Shape>(shapeX, shapeY, boards[i], colors);
 	}
 	chooseGameType(gameType, names, level);
@@ -110,9 +108,7 @@ void Game::checkShapes()
 	{
 		if (shapes[i]->checkFall())
 		{
-			shapeX = rand() % (width - maxX) + pos;
-			shapeX += i * width;
-			shapeX -= shapeX % 2 - 1;
+			getRandomShapeX(i);
 			if (bombAppears[i] == 1)
 				shapes[i] = std::make_unique<Bomb>(shapeX, shapeY, boards[i], colors);
 			else
@@ -164,6 +160,14 @@ void Game::checkKeys()
 			}
 		}
 	}
+}
+
+void Game::getRandomShapeX(int i)
+{
+	shapeX = i * width + 1;
+	shapeX += rand() % (width - maxX);
+	shapeX -= (shapeX % 2);
+	shapeX += (shapeX % 2) == 0 ? (1 - i) : i;
 }
 
 void Game::checkRows()

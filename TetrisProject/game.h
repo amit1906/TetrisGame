@@ -25,7 +25,7 @@ class Game
 	char keys[LEN];
 
 	const int pos = 2, height = 18, width = 23;				// boards varaiables
-	int shapeX = 1, shapeY = 0, maxX = 10;					// shapes varaiables
+	int shapeX = 1, shapeY = 0, maxX = 8;					// shapes varaiables
 
 	Player* players[NUM_PLAYERS];							// game arrays
 	std::unique_ptr<Shape> shapes[NUM_PLAYERS];
@@ -48,6 +48,7 @@ private:
 	void checkRows();
 	void checkEnd();
 	void checkShapes();
+	void getRandomShapeX(int i);
 	void printWinner(Player player1, Player player2, int winner);
 
 };
