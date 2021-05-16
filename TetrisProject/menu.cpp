@@ -7,10 +7,6 @@ Menu::~Menu()
 
 void Menu::Start()
 {
-	/*srand(time(0));
-	game = new Game(CVC, speed, colors, names[0], names[1], 1);
-	initGame();*/		// remove
-
 	menuInfo();
 	srand(time(0));	// improves random
 	char c = getchar();
@@ -120,10 +116,10 @@ void Menu::changeSpeed()
 {
 	cout << "choose your new speed (1-1000): ";
 	cin >> speed;
-	if (speed < 1)
-		speed = 1;
-	if (speed > 1000)
-		speed = 1000;
+	if (speed < MIN_SPEED)
+		speed = MIN_SPEED;
+	if (speed > MAX_SPEED)
+		speed = MAX_SPEED;
 	clearScreen();
 	menuInfo();
 }

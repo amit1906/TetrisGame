@@ -22,13 +22,20 @@ Board::Board(const Board& board)
 
 Board::~Board()	// this dtor prevents memory leak, but might cause exception...
 {
-	//for (size_t i = 0; i < width; i++)
-	//{
-	//	delete arrBoard[i];
-	//	arrBoard[i] = nullptr;
-	//}
-	//delete[] arrBoard;
-	//arrBoard = nullptr;
+	for (size_t i = 0; i < width; i++)
+	{
+		delete arrBoard[i];
+		arrBoard[i] = nullptr;
+	}
+	delete[] arrBoard;
+	arrBoard = nullptr;
+}
+
+void Board::SetBoard(const Board& b)
+{
+	for (size_t i = 0; i < height; i++)
+		for (size_t j = 0; j < width; j++)
+			arrBoard[j][i].set = b.arrBoard[j][i].set;
 }
 
 void Board::setShape(int x, int y, COLOR color, int toSet)
@@ -43,14 +50,20 @@ void Board::setShape(int x, int y, COLOR color, int toSet)
 
 void Board::unSetShape(int x, int y)
 {
+	x %= width;
 	arrBoard[x][y].set = 0;
 }
 
-void Board::SetBoard(const Board& b)
+void Board::SetShape(int x, int y, int set, COLOR color)
 {
-	for (size_t i = 0; i < height; i++)
-		for (size_t j = 0; j < width; j++)
-			arrBoard[j][i].set = b.arrBoard[j][i].set;
+	arrBoard[x][y].color = color;
+	arrBoard[x][y].set = set;
+}
+
+bool Board::isEmpty(int x, int y) const
+{
+	x %= width;
+	return (arrBoard[x][y].set == 0);
 }
 
 void Board::printFrame() const
@@ -106,12 +119,6 @@ int Board::getHeight() const
 	return height - 1;
 }
 
-bool Board::isEmpty(int x, int y) const
-{
-	x %= width;
-	return (arrBoard[x][y].set == 0);
-}
-
 void Board::checkRows(Player& player)
 {
 	int delRows = 0;
@@ -162,7 +169,7 @@ void Board::deleteRow(int row)
 		gotoxy(pos + i, row);
 		cout << (char)219;
 	}
-	Sleep(500);
+	Sleep(400);
 	for (size_t i = row; i > 0; i--)
 	{
 		for (size_t j = 1; j < width; j++)
@@ -172,7 +179,30 @@ void Board::deleteRow(int row)
 	}
 }
 
-bool Board::isFull(Player player) const
+void Board::fixBoard(int from, int to)
+{
+	int rowset, rowFrom;
+	for (size_t i = from; i < to; i++)
+	{
+		rowset = 0;
+		rowFrom = 0;
+		for (size_t j = height - 1; j > 0; j--)
+		{
+			if (isEmpty(i, j) && rowset == 0)
+				rowset = j;
+			if (!isEmpty(i, j) && rowset != 0 && rowFrom == 0)
+				rowFrom = j;
+		}
+		for (size_t j = rowFrom; j > 0; j--)
+		{
+			SetShape(i, rowset--, arrBoard[i][j].set, arrBoard[i][j].color);
+			unSetShape(i, j);
+		}
+	}
+	printContent(true);
+}
+
+bool Board::isFull(Player& player) const
 {
 	for (size_t i = 0; i < width; i++)
 	{

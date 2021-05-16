@@ -15,6 +15,8 @@ protected:
 
 public:
 	Player(const string& _name, Shape* const _shape);
+	Player& operator=(const Player& player) = delete;
+	Player(const Player& player) = delete;
 	virtual ~Player();
 	void printPlayerStats(int pos, int height);
 	string getName()	const;

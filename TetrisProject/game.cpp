@@ -6,13 +6,13 @@ Game::Game(GAME_TYPE gameType, int _speed, bool _colors, const string names[], i
 	paused = finished = false;
 	for (size_t i = 0; i < NUM_PLAYERS; i++)
 	{
-		getRandomShapeX(i);
+		shapeX = getRandomShapeX(i);
 		shapes[i] = std::make_unique<Shape>(shapeX, shapeY, boards[i], colors);
 	}
 	chooseGameType(gameType, names, level);
 }
 
-Game::~Game()	// shapes are unique_ptr doesnt need to be freed...
+Game::~Game()	// shapes are unique_ptr doesn't need to be freed...
 {
 	for (Player* player : players)
 	{
@@ -80,7 +80,7 @@ void Game::movePlayers()
 	}
 }
 
-void Game::drawBoards()
+void Game::drawBoards() const
 {
 	for (Board board : boards)
 	{
@@ -89,7 +89,7 @@ void Game::drawBoards()
 	}
 }
 
-void Game::drawGame()
+void Game::drawGame() const
 {
 	for (size_t i = 0; i < NUM_PLAYERS; i++)
 	{
@@ -103,12 +103,15 @@ void Game::drawGame()
 
 void Game::checkShapes()
 {
-	int bombAppears[NUM_PLAYERS] = { (rand() % 20 == 1) ? 1 : 0, (rand() % 20 == 1) ? 1 : 0 };
+	const int bombChance = 20;	// 5% chance
+	int bombAppears[NUM_PLAYERS] = 
+	{ (rand() % bombChance == 1) ? 1 : 0, (rand() % bombChance == 1) ? 1 : 0 };
+
 	for (size_t i = 0; i < NUM_PLAYERS; i++)
 	{
 		if (shapes[i]->checkFall())
 		{
-			getRandomShapeX(i);
+			shapeX = getRandomShapeX(i);
 			if (bombAppears[i] == 1)
 				shapes[i] = std::make_unique<Bomb>(shapeX, shapeY, boards[i], colors);
 			else
@@ -162,12 +165,13 @@ void Game::checkKeys()
 	}
 }
 
-void Game::getRandomShapeX(int i)
+int Game::getRandomShapeX(int boardInd)
 {
-	shapeX = i * width + 1;
-	shapeX += rand() % (width - maxX);
-	shapeX -= (shapeX % 2);
-	shapeX += (shapeX % 2) == 0 ? (1 - i) : i;
+	int x = boardInd * width + 1;
+	x += rand() % (width - MAX_BLOCK);
+	x -= (x % 2);
+	x += (x % 2) == 0 ? (1 - boardInd % 2) : boardInd % 2;
+	return x;
 }
 
 void Game::checkRows()
@@ -205,7 +209,7 @@ void Game::checkEnd()
 		while (!(_kbhit() && _getch() == ESC));
 }
 
-void Game::printWinner(Player player1, Player player2, int winner)
+void Game::printWinner(Player& player1, Player& player2, int winner) const
 {
 	string winnerName;
 	winnerName = (winner == 1) ? player1.getName() : player2.getName();
@@ -219,7 +223,7 @@ void Game::printWinner(Player player1, Player player2, int winner)
 	player2.printPlayerStats(15, 8);
 }
 
-bool Game::HasFinished()
+bool Game::HasFinished() const
 {
 	return finished;
 }

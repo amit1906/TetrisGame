@@ -4,6 +4,7 @@
 
 class Menu
 {
+	const int MIN_SPEED = 1, MAX_SPEED = 1000;
 	Game* game = nullptr;
 	bool colors = true;
 	int speed = 300;
@@ -11,6 +12,8 @@ class Menu
 
 public:
 	Menu() = default;
+	Menu& operator=(const Menu& menu) = delete;
+	Menu(const Menu& menu) = delete;
 	~Menu();
 	void Start();
 
