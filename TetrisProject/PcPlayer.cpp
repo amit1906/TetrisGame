@@ -10,7 +10,7 @@ void PcPlayer::makeMove(Board& board, const char keys[])
 	int currX, goToX, turns = 0;
 	bool calc = isCalcMove();
 
-	if (!calc)								// calculate a move
+	if (!calc)							// calculate a move
 		goToX = getRandomMove(turns);
 	else if (dynamic_cast<Bomb*>(shape))
 		goToX = getBombMove();
@@ -20,7 +20,7 @@ void PcPlayer::makeMove(Board& board, const char keys[])
 	currX = shape->getX() % board.getWidth();
 	goToX = (currX % 2 == 1) ? goToX : goToX + goToX % 2;
 
-	if (turns > 0)							// make the move
+	if (turns > 0)						// make the move
 		shape->turn(Shape::TURN_RIGHT);
 	else if (currX == goToX)
 		shape->move(Shape::DROP);
@@ -34,16 +34,20 @@ bool PcPlayer::isCalcMove() const
 {
 	switch (level)
 	{
-	case BEST:					// 100% chance
+	case BEST:							// 100% chance
 		return true;
 		break;
 	case GOOD:
-		if (rand() % 40 == 1)	// 97.5% chance
+		if (dynamic_cast<Bomb*>(shape))
+			return false;
+		if (rand() % G_CHANCE == 1)		// 97.5% chance
 			return false;
 		return true;
 		break;
 	case NOVICE:
-		if (rand() % 10 == 1)	// 90% chance
+		if (dynamic_cast<Bomb*>(shape))
+			return false;
+		if (rand() % N_CHANCE == 1)		// 90% chance
 			return false;
 		return true;
 		break;

@@ -6,6 +6,7 @@
 class PcPlayer : public Player
 {
 	enum LEVEL { BEST = 1, GOOD, NOVICE };
+	enum L_CHANCE { G_CHANCE = 40, N_CHANCE = 10 };
 	LEVEL level;
 	Board& board;
 

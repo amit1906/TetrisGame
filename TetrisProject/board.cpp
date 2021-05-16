@@ -169,7 +169,7 @@ void Board::deleteRow(int row)
 		gotoxy(pos + i, row);
 		cout << (char)219;
 	}
-	Sleep(500);
+	Sleep(400);
 	for (size_t i = row; i > 0; i--)
 	{
 		for (size_t j = 1; j < width; j++)
