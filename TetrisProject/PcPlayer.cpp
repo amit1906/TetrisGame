@@ -10,23 +10,17 @@ void PcPlayer::makeMove(Board& board, const char keys[])
 	int currX, goToX, turns = 0;
 	bool calc = isCalcMove();
 
-	if (!calc)
-	{
+	if (!calc)								// calculate a move
 		goToX = getRandomMove(turns);
-	}
 	else if (dynamic_cast<Bomb*>(shape))
-	{
 		goToX = getBombMove();
-	}
 	else
-	{
 		goToX = getShapeMove(turns);
-	}
 
 	currX = shape->getX() % board.getWidth();
 	goToX = (currX % 2 == 1) ? goToX : goToX + goToX % 2;
 
-	if (turns > 0)
+	if (turns > 0)							// make the move
 		shape->turn(Shape::TURN_RIGHT);
 	else if (currX == goToX)
 		shape->move(Shape::DROP);
@@ -44,12 +38,12 @@ bool PcPlayer::isCalcMove() const
 		return true;
 		break;
 	case GOOD:
-		if (rand() % 40 == 1)	// 2.5% chance
+		if (rand() % 40 == 1)	// 97.5% chance
 			return false;
 		return true;
 		break;
 	case NOVICE:
-		if (rand() % 10 == 1)	// 10% chance
+		if (rand() % 10 == 1)	// 90% chance
 			return false;
 		return true;
 		break;
@@ -173,20 +167,4 @@ void PcPlayer::SetMove(Board& b, Shape& s, int t, int j, int& currY, bool isBomb
 
 	s.setX(j);
 	currY = s.makeFall(!isBomb);
-}
-
-void PcPlayer::printboard(Board b) const		// remove
-{
-	printf("\n");
-	for (size_t i = 0; i < b.getHeight(); i++)
-	{
-		for (size_t j = 1; j < b.getHeight(); j++)
-		{
-			if (!b.isEmpty(j, i))
-				printf("1");
-			else
-				printf("0");
-		}
-		printf("\n");
-	}
 }

@@ -7,10 +7,6 @@ Menu::~Menu()
 
 void Menu::Start()
 {
-	/*srand(time(0));
-	game = new Game(CVC, speed, colors, names[0], names[1], 1);
-	initGame();*/		// remove
-
 	menuInfo();
 	srand(time(0));	// improves random
 	char c = getchar();

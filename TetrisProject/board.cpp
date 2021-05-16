@@ -54,6 +54,12 @@ void Board::unSetShape(int x, int y)
 	arrBoard[x][y].set = 0;
 }
 
+void Board::SetShape(int x, int y, int set, COLOR color)
+{
+	arrBoard[x][y].color = color;
+	arrBoard[x][y].set = set;
+}
+
 bool Board::isEmpty(int x, int y) const
 {
 	x %= width;
@@ -171,6 +177,29 @@ void Board::deleteRow(int row)
 			arrBoard[j][i] = arrBoard[j][i - 1];
 		}
 	}
+}
+
+void Board::fixBoard(int from, int to)
+{
+	int rowset, rowFrom;
+	for (size_t i = from; i < to; i++)
+	{
+		rowset = 0;
+		rowFrom = 0;
+		for (size_t j = height - 1; j > 0; j--)
+		{
+			if (isEmpty(i, j) && rowset == 0)
+				rowset = j;
+			if (!isEmpty(i, j) && rowset != 0 && rowFrom == 0)
+				rowFrom = j;
+		}
+		for (size_t j = rowFrom; j > 0; j--)
+		{
+			SetShape(i, rowset--, arrBoard[i][j].set, arrBoard[i][j].color);
+			unSetShape(i, j);
+		}
+	}
+	printContent(true);
 }
 
 bool Board::isFull(Player player) const

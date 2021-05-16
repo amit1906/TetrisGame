@@ -28,9 +28,11 @@ public:
 	bool isEmpty(int x, int y) const;
 	void checkRows(Player& player);
 	int checkRows() const;
+	void fixBoard(int from, int to);
 	bool isFull(Player player) const;
 
 private:
 	void deleteRow(int row);
+	void SetShape(int x, int y, int set, COLOR color);
 
 };

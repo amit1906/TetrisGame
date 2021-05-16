@@ -103,8 +103,9 @@ void Game::drawGame()
 
 void Game::checkShapes()
 {
+	int chance = 20;	// 5% chance
 	int bombAppears[NUM_PLAYERS] = 
-	{ (rand() % 20 == 1) ? 1 : 0, (rand() % 20 == 1) ? 1 : 0 };	// 5% chance
+	{ (rand() % chance == 1) ? 1 : 0, (rand() % chance == 1) ? 1 : 0 };
 
 	for (size_t i = 0; i < NUM_PLAYERS; i++)
 	{

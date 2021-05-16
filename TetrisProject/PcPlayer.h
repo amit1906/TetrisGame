@@ -23,6 +23,5 @@ private:
 	void checkLowestRow(const Board& b, int& maxDots, int j, int t, int currY, int& ind, int& turns) const;
 	bool hasAlwaysEmptyBelow(int t, int& currY) const;
 	bool checkEmptyBelow(const Board& b, const Shape& s) const;
-	void printboard(Board b) const;
 
 };

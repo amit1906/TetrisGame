@@ -35,8 +35,9 @@ void Bomb::explode()
 	setTextColor(RED);
 	setArea(from, to);
 	BurnBlocks(from, to, (char)219, false);
-	Sleep(500);
+	Sleep(400);
 	BurnBlocks(from, to, ' ', true);
+	board.fixBoard(from, to);
 }
 
 int Bomb::BurnBlocks(int from, int to, char ch, bool toUnSet)
