@@ -3,7 +3,7 @@
 #include "Board.h"
 
 static int colori = 1;
-constexpr int maxBlock = 8;
+constexpr int MAX_BLOCK = 8;
 
 class Shape
 {
@@ -20,7 +20,7 @@ private:
 protected:
 	Board& board;
 	SHAPE shape;
-	int arrShape[maxBlock][maxBlock]{};
+	int arrShape[MAX_BLOCK][MAX_BLOCK]{};
 	int shapeL, shapeH;
 	int x, y;
 
@@ -55,10 +55,10 @@ private:
 	void makeShapeO();		// shape O
 	void makeShapeI1();		// shape I
 	void makeShapeI2();
-	void makeShapeL1();		// shape L
-	void makeShapeL2();
-	void makeShapeL3();
-	void makeShapeL4();
+	void makeShapeL1();		// shape L	// turn 1
+	void makeShapeL2();					// turn 2
+	void makeShapeL3();					// turn 3
+	void makeShapeL4();					// turn 4	etc...
 	void makeShapeJ1();		// shape J
 	void makeShapeJ2();
 	void makeShapeJ3();

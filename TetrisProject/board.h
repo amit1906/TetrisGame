@@ -26,10 +26,10 @@ public:
 	int getWidth() const;
 	int getPos() const;
 	bool isEmpty(int x, int y) const;
-	void checkRows(Player& player);
+	bool isFull(Player& player) const;
 	int checkRows() const;
+	void checkRows(Player& player);
 	void fixBoard(int from, int to);
-	bool isFull(Player player) const;
 
 private:
 	void deleteRow(int row);

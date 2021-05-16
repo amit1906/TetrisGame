@@ -22,13 +22,13 @@ Board::Board(const Board& board)
 
 Board::~Board()	// this dtor prevents memory leak, but might cause exception...
 {
-	//for (size_t i = 0; i < width; i++)
-	//{
-	//	delete arrBoard[i];
-	//	arrBoard[i] = nullptr;
-	//}
-	//delete[] arrBoard;
-	//arrBoard = nullptr;
+	for (size_t i = 0; i < width; i++)
+	{
+		delete arrBoard[i];
+		arrBoard[i] = nullptr;
+	}
+	delete[] arrBoard;
+	arrBoard = nullptr;
 }
 
 void Board::SetBoard(const Board& b)
@@ -202,7 +202,7 @@ void Board::fixBoard(int from, int to)
 	printContent(true);
 }
 
-bool Board::isFull(Player player) const
+bool Board::isFull(Player& player) const
 {
 	for (size_t i = 0; i < width; i++)
 	{

@@ -66,9 +66,9 @@ void Shape::move(MOVE_DIR dir)
 	if (x + _x >= board.getPos() - 1 && x + _x < board.getPos() + board.getWidth() - shapeL)
 	{
 		validMove = true;
-		for (size_t i = 0; i < maxBlock; i++)
+		for (size_t i = 0; i < MAX_BLOCK; i++)
 		{
-			for (size_t j = 0; j < maxBlock; j++)
+			for (size_t j = 0; j < MAX_BLOCK; j++)
 			{
 				if (arrShape[i][j] == 1 && !board.isEmpty(x + _x + i, y + _y + j) == 1)
 				{
@@ -120,9 +120,9 @@ bool Shape::checkFall(int _y, bool toSet)
 			setShape();
 		return true;
 	}
-	for (size_t i = 0; i < maxBlock; i++)
+	for (size_t i = 0; i < MAX_BLOCK; i++)
 	{
-		for (size_t j = 0; j < maxBlock; j++)
+		for (size_t j = 0; j < MAX_BLOCK; j++)
 		{
 			if (arrShape[i][j] == 1 && !board.isEmpty(x + i, y + _y + j) == 1)
 			{
@@ -146,9 +146,9 @@ int Shape::makeFall(bool toSet)
 void Shape::draw()
 {
 	setTextColor(color);
-	for (size_t i = 0; i < maxBlock; i++)
+	for (size_t i = 0; i < MAX_BLOCK; i++)
 	{
-		for (size_t j = 0; j < maxBlock; j++)
+		for (size_t j = 0; j < MAX_BLOCK; j++)
 		{
 			if (arrShape[i][j] == 1 && y >= 0)
 			{
@@ -162,9 +162,9 @@ void Shape::draw()
 
 void Shape::cleanDraw()
 {
-	for (size_t i = 0; i < maxBlock; i++)
+	for (size_t i = 0; i < MAX_BLOCK; i++)
 	{
-		for (size_t j = 0; j < maxBlock; j++)
+		for (size_t j = 0; j < MAX_BLOCK; j++)
 		{
 			if (arrShape[i][j] == 1)
 			{
@@ -258,18 +258,18 @@ void Shape::turn(TURN_DIR dir, bool toDraw)
 
 void Shape::turnDigree()
 {
-	int res[maxBlock][maxBlock];
+	int res[MAX_BLOCK][MAX_BLOCK];
 
-	for (int i = 0; i < maxBlock; ++i)
+	for (int i = 0; i < MAX_BLOCK; ++i)
 	{
-		for (int j = 0; j < maxBlock; ++j)
+		for (int j = 0; j < MAX_BLOCK; ++j)
 		{
-			res[i][j] = arrShape[maxBlock - j - 1][i];
+			res[i][j] = arrShape[MAX_BLOCK - j - 1][i];
 		}
 	}
-	for (size_t i = 0; i < maxBlock; i++)
+	for (size_t i = 0; i < MAX_BLOCK; i++)
 	{
-		for (size_t j = 0; j < maxBlock; j++)
+		for (size_t j = 0; j < MAX_BLOCK; j++)
 		{
 			arrShape[i][j] = res[i][j];
 		}
@@ -331,9 +331,9 @@ int Shape::getShape()
 
 void Shape::setShape()
 {
-	for (size_t i = 0; i < maxBlock; i++)
+	for (size_t i = 0; i < MAX_BLOCK; i++)
 	{
-		for (size_t j = 0; j < maxBlock; j++)
+		for (size_t j = 0; j < MAX_BLOCK; j++)
 		{
 			if (arrShape[i][j] == 1)
 				board.setShape(x + i, y + j, color, 1);
@@ -343,9 +343,9 @@ void Shape::setShape()
 
 void Shape::unSetShape()
 {
-	for (size_t i = 0; i < maxBlock; i++)
+	for (size_t i = 0; i < MAX_BLOCK; i++)
 	{
-		for (size_t j = 0; j < maxBlock; j++)
+		for (size_t j = 0; j < MAX_BLOCK; j++)
 		{
 			if (arrShape[i][j] == 1)
 				board.setShape(x + i, y + j, color, 0);
@@ -355,7 +355,7 @@ void Shape::unSetShape()
 
 void Shape::clearShape()
 {
-	for (size_t i = 0; i < maxBlock; i++)
-		for (size_t j = 0; j < maxBlock; j++)
+	for (size_t i = 0; i < MAX_BLOCK; i++)
+		for (size_t j = 0; j < MAX_BLOCK; j++)
 			arrShape[j][i] = 0;
 }

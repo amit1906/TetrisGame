@@ -80,7 +80,7 @@ void Bomb::makeShapeBomb()
 
 void Bomb::initShape()
 {
-	for (size_t i = 0; i < maxBlock; i++)
-		for (size_t j = 0; j < maxBlock; j++)
+	for (size_t i = 0; i < MAX_BLOCK; i++)
+		for (size_t j = 0; j < MAX_BLOCK; j++)
 			arrShape[i][j] = 0;
 }

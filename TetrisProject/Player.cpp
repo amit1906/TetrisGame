@@ -10,9 +10,9 @@ void Player::printPlayerStats(int pos, int height)
 	printScore(pos, height);
 }
 
-Player::~Player()
+Player::~Player()	// shape handled by unique_ptr in Game...
 {
-	//delete shape;	// handled by unique ptr...
+	//delete shape;	
 }
 
 void Player::printScore(int pos, int height)

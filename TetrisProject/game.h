@@ -33,10 +33,12 @@ class Game
 
 public:
 	Game(GAME_TYPE gameType, int _speed, bool _colors, const string names[], int level = 1);
+	Game& operator=(const Game& game) = delete;
+	Game(const Game& game) = delete;
 	~Game();
 	void changeSettings(int _speed, bool _colors, const string names[]);
 	void start();
-	bool HasFinished();
+	bool HasFinished() const;
 	static int getRandomShapeX(int boardInd);
 
 private:
@@ -44,11 +46,11 @@ private:
 	void gameLoop();
 	void movePlayers();
 	void checkKeys();
-	void drawBoards();
-	void drawGame();
+	void drawBoards() const;
+	void drawGame() const;
 	void checkRows();
 	void checkEnd();
 	void checkShapes();
-	void printWinner(Player player1, Player player2, int winner);
+	void printWinner(Player& player1, Player& player2, int winner) const;
 
 };

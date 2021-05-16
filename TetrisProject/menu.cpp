@@ -116,10 +116,10 @@ void Menu::changeSpeed()
 {
 	cout << "choose your new speed (1-1000): ";
 	cin >> speed;
-	if (speed < 1)
-		speed = 1;
-	if (speed > 1000)
-		speed = 1000;
+	if (speed < MIN_SPEED)
+		speed = MIN_SPEED;
+	if (speed > MAX_SPEED)
+		speed = MAX_SPEED;
 	clearScreen();
 	menuInfo();
 }

@@ -80,7 +80,7 @@ void Game::movePlayers()
 	}
 }
 
-void Game::drawBoards()
+void Game::drawBoards() const
 {
 	for (Board board : boards)
 	{
@@ -89,7 +89,7 @@ void Game::drawBoards()
 	}
 }
 
-void Game::drawGame()
+void Game::drawGame() const
 {
 	for (size_t i = 0; i < NUM_PLAYERS; i++)
 	{
@@ -168,7 +168,7 @@ void Game::checkKeys()
 int Game::getRandomShapeX(int boardInd)
 {
 	int x = boardInd * width + 1;
-	x += rand() % (width - maxBlock);
+	x += rand() % (width - MAX_BLOCK);
 	x -= (x % 2);
 	x += (x % 2) == 0 ? (1 - boardInd % 2) : boardInd % 2;
 	return x;
@@ -209,7 +209,7 @@ void Game::checkEnd()
 		while (!(_kbhit() && _getch() == ESC));
 }
 
-void Game::printWinner(Player player1, Player player2, int winner)
+void Game::printWinner(Player& player1, Player& player2, int winner) const
 {
 	string winnerName;
 	winnerName = (winner == 1) ? player1.getName() : player2.getName();
@@ -223,7 +223,7 @@ void Game::printWinner(Player player1, Player player2, int winner)
 	player2.printPlayerStats(15, 8);
 }
 
-bool Game::HasFinished()
+bool Game::HasFinished() const
 {
 	return finished;
 }
