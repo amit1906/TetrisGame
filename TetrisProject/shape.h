@@ -32,7 +32,7 @@ public:
 	void move(MOVE_DIR dir = NONE);
 	void turn(TURN_DIR dir, bool toDraw = true);
 	virtual bool checkFall(int _y = 1, bool toSet = true);
-	int makeFall();
+	int makeFall(bool toSet);
 	int getShapeH() const;
 	int getShapeL() const;
 	int getX() const;

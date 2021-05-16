@@ -1,4 +1,5 @@
 #include "Shape.h"
+#include "Bomb.h"
 
 Shape::Shape(int _x, int _y, Board& _board, bool colors)
 	:x(_x), y(_y), board(_board)
@@ -134,10 +135,10 @@ bool Shape::checkFall(int _y, bool toSet)
 	return false;
 }
 
-int Shape::makeFall()
+int Shape::makeFall(bool toSet)
 {
 	int i = 1;
-	while (!checkFall(1, true))
+	while (!checkFall(1, toSet))
 		setY(i++);
 	return i - 1 + shapeH - 1;
 }

@@ -7,16 +7,23 @@ PcPlayer::PcPlayer(const string& _name, Board& _board, Shape* _shape, int _level
 
 void PcPlayer::makeMove(Board& board, const char keys[])
 {
-	Bomb* isBomb = dynamic_cast<Bomb*>(shape);
+	int currX, goToX, turns = 0;
 	bool calc = isCalcMove();
-	if (!calc || isBomb)
+
+	if (!calc)
 	{
-		return;
+		goToX = getRandomMove(turns);
+	}
+	else if (dynamic_cast<Bomb*>(shape))
+	{
+		goToX = getBombMove();
+	}
+	else
+	{
+		goToX = getShapeMove(turns);
 	}
 
-	int turns = 0;
-	int currX = shape->getX() % board.getWidth();
-	int goToX = getGoToXAndT(turns);
+	currX = shape->getX() % board.getWidth();
 	goToX = (currX % 2 == 1) ? goToX : goToX + goToX % 2;
 
 	if (turns > 0)
@@ -27,31 +34,55 @@ void PcPlayer::makeMove(Board& board, const char keys[])
 		shape->move(Shape::RIGHT);
 	else if (currX > goToX)
 		shape->move(Shape::LEFT);
-
-	delete isBomb;
 }
 
 bool PcPlayer::isCalcMove() const
 {
 	switch (level)
 	{
-	case BEST:
+	case BEST:					// 100% chance
 		return true;
 		break;
 	case GOOD:
-		if (rand() % 40 == 1)
+		if (rand() % 40 == 1)	// 2.5% chance
 			return false;
 		return true;
 		break;
 	case NOVICE:
-		if (rand() % 10 == 1)
+		if (rand() % 10 == 1)	// 10% chance
 			return false;
 		return true;
 		break;
 	}
 }
 
-int PcPlayer::getGoToXAndT(int& turns) const
+int PcPlayer::getRandomMove(int& turns) const
+{
+	turns = rand() % 4;
+	return Game::getRandomShapeX(0);
+}
+
+int PcPlayer::getBombMove() const
+{
+	int ind = 1, currY;
+	int dots, maxDots = 0;
+	for (int j = 1; j < board.getWidth(); j++)
+	{
+		Board b(board);
+		Bomb s(*shape, b);
+		SetMove(b, s, 0, j, currY, true);
+
+		dots = s.explodeDotsCount();
+		if (dots > maxDots)
+		{
+			maxDots = dots;
+			ind = j;
+		}
+	}
+	return ind;
+}
+
+int PcPlayer::getShapeMove(int& turns) const
 {
 	int ind = 1, currY = 1;
 	int maxDots = 0, maxDels = 0;
@@ -65,7 +96,7 @@ int PcPlayer::getGoToXAndT(int& turns) const
 		{
 			Board b(board);
 			Shape s(*shape, b);
-			SetMove(b, s, t, j, currY);
+			SetMove(b, s, t, j, currY, false);
 
 			checkRowsDeleted(b, maxDels, j, t, currY, ind, turns);			// 1'st priority
 			if (maxDels == 0)
@@ -75,7 +106,7 @@ int PcPlayer::getGoToXAndT(int& turns) const
 				else if (!checkEmptyBelow(b, s))							// 3'rd priority
 					checkLowestRow(b, maxDots, j, t, currY, ind, turns);
 			}
-			s.unSetShape();
+			//s.unSetShape();
 		}
 	}
 	return ind;
@@ -114,7 +145,7 @@ bool PcPlayer::hasAlwaysEmptyBelow(int t, int& currY) const
 	{
 		Board b(board);
 		Shape s(*shape, b);
-		SetMove(b, s, t, j, currY);
+		SetMove(b, s, t, j, currY, false);
 
 		if (!checkEmptyBelow(b, s))
 			return false;
@@ -135,16 +166,16 @@ bool PcPlayer::checkEmptyBelow(const Board& b, const Shape& s) const
 	return false;
 }
 
-void PcPlayer::SetMove(Board& b, Shape& s, int t, int j, int& currY) const
+void PcPlayer::SetMove(Board& b, Shape& s, int t, int j, int& currY, bool isBomb) const
 {
 	for (size_t k = 1; k <= t; k++)
 		s.turn(Shape::TURN_RIGHT, false);
 
 	s.setX(j);
-	currY = s.makeFall();
+	currY = s.makeFall(!isBomb);
 }
 
-void PcPlayer::printboard(Board b) const
+void PcPlayer::printboard(Board b) const		// remove
 {
 	printf("\n");
 	for (size_t i = 0; i < b.getHeight(); i++)

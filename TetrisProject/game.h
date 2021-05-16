@@ -20,12 +20,12 @@ class Game
 {
 	int speed, level;										// game varaiables
 	bool colors, paused, finished;
-	const char player1Keys[LEN] = { 'a','d','s','w','x' };
-	const char player2Keys[LEN] = { 'j','l','k','i','m' };
+	const char player1Keys[LEN] = { LEFT1, RIGHT1, ROTATEL1, ROTATER1, DROP1 };
+	const char player2Keys[LEN] = { LEFT2, RIGHT2, ROTATEL2, ROTATER2, DROP2 };
 	char keys[LEN];
 
-	const int pos = 2, height = 18, width = 23;				// boards varaiables
-	int shapeX = 1, shapeY = 0, maxX = 8;					// shapes varaiables
+	const static int pos = 2, height = 18, width = 23;		// boards varaiables
+	int shapeX = 1, shapeY = 0;								// shapes varaiables
 
 	Player* players[NUM_PLAYERS];							// game arrays
 	std::unique_ptr<Shape> shapes[NUM_PLAYERS];
@@ -37,6 +37,7 @@ public:
 	void changeSettings(int _speed, bool _colors, const string names[]);
 	void start();
 	bool HasFinished();
+	static int getRandomShapeX(int boardInd);
 
 private:
 	void chooseGameType(GAME_TYPE gameType, const string names[], int level);
@@ -48,7 +49,6 @@ private:
 	void checkRows();
 	void checkEnd();
 	void checkShapes();
-	void getRandomShapeX(int i);
 	void printWinner(Player player1, Player player2, int winner);
 
 };

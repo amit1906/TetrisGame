@@ -31,6 +31,13 @@ Board::~Board()	// this dtor prevents memory leak, but might cause exception...
 	//arrBoard = nullptr;
 }
 
+void Board::SetBoard(const Board& b)
+{
+	for (size_t i = 0; i < height; i++)
+		for (size_t j = 0; j < width; j++)
+			arrBoard[j][i].set = b.arrBoard[j][i].set;
+}
+
 void Board::setShape(int x, int y, COLOR color, int toSet)
 {
 	x %= width;
@@ -43,14 +50,14 @@ void Board::setShape(int x, int y, COLOR color, int toSet)
 
 void Board::unSetShape(int x, int y)
 {
+	x %= width;
 	arrBoard[x][y].set = 0;
 }
 
-void Board::SetBoard(const Board& b)
+bool Board::isEmpty(int x, int y) const
 {
-	for (size_t i = 0; i < height; i++)
-		for (size_t j = 0; j < width; j++)
-			arrBoard[j][i].set = b.arrBoard[j][i].set;
+	x %= width;
+	return (arrBoard[x][y].set == 0);
 }
 
 void Board::printFrame() const
@@ -104,12 +111,6 @@ int Board::getWidth() const
 int Board::getHeight() const
 {
 	return height - 1;
-}
-
-bool Board::isEmpty(int x, int y) const
-{
-	x %= width;
-	return (arrBoard[x][y].set == 0);
 }
 
 void Board::checkRows(Player& player)

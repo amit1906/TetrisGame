@@ -6,13 +6,13 @@ Game::Game(GAME_TYPE gameType, int _speed, bool _colors, const string names[], i
 	paused = finished = false;
 	for (size_t i = 0; i < NUM_PLAYERS; i++)
 	{
-		getRandomShapeX(i);
+		shapeX = getRandomShapeX(i);
 		shapes[i] = std::make_unique<Shape>(shapeX, shapeY, boards[i], colors);
 	}
 	chooseGameType(gameType, names, level);
 }
 
-Game::~Game()	// shapes are unique_ptr doesnt need to be freed...
+Game::~Game()	// shapes are unique_ptr doesn't need to be freed...
 {
 	for (Player* player : players)
 	{
@@ -103,12 +103,14 @@ void Game::drawGame()
 
 void Game::checkShapes()
 {
-	int bombAppears[NUM_PLAYERS] = { (rand() % 20 == 1) ? 1 : 0, (rand() % 20 == 1) ? 1 : 0 };
+	int bombAppears[NUM_PLAYERS] = 
+	{ (rand() % 20 == 1) ? 1 : 0, (rand() % 20 == 1) ? 1 : 0 };	// 5% chance
+
 	for (size_t i = 0; i < NUM_PLAYERS; i++)
 	{
 		if (shapes[i]->checkFall())
 		{
-			getRandomShapeX(i);
+			shapeX = getRandomShapeX(i);
 			if (bombAppears[i] == 1)
 				shapes[i] = std::make_unique<Bomb>(shapeX, shapeY, boards[i], colors);
 			else
@@ -162,12 +164,13 @@ void Game::checkKeys()
 	}
 }
 
-void Game::getRandomShapeX(int i)
+int Game::getRandomShapeX(int boardInd)
 {
-	shapeX = i * width + 1;
-	shapeX += rand() % (width - maxX);
-	shapeX -= (shapeX % 2);
-	shapeX += (shapeX % 2) == 0 ? (1 - i) : i;
+	int x = boardInd * width + 1;
+	x += rand() % (width - maxBlock);
+	x -= (x % 2);
+	x += (x % 2) == 0 ? (1 - boardInd % 2) : boardInd % 2;
+	return x;
 }
 
 void Game::checkRows()
